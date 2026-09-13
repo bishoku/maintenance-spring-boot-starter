@@ -29,11 +29,13 @@ import java.util.List;
  * <p>
  * Registered via {@code META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports}.
  * <p>
- * Broker-specific consumer lifecycle managers are registered in separate inner
- * {@code @Configuration} classes guarded by {@code @ConditionalOnClass}, so that
- * missing broker dependencies never cause {@link ClassNotFoundException}s.
+ * Configured to run after Kafka and RabbitMQ auto-configurations so that messaging infrastructure
+ * is fully resolved. Broker managers use {@link ObjectProvider} to avoid bean-ordering issues.
  */
-@AutoConfiguration
+@AutoConfiguration(afterName = {
+        "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration",
+        "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
+})
 @ConditionalOnClass(Endpoint.class)
 @ConditionalOnProperty(
         prefix = "management.endpoint.maintenance",
@@ -94,12 +96,9 @@ public class MaintenanceAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(KafkaConsumerLifecycleManager.class)
-        @ConditionalOnBean(
-                type = "org.springframework.kafka.config.KafkaListenerEndpointRegistry"
-        )
         KafkaConsumerLifecycleManager kafkaConsumerLifecycleManager(
-                org.springframework.kafka.config.KafkaListenerEndpointRegistry registry) {
-            return new KafkaConsumerLifecycleManager(registry);
+                ObjectProvider<org.springframework.kafka.config.KafkaListenerEndpointRegistry> registryProvider) {
+            return new KafkaConsumerLifecycleManager(registryProvider);
         }
     }
 
@@ -109,12 +108,9 @@ public class MaintenanceAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(RabbitConsumerLifecycleManager.class)
-        @ConditionalOnBean(
-                type = "org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry"
-        )
         RabbitConsumerLifecycleManager rabbitConsumerLifecycleManager(
-                org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry registry) {
-            return new RabbitConsumerLifecycleManager(registry);
+                ObjectProvider<org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry> registryProvider) {
+            return new RabbitConsumerLifecycleManager(registryProvider);
         }
     }
 

@@ -68,14 +68,16 @@ class MaintenanceAutoConfigurationTest {
     }
 
     @Test
-    @DisplayName("QueueMaintenanceManager should work with empty consumer list")
+    @DisplayName("QueueMaintenanceManager should work with empty consumer list when brokers absent")
     void shouldWorkWithNoConsumerManagers() {
-        contextRunner.run(context -> {
-            QueueMaintenanceManager qmm = context.getBean(QueueMaintenanceManager.class);
-            assertThat(qmm.getManagers()).isEmpty();
-            // Should not throw
-            assertThat(qmm.stopConsumers()).containsKey("message");
-        });
+        contextRunner.withClassLoader(new FilteredClassLoader(
+                        "org.springframework.kafka.config.KafkaListenerEndpointRegistry",
+                        "org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry"))
+                .run(context -> {
+                    QueueMaintenanceManager qmm = context.getBean(QueueMaintenanceManager.class);
+                    assertThat(qmm.getManagers()).isEmpty();
+                    assertThat(qmm.stopConsumers()).containsKey("message");
+                });
     }
 
     @Test
