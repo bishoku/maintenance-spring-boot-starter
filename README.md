@@ -1,43 +1,124 @@
-# \`maintenance-spring-boot-starter\`
+# maintenance-spring-boot-starter
 
-A lightweight, production-ready Spring Boot starter library that manages **Maintenance Mode** for Spring Boot microservices running in Kubernetes environments, exposed safely via Spring Boot Actuator.
+[![Maven Central](https://img.shields.io/maven-central/v/com.bishokudev/maintenance-spring-boot-starter.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/com.bishokudev/maintenance-spring-boot-starter)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Java](https://img.shields.io/badge/Java-17%20%7C%2021%20%7C%2025-orange.svg)](https://adoptium.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x%20%7C%204.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
 
----
+A lightweight, production-ready Spring Boot starter library designed for **Kubernetes-native Maintenance Mode management**. 
 
-## Key Features
-
-- **Kubernetes Readiness Integration:** Automatically publishes \`ReadinessState.REFUSING_TRAFFIC\` / \`ACCEPTING_TRAFFIC\` so Kubernetes probes immediately adjust service endpoints.
-- **Configurable Drain Delay:** Waits for Kubernetes to update endpoints before stopping consumers, preventing in-flight request loss.
-- **Dynamic Queue Lifecycle Management:** Stops/resumes Kafka and RabbitMQ consumers via typed \`ConsumerLifecycleManager\` beans. Fully decoupled — if brokers are absent, the starter works without warnings.
-- **Hook Timeout Protection:** Each \`MaintenanceHook\` runs with a configurable per-hook timeout, preventing rogue hooks from blocking the entire transition.
-- **Micrometer Metrics:** Optional \`maintenance.mode.active\` gauge and \`maintenance.mode.transitions\` counter (requires Micrometer on classpath).
-- **Actuator Endpoint (\`/actuator/maintenance\`):**
-  - \`@ReadOperation\`: Returns state, timestamp, reason, and transition details.
-  - \`@WriteOperation\`: Idempotently toggles maintenance mode.
-  - **Disabled by default** for security — must be explicitly enabled.
-- **Developer Extension Points:**
-  - \`MaintenanceState\`: Thread-safe, snapshot-based state holder injectable into any bean.
-  - \`MaintenanceHook\`: Callback interface with ordered, timeout-protected execution.
-  - \`MaintenanceModeChangedEvent\`: Immutable \`ApplicationEvent\` for decoupled \`@EventListener\` handling.
-- **Modern Auto-Configuration:** Registered via \`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports\`.
+It enables microservices to gracefully pause ingress traffic, suspend asynchronous message consumers (Kafka, RabbitMQ), throttle scheduled tasks, and invoke custom business hooks at runtime via Spring Boot Actuator—**without terminating or restarting pods**.
 
 ---
 
-## Dependency Setup
+## 📌 The Problem
 
-### Maven
+In modern Kubernetes-based microservice architectures, critical maintenance scenarios frequently arise:
+- **Breaking Database Migrations:** Schema changes that require zero write traffic to prevent data corruption.
+- **Data Backfilling & Consistency Fixes:** Batch processing where asynchronous event consumption must be temporarily paused.
+- **Downstream Dependency Outages:** Critical third-party APIs going down, requiring the service to pause consumer queues to prevent retry/dead-letter storms.
+- **Controlled Blue/Green or Canary Validations:** Needing to isolate specific pods for diagnostics without killing their state.
+
+### Why Existing Approaches Fall Short
+
+| Approach | Pitfalls & Risks |
+| :--- | :--- |
+| **`kubectl scale --replicas=0`** | Completely destroys the application context. Pod logs, in-memory caches, and JVM diagnostic states are lost. Slow recovery time when scaling back up. |
+| **Killing or Restarting Pods** | Immediately severs in-flight HTTP requests (causing 502/504 errors). Triggers aggressive consumer group rebalances in Apache Kafka or RabbitMQ. |
+| **Ad-Hoc Boolean Flags** | Often implemented without thread safety, lacking synchronization between ingress load balancers and asynchronous queue listeners, leading to race conditions. |
+
+---
+
+## 💡 The Solution
+
+`maintenance-spring-boot-starter` introduces a unified, thread-safe, and Kubernetes-aware orchestration layer. With a single HTTP call to Spring Boot Actuator (or a programmatic trigger), the application transitions into an isolated maintenance state through a strictly ordered, idempotent workflow:
+
+```
+[ Enter Maintenance Workflow ]
+┌───────────────────────────────┐
+│ 1. K8s Readiness ➔ REFUSING   │ ➔ Pod removed from Kubernetes Service endpoints immediately
+└──────────────┬────────────────┘
+               ▼
+┌───────────────────────────────┐
+│ 2. Configurable Drain Delay   │ ➔ In-flight HTTP requests complete; K8s iptables/IPVS rules propagate
+└──────────────┬────────────────┘
+               ▼
+┌───────────────────────────────┐
+│ 3. Pause Queue Listeners      │ ➔ Kafka & RabbitMQ message consumers paused safely (no rebalance)
+└──────────────┬────────────────┘
+               ▼
+┌───────────────────────────────┐
+│ 4. Execute MaintenanceHooks   │ ➔ Developer-defined hooks executed in priority order (timeout-guarded)
+└──────────────┬────────────────┘
+               ▼
+┌───────────────────────────────┐
+│ 5. Atomic State & Event       │ ➔ State snapshot updated via CAS; MaintenanceModeChangedEvent published
+└───────────────────────────────┘
+```
+
+When maintenance is complete, the reverse sequence seamlessly brings the pod back into service: queues resume first, hooks execute, and Kubernetes readiness probes return to `ACCEPTING_TRAFFIC`.
+
+---
+
+## ☸️ Deep Dive: Kubernetes Pod Lifecycle & Traffic Flow
+
+Understanding how this starter interacts with Kubernetes probe mechanisms is key to seamless operations:
+
+### 1. Readiness Probe vs. Liveness Probe Isolation
+- **Readiness Probe (`/actuator/health/readiness`):** Represents whether the pod is ready to accept user traffic. When maintenance mode is activated, the starter publishes an internal Spring `AvailabilityChangeEvent` with `ReadinessState.REFUSING_TRAFFIC`. The readiness health check begins returning HTTP `503 Service Unavailable`.
+- **Liveness Probe (`/actuator/health/liveness`):** Checks whether the container is healthy and alive. **The starter never alters liveness state.** The pod remains healthy and alive (`HTTP 200`).
+- **Zero Restart Guarantee:** Because the liveness probe remains green, Kubernetes **never restarts or marks the pod as `CrashLoopBackOff`**. The pod remains in `Running` status indefinitely throughout the maintenance window.
+
+### 2. Service Endpoints & Ingress Traffic Flow
+1. When readiness flips to `REFUSING_TRAFFIC`, the Kubernetes `EndpointSlice` / `Endpoints` controller detects the probe failure.
+2. The controller immediately removes the pod's IP address from the Kubernetes `Service` backends.
+3. Ingress controllers (NGINX, Traefik, ALB, Istio, etc.) stop routing new external HTTP/gRPC traffic to this pod.
+
+### 3. The Role of `drain-delay`
+Network policy and iptables/IPVS route table updates across worker nodes do not happen instantaneously—propagation typically takes 1 to 3 seconds.
+- Without a drain delay, message listeners or backend workers might stop while the Ingress controller is still forwarding the last batch of client requests.
+- The starter provides a configurable `maintenance.drain-delay` (default: `5s`). After signaling `REFUSING_TRAFFIC`, the coordinator waits for this duration before shutting down consumers or executing hooks, guaranteeing that **all in-flight client requests finish gracefully**.
+
+---
+
+## 🎯 Spring Boot & Java Compatibility
+
+The starter is built to align with modern Spring Boot standards and long-term support (LTS) runtimes:
+
+- **Spring Boot Compatibility:** 
+  - Fully compatible with **Spring Boot 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, 3.5.x**, and forward-compatible with **Spring Boot 4.x**.
+  - Uses modern auto-configuration registration (`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`). No legacy `spring.factories`.
+- **Java Runtime Compatibility:** 
+  - Baseline: **Java 17 (LTS)**
+  - Fully tested on **Java 21 (LTS)** and **Java 25**.
+- **Broker Independence:** 
+  - Kafka and RabbitMQ dependencies are marked as `optional`. If your application does not use Kafka or RabbitMQ, the starter runs with zero overhead and no missing-class warnings.
+
+---
+
+## 📦 Dependency Setup
+
+### Maven (`pom.xml`)
 
 ```xml
 <dependency>
     <groupId>com.bishokudev</groupId>
     <artifactId>maintenance-spring-boot-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
+```
+
+### Gradle (`build.gradle`)
+
+```groovy
+implementation 'com.bishokudev:maintenance-spring-boot-starter:1.0.0'
 ```
 
 ---
 
-## Configuration
+## ⚙️ Configuration Reference
+
+Add the following to your `application.yml`:
 
 ```yaml
 management:
@@ -47,18 +128,33 @@ management:
         include: health,info,maintenance
   endpoint:
     maintenance:
-      enabled: true  # Required — endpoint is disabled by default
+      # Required: The endpoint is disabled by default for security
+      enabled: true
 
 maintenance:
-  drain-delay: 5s      # Time to wait after REFUSING_TRAFFIC before stopping consumers
-  hook-timeout: 30s    # Max time per MaintenanceHook before timeout
+  # Delay between REFUSING_TRAFFIC and queue shutdown (allows K8s endpoint propagation)
+  drain-delay: 5s
+  # Maximum time allotted per MaintenanceHook before timeout cancellation
+  hook-timeout: 30s
 ```
 
 ---
 
-## Security
+## 🔒 Security Best Practices
 
-> **⚠️ IMPORTANT:** The maintenance endpoint can take a pod out of service. Always protect it.
+> **⚠️ WARNING:** Because the maintenance endpoint can take a pod out of service endpoints, it should **never** be publicly accessible.
+
+### 1. Internal Management Port (Recommended)
+Configure Spring Boot Actuator to run on a dedicated internal port:
+
+```yaml
+management:
+  server:
+    port: 8081 # Expose only to internal network / cluster
+```
+
+### 2. Spring Security Restriction
+Restrict access to authenticated operations or specific roles:
 
 ```java
 @Configuration
@@ -69,9 +165,10 @@ public class ActuatorSecurityConfig {
         http.securityMatcher(EndpointRequest.toAnyEndpoint())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(EndpointRequest.to("health", "info")).permitAll()
-                .requestMatchers(EndpointRequest.to("maintenance")).hasRole("OPS")
+                .requestMatchers(EndpointRequest.to("maintenance")).hasRole("OPS_ADMIN")
                 .anyRequest().authenticated()
-            );
+            )
+            .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }
@@ -79,78 +176,126 @@ public class ActuatorSecurityConfig {
 
 ---
 
-## Usage Examples
+## 🚀 Usage & Integration Points
 
-### Check Current Status
+### 1. Actuator HTTP Operations
+
+#### Check Current Status
 ```bash
-curl http://localhost:8081/actuator/maintenance
+curl -X GET http://localhost:8081/actuator/maintenance
+```
+**Response (`200 OK`):**
+```json
+{
+  "active": false,
+  "lastChanged": "2026-09-13T12:00:00Z",
+  "reason": "",
+  "details": {}
+}
 ```
 
-### Enter Maintenance Mode
+#### Enter Maintenance Mode (Idempotent)
 ```bash
-curl -X POST http://localhost:8081/actuator/maintenance \\
-  -H "Content-Type: application/json" \\
-  -d '{"enabled": true, "reason": "Database migration v2.4"}'
+curl -X POST http://localhost:8081/actuator/maintenance \
+  -H "Content-Type: application/json" \
+  -d '{"enabled": true, "reason": "Database migration v2.4 in progress"}'
+```
+**Response (`200 OK`):**
+```json
+{
+  "active": true,
+  "lastChanged": "2026-09-13T12:05:00Z",
+  "reason": "Database migration v2.4 in progress",
+  "details": {
+    "readiness": "REFUSING_TRAFFIC",
+    "drainDelayMs": 5000,
+    "queues": {
+      "kafka": { "kafkaStopped": true, "containersAffected": 4 },
+      "rabbit": { "rabbitStopped": true, "containersAffected": 2 }
+    },
+    "hooks": {
+      "total": 1,
+      "succeeded": 1,
+      "failed": 0,
+      "timedOut": 0
+    }
+  }
+}
 ```
 
-### Exit Maintenance Mode
+#### Exit Maintenance Mode (Idempotent)
 ```bash
-curl -X POST http://localhost:8081/actuator/maintenance \\
-  -H "Content-Type: application/json" \\
-  -d '{"enabled": false, "reason": "Migration completed"}'
+curl -X POST http://localhost:8081/actuator/maintenance \
+  -H "Content-Type: application/json" \
+  -d '{"enabled": false, "reason": "Migration completed successfully"}'
 ```
 
-### Querying State in Scheduled Tasks
+---
+
+### 2. Scheduled Job Protection (`MaintenanceState`)
+Inject `MaintenanceState` directly into scheduled tasks or batch workers:
 
 ```java
 @Component
-public class BatchJobRunner {
+public class OrderSyncScheduler {
 
     private final MaintenanceState maintenanceState;
 
-    public BatchJobRunner(MaintenanceState maintenanceState) {
+    public OrderSyncScheduler(MaintenanceState maintenanceState) {
         this.maintenanceState = maintenanceState;
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void runJob() {
+    @Scheduled(fixedRate = 30000)
+    public void syncPendingOrders() {
         if (maintenanceState.isMaintenanceActive()) {
-            return; // Skip during maintenance window
+            // Guard: Skip batch job during active maintenance
+            return;
         }
-        // Business logic
+        // Execute business logic
     }
 }
 ```
 
-### Custom Maintenance Hooks
+---
+
+### 3. Custom Business Hooks (`MaintenanceHook`)
+Implement `MaintenanceHook` in any Spring Bean to execute pre/post maintenance logic. Ordered via Spring's `@Order`:
 
 ```java
 @Component
 @Order(10)
-public class CacheDrainHook implements MaintenanceHook {
+public class WebSocketSessionDrainHook implements MaintenanceHook {
+
+    private static final Logger log = LoggerFactory.getLogger(WebSocketSessionDrainHook.class);
 
     @Override
     public void onEnterMaintenance() {
-        // Flush buffers, disconnect websockets, etc.
+        log.info("Sending reconnect advice to active WebSocket clients...");
+        // Gracefully notify and close active client connections
     }
 
     @Override
     public void onExitMaintenance() {
-        // Warm caches, re-establish connection pools
+        log.info("Re-opening WebSocket listener channels...");
+        // Re-open connections or warm up local caches
     }
 }
 ```
 
-### Listening to Maintenance Events
+---
+
+### 4. Application Domain Events (`MaintenanceModeChangedEvent`)
+Listen to state transitions asynchronously or in decoupled modules:
 
 ```java
 @Component
-public class MaintenanceAuditNotifier {
+public class MaintenanceAuditLogger {
 
     @EventListener
-    public void onMaintenanceChange(MaintenanceModeChangedEvent event) {
+    public void handleMaintenanceEvent(MaintenanceModeChangedEvent event) {
         if (event.isEntering()) {
-            // Notify Slack, PagerDuty, or audit logs
+            // Send alert to Slack, Datadog, or PagerDuty
+            alertOnSlack("Pod entered maintenance mode. Reason: " + event.getReason());
         }
     }
 }
@@ -158,8 +303,13 @@ public class MaintenanceAuditNotifier {
 
 ---
 
-## Architecture Notes
+### 5. Micrometer & Prometheus Metrics
+When `micrometer-core` is present, metrics are automatically registered:
+- `maintenance.mode.active` *(Gauge: 1.0 = active, 0.0 = inactive)*
+- `maintenance.mode.transitions` *(Counter: tagged with `direction=enter` or `direction=exit`)*
 
-- **Drain Delay:** After publishing \`REFUSING_TRAFFIC\`, the coordinator waits \`maintenance.drain-delay\` before stopping consumers. This allows Kubernetes time to update Service endpoints and stop routing new requests.
-- **State Persistence:** Maintenance state is in-memory. If a pod restarts, it comes up in normal (non-maintenance) mode. This is intentional — Kubernetes orchestrates pod lifecycle, and maintenance is a transient operational state.
-- **Liveness Probes:** Only readiness is affected. Liveness probes continue to pass, so Kubernetes will not restart pods in maintenance mode.
+---
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
