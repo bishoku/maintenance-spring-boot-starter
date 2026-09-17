@@ -136,6 +136,68 @@ maintenance:
   drain-delay: 5s
   # Maximum time allotted per MaintenanceHook before timeout cancellation
   hook-timeout: 30s
+
+  # ─── Granular Operation Toggles (All Default to true) ─────────────────────
+  readiness:
+    # Set to false to disable Kubernetes readiness probe manipulation (and skip drain-delay)
+    enabled: true
+
+  queues:
+    # Master switch for all message queue consumer pausing/resuming
+    enabled: true
+    kafka:
+      # Set to false to leave Kafka consumers running during maintenance
+      enabled: true
+    rabbit:
+      # Set to false to leave RabbitMQ consumers running during maintenance
+      enabled: true
+
+  hooks:
+    # Set to false to skip executing registered MaintenanceHook beans
+    enabled: true
+
+  events:
+    # Set to false to skip publishing MaintenanceModeChangedEvent
+    enabled: true
+
+  metrics:
+    # Set to false to disable Micrometer metrics registration (auto-detected when Micrometer is present)
+    enabled: true
+```
+
+### 💡 Common Tailored Scenarios
+
+#### Scenario 1: Only Pause Kafka (Keep Ingress Traffic & Other Queues Active)
+```yaml
+maintenance:
+  readiness:
+    enabled: false  # Do not take pod out of K8s Service
+  queues:
+    enabled: true
+    kafka:
+      enabled: true
+    rabbit:
+      enabled: false # Keep RabbitMQ running
+```
+
+#### Scenario 2: Traffic-Only Maintenance (No Queue Consumers Paused)
+```yaml
+maintenance:
+  readiness:
+    enabled: true   # Cut ingress traffic
+  queues:
+    enabled: false  # Allow background queue processing to finish
+```
+
+#### Scenario 3: Hook-Only Notification Mode (Custom Business Logic Only)
+```yaml
+maintenance:
+  readiness:
+    enabled: false
+  queues:
+    enabled: false
+  hooks:
+    enabled: true   # Only run custom MaintenanceHook callbacks
 ```
 
 ---
@@ -303,10 +365,53 @@ public class MaintenanceAuditLogger {
 
 ---
 
-### 5. Micrometer & Prometheus Metrics
-When `micrometer-core` is present, metrics are automatically registered:
-- `maintenance.mode.active` *(Gauge: 1.0 = active, 0.0 = inactive)*
-- `maintenance.mode.transitions` *(Counter: tagged with `direction=enter` or `direction=exit`)*
+### 5. Micrometer & Prometheus Metrics (Zero Dependency Overhead)
+
+The starter provides built-in, production-grade observability via **Micrometer**. 
+
+> [!NOTE]
+> **Zero Dependency Overhead Guarantee:** `micrometer-core` is defined with `<optional>true</optional>`. If the host application does not use Micrometer, no classes are loaded, no beans are created, and zero additional dependencies are dragged into the project.
+
+When `MeterRegistry` is present in the application context and `maintenance.metrics.enabled=true` (default), the following metrics are automatically recorded:
+
+| Metric Name | Meter Type | Tags | Description |
+| :--- | :--- | :--- | :--- |
+| `maintenance.mode.active` | `Gauge` | None | Instantaneous status: `1.0` if in maintenance mode, `0.0` otherwise. |
+| `maintenance.mode.duration.current.seconds` | `Gauge` | None | Real-time elapsed time (in seconds) the pod has spent in active maintenance. Resets to `0.0` when maintenance is inactive. |
+| `maintenance.mode.transitions` | `Counter` | `direction=enter\|exit` | Cumulative counter tracking total maintenance transitions. |
+| `maintenance.mode.window.duration` | `Timer` | None | Duration of the total maintenance window. Recorded upon exiting maintenance mode. |
+| `maintenance.transition.duration` | `Timer` | `direction=enter\|exit`<br>`status=success\|partial_failure` | Execution latency of the orchestration transition workflow. |
+| `maintenance.hook.duration` | `Timer` | `hook=<SimpleName>`<br>`direction=enter\|exit`<br>`status=success\|failed\|timed_out` | Execution latency per `MaintenanceHook`. |
+
+#### 🛡️ Cardinality Protection
+To safeguard time-series databases (e.g. Prometheus, Cortex, VictoriaMetrics, M3DB) against cardinality explosion, user-supplied free-text descriptions (the transition `reason`) are **never used as metric tags**. Only bounded, controlled enum-like values are attached as tags.
+
+#### 📊 Prometheus & Grafana Query Examples
+
+- **Alert: Pod stuck in maintenance mode for more than 1 hour:**
+  ```promql
+  maintenance_mode_duration_current_seconds > 3600
+  ```
+
+- **Dashboard: Number of pods currently in maintenance mode by service:**
+  ```promql
+  sum(maintenance_mode_active) by (app, namespace)
+  ```
+
+- **Alert: Maintenance transition encountered partial failure (e.g. hook error or timeout):**
+  ```promql
+  increase(maintenance_transition_duration_seconds_count{status="partial_failure"}[5m]) > 0
+  ```
+
+- **Alert: Maintenance hook execution failed or timed out:**
+  ```promql
+  increase(maintenance_hook_duration_seconds_count{status=~"failed|timed_out"}[5m]) > 0
+  ```
+
+- **Dashboard: 95th percentile transition duration (latency):**
+  ```promql
+  histogram_quantile(0.95, sum(rate(maintenance_transition_duration_seconds_bucket[5m])) by (le, direction))
+  ```
 
 ---
 

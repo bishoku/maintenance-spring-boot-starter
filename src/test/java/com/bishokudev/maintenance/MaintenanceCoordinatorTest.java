@@ -3,9 +3,11 @@ package com.bishokudev.maintenance;
 import com.bishokudev.maintenance.config.MaintenanceProperties;
 import com.bishokudev.maintenance.event.MaintenanceModeChangedEvent;
 import com.bishokudev.maintenance.hook.MaintenanceHook;
+import com.bishokudev.maintenance.hook.MaintenanceHookExecutor;
 import com.bishokudev.maintenance.manager.KubernetesReadinessManager;
 import com.bishokudev.maintenance.manager.MaintenanceCoordinator;
 import com.bishokudev.maintenance.manager.QueueMaintenanceManager;
+import com.bishokudev.maintenance.manager.TrafficDrainHandler;
 import com.bishokudev.maintenance.model.MaintenanceState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +33,8 @@ class MaintenanceCoordinatorTest {
     private MaintenanceHook hook;
     private MaintenanceCoordinator coordinator;
     private MaintenanceProperties properties;
+    private TrafficDrainHandler drainHandler;
+    private MaintenanceHookExecutor hookExecutor;
 
     @BeforeEach
     void setUp() {
@@ -47,9 +51,12 @@ class MaintenanceCoordinatorTest {
         properties.setDrainDelay(Duration.ZERO);
         properties.setHookTimeout(Duration.ofSeconds(5));
 
+        drainHandler = new TrafficDrainHandler(readinessManager);
+        hookExecutor = new MaintenanceHookExecutor(List.of(hook), properties.getHookTimeout());
+
         coordinator = new MaintenanceCoordinator(
-                state, readinessManager, queueManager,
-                eventPublisher, List.of(hook), properties
+                state, drainHandler, queueManager,
+                hookExecutor, eventPublisher, properties
         );
     }
 
@@ -173,14 +180,78 @@ class MaintenanceCoordinatorTest {
         MaintenanceHook badHook = mock(MaintenanceHook.class);
         doThrow(new RuntimeException("Hook failed")).when(badHook).onEnterMaintenance();
 
+        MaintenanceHookExecutor executor = new MaintenanceHookExecutor(List.of(goodHook, badHook), Duration.ofSeconds(5));
+        TrafficDrainHandler handler = new TrafficDrainHandler(readinessManager);
+
         MaintenanceCoordinator coord = new MaintenanceCoordinator(
-                new MaintenanceState(), readinessManager, queueManager,
-                eventPublisher, List.of(goodHook, badHook), properties
+                new MaintenanceState(), handler, queueManager,
+                executor, eventPublisher, properties
         );
 
         coord.setMaintenanceMode(true, "Partial failure test");
 
         verify(goodHook).onEnterMaintenance();
         verify(badHook).onEnterMaintenance();
+    }
+
+    @Test
+    @DisplayName("When readiness is disabled, readiness transitions and drain delay should be skipped")
+    void shouldSkipReadinessWhenDisabled() {
+        properties.getReadiness().setEnabled(false);
+
+        boolean entered = coordinator.setMaintenanceMode(true, "Skip readiness enter");
+        assertThat(entered).isTrue();
+        assertThat(state.getDetails()).containsEntry("readiness", "DISABLED");
+        verify(readinessManager, never()).refuseTraffic();
+
+        boolean exited = coordinator.setMaintenanceMode(false, "Skip readiness exit");
+        assertThat(exited).isTrue();
+        assertThat(state.getDetails()).containsEntry("readiness", "DISABLED");
+        verify(readinessManager, never()).acceptTraffic();
+    }
+
+    @Test
+    @DisplayName("When queues is disabled, queue listener stop and start should be skipped")
+    void shouldSkipQueuesWhenDisabled() {
+        properties.getQueues().setEnabled(false);
+
+        boolean entered = coordinator.setMaintenanceMode(true, "Skip queues enter");
+        assertThat(entered).isTrue();
+        assertThat(state.getDetails().get("queues")).isEqualTo(Map.of("enabled", false));
+        verify(queueManager, never()).stopConsumers();
+
+        boolean exited = coordinator.setMaintenanceMode(false, "Skip queues exit");
+        assertThat(exited).isTrue();
+        assertThat(state.getDetails().get("queues")).isEqualTo(Map.of("enabled", false));
+        verify(queueManager, never()).startConsumers();
+    }
+
+    @Test
+    @DisplayName("When hooks is disabled, custom hook execution should be skipped")
+    void shouldSkipHooksWhenDisabled() {
+        properties.getHooks().setEnabled(false);
+
+        boolean entered = coordinator.setMaintenanceMode(true, "Skip hooks enter");
+        assertThat(entered).isTrue();
+        // When hooks are disabled, no "hooks" key is added to the report
+        verify(hook, never()).onEnterMaintenance();
+
+        boolean exited = coordinator.setMaintenanceMode(false, "Skip hooks exit");
+        assertThat(exited).isTrue();
+        verify(hook, never()).onExitMaintenance();
+    }
+
+    @Test
+    @DisplayName("When events is disabled, ApplicationEvent publication should be skipped")
+    void shouldSkipEventsWhenDisabled() {
+        properties.getEvents().setEnabled(false);
+
+        boolean entered = coordinator.setMaintenanceMode(true, "Skip events enter");
+        assertThat(entered).isTrue();
+        verify(eventPublisher, never()).publishEvent(any(MaintenanceModeChangedEvent.class));
+
+        boolean exited = coordinator.setMaintenanceMode(false, "Skip events exit");
+        assertThat(exited).isTrue();
+        verify(eventPublisher, never()).publishEvent(any(MaintenanceModeChangedEvent.class));
     }
 }

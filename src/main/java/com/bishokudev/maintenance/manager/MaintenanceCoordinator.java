@@ -3,48 +3,52 @@ package com.bishokudev.maintenance.manager;
 import com.bishokudev.maintenance.config.MaintenanceProperties;
 import com.bishokudev.maintenance.event.MaintenanceModeChangedEvent;
 import com.bishokudev.maintenance.hook.MaintenanceHook;
+import com.bishokudev.maintenance.hook.MaintenanceHookExecutor;
+import com.bishokudev.maintenance.model.HookExecutionReport;
 import com.bishokudev.maintenance.model.MaintenanceState;
+import com.bishokudev.maintenance.model.TransitionReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Orchestrates the maintenance mode transition workflows.
  * <p>
+ * This class is a <em>pure orchestrator</em>: it delegates low-level concerns to
+ * dedicated single-responsibility components:
+ * <ul>
+ *   <li>{@link TrafficDrainHandler} — Kubernetes readiness transitions and drain delay</li>
+ *   <li>{@link MaintenanceHookExecutor} — ordered hook execution with per-hook timeout</li>
+ *   <li>{@link QueueMaintenanceManager} — message broker consumer lifecycle</li>
+ * </ul>
+ * <p>
+ * Individual operations (Readiness, Queues, Hooks, Events) can be toggled via
+ * {@link MaintenanceProperties}.
+ * <p>
  * <strong>Entering Maintenance:</strong>
  * <ol>
  *   <li>Idempotency check: if already active, no-op.</li>
- *   <li>Kubernetes Readiness &rarr; {@code REFUSING_TRAFFIC}.</li>
- *   <li>Drain delay (configurable) to allow Kubernetes to update endpoints.</li>
- *   <li>Pause Queue Listeners (Kafka &amp; RabbitMQ).</li>
- *   <li>Invoke {@link MaintenanceHook}s (ordered, with timeout).</li>
+ *   <li>Kubernetes Readiness &rarr; {@code REFUSING_TRAFFIC} + drain delay (if enabled).</li>
+ *   <li>Pause Queue Listeners (Kafka &amp; RabbitMQ) (if enabled).</li>
+ *   <li>Invoke {@link MaintenanceHook}s (ordered, with timeout) (if enabled).</li>
  *   <li>Update {@link MaintenanceState}.</li>
- *   <li>Publish {@link MaintenanceModeChangedEvent}.</li>
+ *   <li>Publish {@link MaintenanceModeChangedEvent} (if enabled).</li>
  * </ol>
  * <p>
  * <strong>Exiting Maintenance:</strong>
  * <ol>
  *   <li>Idempotency check: if already inactive, no-op.</li>
- *   <li>Resume Queue Listeners.</li>
- *   <li>Invoke {@link MaintenanceHook}s (ordered, with timeout).</li>
- *   <li>Kubernetes Readiness &rarr; {@code ACCEPTING_TRAFFIC}.</li>
+ *   <li>Resume Queue Listeners (if enabled).</li>
+ *   <li>Invoke {@link MaintenanceHook}s (ordered, with timeout) (if enabled).</li>
+ *   <li>Kubernetes Readiness &rarr; {@code ACCEPTING_TRAFFIC} (if enabled).</li>
  *   <li>Update {@link MaintenanceState}.</li>
- *   <li>Publish {@link MaintenanceModeChangedEvent}.</li>
+ *   <li>Publish {@link MaintenanceModeChangedEvent} (if enabled).</li>
  * </ol>
  */
 public class MaintenanceCoordinator {
@@ -52,37 +56,24 @@ public class MaintenanceCoordinator {
     private static final Logger log = LoggerFactory.getLogger(MaintenanceCoordinator.class);
 
     private final MaintenanceState state;
-    private final KubernetesReadinessManager readinessManager;
+    private final TrafficDrainHandler drainHandler;
     private final QueueMaintenanceManager queueManager;
+    private final MaintenanceHookExecutor hookExecutor;
     private final ApplicationEventPublisher eventPublisher;
-    private final List<MaintenanceHook> hooks;
-    private final Duration drainDelay;
-    private final Duration hookTimeout;
-    private final ExecutorService hookExecutor;
+    private final MaintenanceProperties properties;
 
     public MaintenanceCoordinator(MaintenanceState state,
-                                  KubernetesReadinessManager readinessManager,
+                                  TrafficDrainHandler drainHandler,
                                   QueueMaintenanceManager queueManager,
+                                  MaintenanceHookExecutor hookExecutor,
                                   ApplicationEventPublisher eventPublisher,
-                                  List<MaintenanceHook> hooks,
                                   MaintenanceProperties properties) {
         this.state = Objects.requireNonNull(state, "state must not be null");
-        this.readinessManager = Objects.requireNonNull(readinessManager, "readinessManager must not be null");
+        this.drainHandler = Objects.requireNonNull(drainHandler, "drainHandler must not be null");
         this.queueManager = Objects.requireNonNull(queueManager, "queueManager must not be null");
+        this.hookExecutor = Objects.requireNonNull(hookExecutor, "hookExecutor must not be null");
         this.eventPublisher = Objects.requireNonNull(eventPublisher, "eventPublisher must not be null");
-        Objects.requireNonNull(properties, "properties must not be null");
-
-        List<MaintenanceHook> sortedHooks = hooks != null ? new ArrayList<>(hooks) : new ArrayList<>();
-        AnnotationAwareOrderComparator.sort(sortedHooks);
-        this.hooks = Collections.unmodifiableList(sortedHooks);
-
-        this.drainDelay = properties.getDrainDelay();
-        this.hookTimeout = properties.getHookTimeout();
-        this.hookExecutor = Executors.newSingleThreadExecutor(r -> {
-            Thread t = new Thread(r, "maintenance-hook-executor");
-            t.setDaemon(true);
-            return t;
-        });
+        this.properties = Objects.requireNonNull(properties, "properties must not be null");
     }
 
     /**
@@ -93,11 +84,7 @@ public class MaintenanceCoordinator {
      * @return true if state changed; false if already in the requested state (idempotent)
      */
     public synchronized boolean setMaintenanceMode(boolean enable, String reason) {
-        if (enable) {
-            return enterMaintenance(reason);
-        } else {
-            return exitMaintenance(reason);
-        }
+        return enable ? enterMaintenance(reason) : exitMaintenance(reason);
     }
 
     private boolean enterMaintenance(String reason) {
@@ -107,51 +94,25 @@ public class MaintenanceCoordinator {
         }
 
         log.info("Entering maintenance mode. Reason: '{}'", reason);
-        Map<String, Object> details = new LinkedHashMap<>();
+        long startNanos = System.nanoTime();
+        TransitionReport.Builder report = TransitionReport.builder();
 
-        // 1. Kubernetes Readiness: refuse traffic first
-        try {
-            readinessManager.refuseTraffic();
-            details.put("readiness", "REFUSING_TRAFFIC");
-        } catch (Exception ex) {
-            log.error("Failed to transition Kubernetes readiness to REFUSING_TRAFFIC", ex);
-            details.put("readinessError", ex.getMessage());
-        }
+        // 1. Kubernetes Readiness: refuse traffic + drain delay (if enabled)
+        applyReadiness(report, true);
 
-        // 2. Drain delay: allow K8s to update endpoints
-        if (drainDelay != null && !drainDelay.isZero() && !drainDelay.isNegative()) {
-            try {
-                log.info("Waiting {}ms for Kubernetes endpoint drain...", drainDelay.toMillis());
-                Thread.sleep(drainDelay.toMillis());
-                details.put("drainDelayMs", drainDelay.toMillis());
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-                log.warn("Drain delay interrupted", ex);
-                details.put("drainDelayInterrupted", true);
-            }
-        }
+        // 2. Stop queue listeners (if enabled)
+        applyQueues(report, true);
 
-        // 3. Stop queue listeners
-        try {
-            Map<String, Object> queueReport = queueManager.stopConsumers();
-            details.put("queues", queueReport);
-        } catch (Exception ex) {
-            log.error("Failed to stop queue listeners", ex);
-            details.put("queueError", ex.getMessage());
-        }
+        // 3. Execute hooks (if enabled)
+        applyHooks(report, true);
 
-        // 4. Execute hooks with timeout
-        Map<String, Object> hookReport = executeHooks(true);
-        details.put("hooks", hookReport);
+        long durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+        report.transitionDurationMs(durationMs);
 
-        // 5. Update state atomically
-        state.transition(true, reason, details);
-        Instant transitionTime = state.getLastChanged();
+        TransitionReport transitionReport = report.build();
+        finalizeTransition(true, reason, transitionReport);
 
-        // 6. Publish domain event
-        publishEvent(true, transitionTime, reason, details);
-
-        log.info("Successfully entered maintenance mode.");
+        log.info("Successfully entered maintenance mode (took {}ms).", durationMs);
         return true;
     }
 
@@ -162,98 +123,108 @@ public class MaintenanceCoordinator {
         }
 
         log.info("Exiting maintenance mode. Reason: '{}'", reason);
-        Map<String, Object> details = new LinkedHashMap<>();
+        long startNanos = System.nanoTime();
+        TransitionReport.Builder report = TransitionReport.builder();
 
-        // 1. Resume queue listeners
-        try {
-            Map<String, Object> queueReport = queueManager.startConsumers();
-            details.put("queues", queueReport);
-        } catch (Exception ex) {
-            log.error("Failed to start queue listeners", ex);
-            details.put("queueError", ex.getMessage());
-        }
+        // 1. Resume queue listeners (if enabled)
+        applyQueues(report, false);
 
-        // 2. Execute hooks with timeout
-        Map<String, Object> hookReport = executeHooks(false);
-        details.put("hooks", hookReport);
+        // 2. Execute hooks (if enabled)
+        applyHooks(report, false);
 
-        // 3. Kubernetes Readiness: accept traffic
-        try {
-            readinessManager.acceptTraffic();
-            details.put("readiness", "ACCEPTING_TRAFFIC");
-        } catch (Exception ex) {
-            log.error("Failed to transition Kubernetes readiness to ACCEPTING_TRAFFIC", ex);
-            details.put("readinessError", ex.getMessage());
-        }
+        // 3. Kubernetes Readiness: accept traffic (if enabled)
+        applyReadiness(report, false);
 
-        // 4. Update state atomically
-        state.transition(false, reason, details);
-        Instant transitionTime = state.getLastChanged();
+        long durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+        report.transitionDurationMs(durationMs);
 
-        // 5. Publish domain event
-        publishEvent(false, transitionTime, reason, details);
+        TransitionReport transitionReport = report.build();
+        finalizeTransition(false, reason, transitionReport);
 
-        log.info("Successfully exited maintenance mode.");
+        log.info("Successfully exited maintenance mode (took {}ms).", durationMs);
         return true;
     }
 
-    /**
-     * Executes all hooks with a per-hook timeout. Returns a detailed report.
-     */
-    private Map<String, Object> executeHooks(boolean entering) {
-        Map<String, Object> report = new LinkedHashMap<>();
-        int succeeded = 0;
-        int failed = 0;
-        int timedOut = 0;
-        List<String> failures = new ArrayList<>();
+    // ──────────────────────────────────────────────────────────────────────
+    // Step delegates (single level of abstraction)
+    // ──────────────────────────────────────────────────────────────────────
 
-        for (MaintenanceHook hook : hooks) {
-            String hookName = hook.getClass().getName();
-            try {
-                Future<?> future = hookExecutor.submit(() -> {
-                    if (entering) {
-                        hook.onEnterMaintenance();
-                    } else {
-                        hook.onExitMaintenance();
-                    }
-                });
+    private void applyReadiness(TransitionReport.Builder report, boolean entering) {
+        if (!properties.getReadiness().isEnabled()) {
+            log.debug("Kubernetes readiness transition is disabled via configuration.");
+            report.readiness("DISABLED");
+            return;
+        }
 
-                long timeoutMs = hookTimeout != null ? hookTimeout.toMillis() : 30_000L;
-                future.get(timeoutMs, TimeUnit.MILLISECONDS);
-                succeeded++;
-            } catch (TimeoutException ex) {
-                timedOut++;
-                String msg = String.format("Hook [%s] timed out after %dms", hookName, hookTimeout.toMillis());
-                log.error(msg);
-                failures.add(msg);
-            } catch (Exception ex) {
-                failed++;
-                Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
-                String msg = String.format("Hook [%s] failed: %s", hookName, cause.getMessage());
-                log.error("Error executing MaintenanceHook [{}]", hookName, cause);
-                failures.add(msg);
+        if (entering) {
+            TrafficDrainHandler.Result result = drainHandler.refuseTrafficAndDrain(properties.getDrainDelay());
+            report.readiness(result.readiness())
+                    .readinessError(result.error());
+            if (result.drainDelayMs() != null) {
+                report.drainDelayMs(result.drainDelayMs());
             }
+            report.drainDelayInterrupted(result.interrupted());
+        } else {
+            TrafficDrainHandler.Result result = drainHandler.acceptTraffic();
+            report.readiness(result.readiness())
+                    .readinessError(result.error());
         }
-
-        report.put("total", hooks.size());
-        report.put("succeeded", succeeded);
-        report.put("failed", failed);
-        report.put("timedOut", timedOut);
-        if (!failures.isEmpty()) {
-            report.put("partialFailure", true);
-            report.put("failures", List.copyOf(failures));
-        }
-        return report;
     }
 
-    private void publishEvent(boolean entering, Instant timestamp, String reason, Map<String, Object> details) {
+    private void applyQueues(TransitionReport.Builder report, boolean entering) {
+        if (!properties.getQueues().isEnabled()) {
+            log.debug("Queue listener {} is disabled via configuration.", entering ? "pause" : "resume");
+            report.queues(Map.of("enabled", false));
+            return;
+        }
+
+        try {
+            Map<String, Object> queueReport = entering
+                    ? queueManager.stopConsumers()
+                    : queueManager.startConsumers();
+            report.queues(queueReport);
+        } catch (Exception ex) {
+            log.error("Failed to {} queue listeners", entering ? "stop" : "start", ex);
+            report.queueError(ex.getMessage());
+        }
+    }
+
+    private void applyHooks(TransitionReport.Builder report, boolean entering) {
+        if (!properties.getHooks().isEnabled()) {
+            log.debug("MaintenanceHook execution is disabled via configuration.");
+            report.hooks(null);
+            return;
+        }
+
+        HookExecutionReport hookReport = hookExecutor.execute(entering);
+        report.hooks(hookReport);
+    }
+
+    private void finalizeTransition(boolean entering, String reason, TransitionReport transitionReport) {
+        Map<String, Object> detailsMap = transitionReport.toMap();
+        state.transition(entering, reason, detailsMap);
+        Instant transitionTime = state.getLastChanged();
+
+        if (properties.getEvents().isEnabled()) {
+            publishEvent(entering, transitionTime, reason, transitionReport);
+        } else {
+            log.debug("MaintenanceModeChangedEvent publishing is disabled via configuration.");
+        }
+    }
+
+    private void publishEvent(boolean entering, Instant timestamp, String reason,
+                              TransitionReport transitionReport) {
         try {
             eventPublisher.publishEvent(
-                    new MaintenanceModeChangedEvent(this, entering, timestamp, reason, details));
+                    new MaintenanceModeChangedEvent(this, entering, timestamp, reason, transitionReport));
         } catch (Exception ex) {
             log.error("Failed to publish MaintenanceModeChangedEvent", ex);
         }
     }
+
+    // ──────────────────────────────────────────────────────────────────────
+    // Public accessors
+    // ──────────────────────────────────────────────────────────────────────
 
     /**
      * @return the current maintenance state bean
@@ -266,6 +237,13 @@ public class MaintenanceCoordinator {
      * @return unmodifiable, ordered list of registered hooks
      */
     public List<MaintenanceHook> getHooks() {
-        return hooks;
+        return hookExecutor.getHooks();
+    }
+
+    /**
+     * @return the current maintenance properties configuration
+     */
+    public MaintenanceProperties getProperties() {
+        return properties;
     }
 }

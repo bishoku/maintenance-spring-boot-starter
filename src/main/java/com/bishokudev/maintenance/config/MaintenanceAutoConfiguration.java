@@ -2,6 +2,7 @@ package com.bishokudev.maintenance.config;
 
 import com.bishokudev.maintenance.actuator.MaintenanceActuatorEndpoint;
 import com.bishokudev.maintenance.hook.MaintenanceHook;
+import com.bishokudev.maintenance.hook.MaintenanceHookExecutor;
 import com.bishokudev.maintenance.manager.ConsumerLifecycleManager;
 import com.bishokudev.maintenance.manager.KafkaConsumerLifecycleManager;
 import com.bishokudev.maintenance.manager.KubernetesReadinessManager;
@@ -9,6 +10,7 @@ import com.bishokudev.maintenance.manager.MaintenanceCoordinator;
 import com.bishokudev.maintenance.manager.MaintenanceMetrics;
 import com.bishokudev.maintenance.manager.QueueMaintenanceManager;
 import com.bishokudev.maintenance.manager.RabbitConsumerLifecycleManager;
+import com.bishokudev.maintenance.manager.TrafficDrainHandler;
 import com.bishokudev.maintenance.model.MaintenanceState;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
@@ -60,6 +62,12 @@ public class MaintenanceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public TrafficDrainHandler trafficDrainHandler(KubernetesReadinessManager readinessManager) {
+        return new TrafficDrainHandler(readinessManager);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public QueueMaintenanceManager queueMaintenanceManager(
             ObjectProvider<ConsumerLifecycleManager> managersProvider) {
         List<ConsumerLifecycleManager> managers = managersProvider.orderedStream().toList();
@@ -68,16 +76,24 @@ public class MaintenanceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MaintenanceCoordinator maintenanceCoordinator(
-            MaintenanceState state,
-            KubernetesReadinessManager readinessManager,
-            QueueMaintenanceManager queueManager,
-            ApplicationEventPublisher eventPublisher,
+    public MaintenanceHookExecutor maintenanceHookExecutor(
             ObjectProvider<MaintenanceHook> hooksProvider,
             MaintenanceProperties properties) {
         List<MaintenanceHook> hooks = hooksProvider.orderedStream().toList();
-        return new MaintenanceCoordinator(state, readinessManager, queueManager,
-                eventPublisher, hooks, properties);
+        return new MaintenanceHookExecutor(hooks, properties.getHookTimeout());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MaintenanceCoordinator maintenanceCoordinator(
+            MaintenanceState state,
+            TrafficDrainHandler drainHandler,
+            QueueMaintenanceManager queueManager,
+            MaintenanceHookExecutor hookExecutor,
+            ApplicationEventPublisher eventPublisher,
+            MaintenanceProperties properties) {
+        return new MaintenanceCoordinator(state, drainHandler, queueManager,
+                hookExecutor, eventPublisher, properties);
     }
 
     @Bean
@@ -92,6 +108,12 @@ public class MaintenanceAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.kafka.config.KafkaListenerEndpointRegistry")
+    @ConditionalOnProperty(
+            prefix = "maintenance.queues.kafka",
+            name = "enabled",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     static class KafkaConsumerConfiguration {
 
         @Bean
@@ -104,6 +126,12 @@ public class MaintenanceAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry")
+    @ConditionalOnProperty(
+            prefix = "maintenance.queues.rabbit",
+            name = "enabled",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     static class RabbitConsumerConfiguration {
 
         @Bean
@@ -120,6 +148,12 @@ public class MaintenanceAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "io.micrometer.core.instrument.MeterRegistry")
+    @ConditionalOnProperty(
+            prefix = "maintenance.metrics",
+            name = "enabled",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     static class MetricsConfiguration {
 
         @Bean
