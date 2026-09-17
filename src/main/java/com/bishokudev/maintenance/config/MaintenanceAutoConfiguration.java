@@ -35,8 +35,12 @@ import java.util.List;
  * is fully resolved. Broker managers use {@link ObjectProvider} to avoid bean-ordering issues.
  */
 @AutoConfiguration(afterName = {
+        // Spring Boot 3.x package names
         "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration",
-        "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
+        "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration",
+        // Spring Boot 4.x relocated package names (modularization)
+        "org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration",
+        "org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration"
 })
 @ConditionalOnClass(Endpoint.class)
 @ConditionalOnProperty(

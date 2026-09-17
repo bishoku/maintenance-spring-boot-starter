@@ -33,27 +33,21 @@ In modern Kubernetes-based microservice architectures, critical maintenance scen
 
 `maintenance-spring-boot-starter` introduces a unified, thread-safe, and Kubernetes-aware orchestration layer. With a single HTTP call to Spring Boot Actuator (or a programmatic trigger), the application transitions into an isolated maintenance state through a strictly ordered, idempotent workflow:
 
-```
-[ Enter Maintenance Workflow ]
-┌───────────────────────────────┐
-│ 1. K8s Readiness ➔ REFUSING   │ ➔ Pod removed from Kubernetes Service endpoints immediately
-└──────────────┬────────────────┘
-               ▼
-┌───────────────────────────────┐
-│ 2. Configurable Drain Delay   │ ➔ In-flight HTTP requests complete; K8s iptables/IPVS rules propagate
-└──────────────┬────────────────┘
-               ▼
-┌───────────────────────────────┐
-│ 3. Pause Queue Listeners      │ ➔ Kafka & RabbitMQ message consumers paused safely (no rebalance)
-└──────────────┬────────────────┘
-               ▼
-┌───────────────────────────────┐
-│ 4. Execute MaintenanceHooks   │ ➔ Developer-defined hooks executed in priority order (timeout-guarded)
-└──────────────┬────────────────┘
-               ▼
-┌───────────────────────────────┐
-│ 5. Atomic State & Event       │ ➔ State snapshot updated via CAS; MaintenanceModeChangedEvent published
-└───────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph WF["Enter Maintenance Workflow"]
+        direction TB
+        step1["1. K8s Readiness ➔ REFUSING<br/><small>➔ Pod removed from Kubernetes Service endpoints immediately</small>"]
+        step2["2. Configurable Drain Delay<br/><small>➔ In-flight HTTP requests complete; K8s iptables/IPVS rules propagate</small>"]
+        step3["3. Pause Queue Listeners<br/><small>➔ Kafka & RabbitMQ message consumers paused safely (no rebalance)</small>"]
+        step4["4. Execute MaintenanceHooks<br/><small>➔ Developer-defined hooks executed in priority order (timeout-guarded)</small>"]
+        step5["5. Atomic State & Event<br/><small>➔ State snapshot updated via CAS; MaintenanceModeChangedEvent published</small>"]
+
+        step1 --> step2
+        step2 --> step3
+        step3 --> step4
+        step4 --> step5
+    end
 ```
 
 When maintenance is complete, the reverse sequence seamlessly brings the pod back into service: queues resume first, hooks execute, and Kubernetes readiness probes return to `ACCEPTING_TRAFFIC`.
@@ -204,7 +198,8 @@ maintenance:
 
 ## 🔒 Security Best Practices
 
-> **⚠️ WARNING:** Because the maintenance endpoint can take a pod out of service endpoints, it should **never** be publicly accessible.
+> [!WARNING]
+> Because the maintenance endpoint can take a pod out of service endpoints, it should **never** be publicly accessible.
 
 ### 1. Internal Management Port (Recommended)
 Configure Spring Boot Actuator to run on a dedicated internal port:
