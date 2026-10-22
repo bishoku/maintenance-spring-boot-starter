@@ -1,0 +1,43 @@
+{
+  "contract": "kubernetes-readiness-v2",
+  "timestamp": "2026-10-22T05:03:01.613879+00:00",
+  "namespace": "maintenance-bench-microk8s-readiness-v2",
+  "versions": [
+    "3.5.9",
+    "4.0.2"
+  ],
+  "results": [],
+  "initial_microk8s_status": "microk8s is running\nhigh-availability: no\n  datastore master nodes: 127.0.0.1:19001\n  datastore standby nodes: none\naddons:\n  enabled:\n    dashboard            # (core) The Kubernetes dashboard\n    dns                  # (core) CoreDNS\n    ha-cluster           # (core) Configure high availability on the current node\n    helm                 # (core) Helm - the package manager for Kubernetes\n    helm3                # (core) Helm 3 - the package manager for Kubernetes\n    hostpath-storage     # (core) Storage class; allocates storage from host directory\n    metrics-server       # (core) K8s Metrics Server for API access to service metrics\n    storage              # (core) Alias to hostpath-storage add-on, deprecated\n  disabled:\n    cert-manager         # (core) Cloud native certificate management\n    cis-hardening        # (core) Apply CIS K8s hardening\n    community            # (core) The community addons repository\n    gpu                  # (core) Alias to nvidia add-on\n    host-access          # (core) Allow Pods connecting to Host services smoothly\n    ingress              # (core) Ingress controller for external access\n    kube-ovn             # (core) An advanced network fabric for Kubernetes\n    mayastor             # (core) OpenEBS MayaStor\n    metallb              # (core) Loadbalancer for your Kubernetes cluster\n    minio                # (core) MinIO object storage (DEPRECATED). This addon is deprecated and will be completely removed in the upcoming versions\n    nvidia               # (core) NVIDIA hardware (GPU and network) support\n    observability        # (core) A lightweight observability stack for logs, traces and metrics\n    prometheus           # (core) Prometheus operator for monitoring and logging\n    rbac                 # (core) Role-Based Access Control for authorisation\n    registry             # (core) Private image registry exposed on localhost:32000\n    rook-ceph            # (core) Distributed Ceph storage using Rook\n",
+  "cluster_version": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "35",
+      "gitVersion": "v1.35.6",
+      "gitCommit": "fc0e7a6ca50f7ce368f9a5516e1716b473ed3a26",
+      "gitTreeState": "clean",
+      "buildDate": "2026-06-22T08:04:31Z",
+      "goVersion": "go1.25.11",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    },
+    "kustomizeVersion": "v5.7.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "35",
+      "emulationMajor": "1",
+      "emulationMinor": "35",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "34",
+      "gitVersion": "v1.35.6",
+      "gitCommit": "fc0e7a6ca50f7ce368f9a5516e1716b473ed3a26",
+      "gitTreeState": "clean",
+      "buildDate": "2026-06-22T08:05:31Z",
+      "goVersion": "go1.25.11",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  },
+  "error": "Command failed (1): microk8s ctr images import /home/bishoku/devel/maintenance-spring-boot-starter/benchmark/reports/microk8s-readiness-v2/broker-client-images.tar; see command-0011.log: sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper\nsudo: a password is required\n",
+  "completed": false,
+  "namespace_cleaned": true
+}

@@ -1,0 +1,60 @@
+# microk8s-readiness-final
+
+Contract: Kubernetes owns traffic routing; the library only signals readiness.
+
+| Version | Check | Result |
+|---|---|---|
+| 3.5.9 | sample-a-jar-integrity | PASS |
+| 3.5.9 | sample-b-jar-integrity | PASS |
+| 3.5.9 | service-reaches-both-ready-pods | PASS |
+| 3.5.9 | sample-a-enter | PASS |
+| 3.5.9 | sample-a-endpointslice-ready-set | PASS |
+| 3.5.9 | kubelet-observes-not-ready | PASS |
+| 3.5.9 | readiness-503-liveness-200 | PASS |
+| 3.5.9 | unready-pod-direct-http-still-200 | PASS |
+| 3.5.9 | service-excludes-maintenance-pod | PASS |
+| 3.5.9 | failed-exit-retains-readiness-refusal | PASS |
+| 3.5.9 | failed-exit-does-not-rejoin-service | PASS |
+| 3.5.9 | sample-a-exit | PASS |
+| 3.5.9 | service-restores-recovered-pod | PASS |
+| 3.5.9 | sample-b-enter | PASS |
+| 3.5.9 | sample-b-endpointslice-ready-set | PASS |
+| 3.5.9 | sample-a-enter | PASS |
+| 3.5.9 | sample-a-endpointslice-ready-set | PASS |
+| 3.5.9 | no-ready-endpoints-no-new-service-traffic | PASS |
+| 3.5.9 | both-unready-pods-remain-directly-reachable | PASS |
+| 3.5.9 | existing-request-not-aborted | PASS |
+| 3.5.9 | established-keepalive-can-still-reach-unready-pod | PASS |
+| 3.5.9 | sample-a-no-restart-or-replacement | PASS |
+| 3.5.9 | sample-b-no-restart-or-replacement | PASS |
+| 3.5.9 | sample-a-exit | PASS |
+| 3.5.9 | single-pod-recovery-routes-again | PASS |
+| 3.5.9 | sample-b-exit | PASS |
+| 3.5.9 | full-recovery-routes-again | PASS |
+| 4.0.2 | sample-a-jar-integrity | PASS |
+| 4.0.2 | sample-b-jar-integrity | PASS |
+| 4.0.2 | service-reaches-both-ready-pods | PASS |
+| 4.0.2 | sample-a-enter | PASS |
+| 4.0.2 | sample-a-endpointslice-ready-set | PASS |
+| 4.0.2 | kubelet-observes-not-ready | PASS |
+| 4.0.2 | readiness-503-liveness-200 | PASS |
+| 4.0.2 | unready-pod-direct-http-still-200 | PASS |
+| 4.0.2 | service-excludes-maintenance-pod | PASS |
+| 4.0.2 | failed-exit-retains-readiness-refusal | PASS |
+| 4.0.2 | failed-exit-does-not-rejoin-service | PASS |
+| 4.0.2 | sample-a-exit | PASS |
+| 4.0.2 | service-restores-recovered-pod | PASS |
+| 4.0.2 | sample-b-enter | PASS |
+| 4.0.2 | sample-b-endpointslice-ready-set | PASS |
+| 4.0.2 | sample-a-enter | PASS |
+| 4.0.2 | sample-a-endpointslice-ready-set | PASS |
+| 4.0.2 | no-ready-endpoints-no-new-service-traffic | PASS |
+| 4.0.2 | both-unready-pods-remain-directly-reachable | PASS |
+| 4.0.2 | existing-request-not-aborted | PASS |
+| 4.0.2 | established-keepalive-can-still-reach-unready-pod | PASS |
+| 4.0.2 | sample-a-no-restart-or-replacement | PASS |
+| 4.0.2 | sample-b-no-restart-or-replacement | PASS |
+| 4.0.2 | sample-a-exit | PASS |
+| 4.0.2 | single-pod-recovery-routes-again | PASS |
+| 4.0.2 | sample-b-exit | PASS |
+| 4.0.2 | full-recovery-routes-again | PASS |

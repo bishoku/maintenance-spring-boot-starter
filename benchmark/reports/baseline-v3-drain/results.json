@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-10-22T04:39:58.768862+00:00",
+  "commit": "25e0eba0fe2d8ed7aacbde39d5dcfb49edaf1dae",
+  "dirty": true,
+  "java": "java version \"25.0.2\" 2026-01-20 LTS\nJava(TM) SE Runtime Environment (build 25.0.2+10-LTS-69)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.2+10-LTS-69, mixed mode, sharing)",
+  "results": [
+    {
+      "version": "3.5.9",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "wait-for-inflight-http",
+      "passed": false,
+      "detail": {
+        "elapsed": 0.048085779999382794
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "inflight-request-completes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "wait-for-inflight-http",
+      "passed": false,
+      "detail": {
+        "elapsed": 0.06495209003333002
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "inflight-request-completes",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "starter_sha256": "52490af10f9b760ce80568e21a452e54c306df5abaf3e6e043877828ad9ccc43"
+}

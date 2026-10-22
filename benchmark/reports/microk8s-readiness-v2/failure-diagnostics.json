@@ -1,0 +1,18 @@
+{
+  "pods": {
+    "apiVersion": "v1",
+    "items": [],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "slices": {
+    "apiVersion": "v1",
+    "items": [],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  }
+}

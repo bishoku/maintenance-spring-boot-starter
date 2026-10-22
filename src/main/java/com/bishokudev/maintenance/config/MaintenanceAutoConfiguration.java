@@ -40,7 +40,11 @@ import java.util.List;
         "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration",
         // Spring Boot 4.x relocated package names (modularization)
         "org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration",
-        "org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration"
+        "org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration",
+        "org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration",
+        "org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration",
+        "org.springframework.boot.micrometer.metrics.autoconfigure.CompositeMeterRegistryAutoConfiguration",
+        "org.springframework.boot.micrometer.metrics.autoconfigure.export.simple.SimpleMetricsExportAutoConfiguration"
 })
 @ConditionalOnClass(Endpoint.class)
 @ConditionalOnProperty(
@@ -123,8 +127,8 @@ public class MaintenanceAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean(KafkaConsumerLifecycleManager.class)
         KafkaConsumerLifecycleManager kafkaConsumerLifecycleManager(
-                ObjectProvider<org.springframework.kafka.config.KafkaListenerEndpointRegistry> registryProvider) {
-            return new KafkaConsumerLifecycleManager(registryProvider);
+                ObjectProvider<org.springframework.kafka.config.KafkaListenerEndpointRegistry> registryProvider, MaintenanceProperties properties) {
+            return new KafkaConsumerLifecycleManager(registryProvider, properties.getQueueTimeout());
         }
     }
 
@@ -141,8 +145,8 @@ public class MaintenanceAutoConfiguration {
         @Bean
         @ConditionalOnMissingBean(RabbitConsumerLifecycleManager.class)
         RabbitConsumerLifecycleManager rabbitConsumerLifecycleManager(
-                ObjectProvider<org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry> registryProvider) {
-            return new RabbitConsumerLifecycleManager(registryProvider);
+                ObjectProvider<org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry> registryProvider, MaintenanceProperties properties) {
+            return new RabbitConsumerLifecycleManager(registryProvider, properties.getQueueTimeout());
         }
     }
 

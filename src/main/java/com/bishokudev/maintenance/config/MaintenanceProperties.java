@@ -28,16 +28,23 @@ import java.time.Duration;
 @ConfigurationProperties(prefix = "maintenance")
 public class MaintenanceProperties {
 
-    /**
-     * Delay between setting readiness to REFUSING_TRAFFIC and stopping queue consumers.
-     * Allows Kubernetes time to remove the pod from service endpoints before in-flight
-     * requests are affected.
-     */
+    /** Maximum wait for broker pause/stop acknowledgement. */
+    private Duration queueTimeout = Duration.ofSeconds(30);
+
+    public Duration getQueueTimeout() { return queueTimeout; }
+    public void setQueueTimeout(Duration value) { queueTimeout = positive(value, "queue-timeout"); }
+    private static Duration positive(Duration value, String name) {
+        if (value == null || value.isNegative() || value.isZero() || value.toMillis() < 1)
+            throw new IllegalArgumentException(name + " must be at least 1ms");
+        return value;
+    }
+
+    /** Propagation grace after readiness refusal; not an HTTP request drain guarantee. */
     private Duration drainDelay = Duration.ofSeconds(5);
 
     /**
      * Maximum time to wait for each {@code MaintenanceHook} to complete before timing out.
-     * A hook that exceeds this duration will be interrupted and logged as failed.
+     * A hook that exceeds this duration receives an interrupt request and fails the transition.
      */
     private Duration hookTimeout = Duration.ofSeconds(30);
 
@@ -79,6 +86,7 @@ public class MaintenanceProperties {
     }
 
     public void setDrainDelay(Duration drainDelay) {
+        if (drainDelay == null || drainDelay.isNegative()) throw new IllegalArgumentException("drain-delay must be non-negative");
         this.drainDelay = drainDelay;
     }
 
@@ -87,7 +95,7 @@ public class MaintenanceProperties {
     }
 
     public void setHookTimeout(Duration hookTimeout) {
-        this.hookTimeout = hookTimeout;
+        this.hookTimeout = positive(hookTimeout, "hook-timeout");
     }
 
     public ReadinessProperties getReadiness() {

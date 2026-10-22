@@ -99,8 +99,8 @@ class MaintenanceCoordinatorTest {
         assertThat(state.isMaintenanceActive()).isFalse();
 
         InOrder inOrder = inOrder(queueManager, hook, readinessManager, eventPublisher);
-        inOrder.verify(queueManager).startConsumers();
         inOrder.verify(hook).onExitMaintenance();
+        inOrder.verify(queueManager).startConsumers();
         inOrder.verify(readinessManager).acceptTraffic();
         inOrder.verify(eventPublisher).publishEvent(any(MaintenanceModeChangedEvent.class));
     }
@@ -113,14 +113,15 @@ class MaintenanceCoordinatorTest {
     }
 
     @Test
-    @DisplayName("Hook failure does not prevent transition or event publication")
+    @DisplayName("Hook failure prevents completion and publishes failure report")
     void hookFailureDoesNotPreventTransition() {
         doThrow(new RuntimeException("Boom")).when(hook).onEnterMaintenance();
 
         boolean changed = coordinator.setMaintenanceMode(true, "Faulty hook");
 
-        assertThat(changed).isTrue();
-        assertThat(state.isMaintenanceActive()).isTrue();
+        assertThat(changed).isFalse();
+        assertThat(state.getPhase()).isEqualTo("FAILED");
+        assertThat(state.isMaintenanceActive()).isFalse();
         verify(eventPublisher).publishEvent(any(MaintenanceModeChangedEvent.class));
     }
 
@@ -150,26 +151,28 @@ class MaintenanceCoordinatorTest {
     }
 
     @Test
-    @DisplayName("Readiness manager failure should not prevent transition")
+    @DisplayName("Readiness failure prevents completion")
     void readinessFailureShouldNotPreventTransition() {
         doThrow(new RuntimeException("K8s unreachable")).when(readinessManager).refuseTraffic();
 
         boolean changed = coordinator.setMaintenanceMode(true, "Resilience test");
 
-        assertThat(changed).isTrue();
-        assertThat(state.isMaintenanceActive()).isTrue();
+        assertThat(changed).isFalse();
+        assertThat(state.getPhase()).isEqualTo("FAILED");
+        assertThat(state.isMaintenanceActive()).isFalse();
         assertThat(state.getDetails()).containsKey("readinessError");
     }
 
     @Test
-    @DisplayName("Queue manager failure should not prevent transition")
+    @DisplayName("Queue failure prevents completion")
     void queueFailureShouldNotPreventTransition() {
         when(queueManager.stopConsumers()).thenThrow(new RuntimeException("Broker down"));
 
         boolean changed = coordinator.setMaintenanceMode(true, "Resilience test");
 
-        assertThat(changed).isTrue();
-        assertThat(state.isMaintenanceActive()).isTrue();
+        assertThat(changed).isFalse();
+        assertThat(state.getPhase()).isEqualTo("FAILED");
+        assertThat(state.isMaintenanceActive()).isFalse();
         assertThat(state.getDetails()).containsKey("queueError");
     }
 

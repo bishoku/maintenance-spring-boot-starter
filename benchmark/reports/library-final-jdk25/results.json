@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-10-22T04:50:20.364919+00:00",
+  "java": "java version \"25.0.2\" 2026-01-20 LTS\nJava(TM) SE Runtime Environment (build 25.0.2+10-LTS-69)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.2+10-LTS-69, mixed mode, sharing)\n",
+  "results": [
+    {
+      "version": "3.5.9",
+      "exit_code": 0,
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "version": "4.0.2",
+      "exit_code": 0,
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

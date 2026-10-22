@@ -38,9 +38,16 @@ public record TransitionReport(
      * Returns {@code true} if any component experienced a failure during the transition.
      */
     public boolean partialFailure() {
-        return readinessError != null
+        return drainDelayInterrupted
+                || hasError(queues)
+                || readinessError != null
                 || queueError != null
                 || (hooks != null && hooks.partialFailure());
+    }
+
+    private static boolean hasError(Object value) {
+        if (!(value instanceof Map<?, ?> map)) return false;
+        return map.containsKey("error") || map.values().stream().anyMatch(TransitionReport::hasError);
     }
 
     /**
@@ -80,6 +87,8 @@ public record TransitionReport(
         if (hooks != null) {
             map.put("hooks", hooks.toMap());
         }
+
+        map.put("partialFailure", partialFailure());
 
         // Transition duration
         map.put("transitionDurationMs", transitionDurationMs);

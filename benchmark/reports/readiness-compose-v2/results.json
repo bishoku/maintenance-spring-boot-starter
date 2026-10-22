@@ -1,0 +1,1124 @@
+{
+  "contract": "kubernetes-readiness-v2",
+  "timestamp": "2026-10-22T05:02:30.011245+00:00",
+  "commit": "25e0eba0fe2d8ed7aacbde39d5dcfb49edaf1dae",
+  "dirty": true,
+  "java": "java version \"25.0.2\" 2026-01-20 LTS\nJava(TM) SE Runtime Environment (build 25.0.2+10-LTS-69)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.2+10-LTS-69, mixed mode, sharing)",
+  "results": [
+    {
+      "version": "3.5.9",
+      "test": "starter-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "interruptions": 0,
+        "kafka": {
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ]
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "inFlight": 0,
+          "messages": [
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ],
+          "idleRunning": false,
+          "running": false
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "interruptions": 0,
+        "kafka": {
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ]
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "inFlight": 0,
+          "messages": [
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ],
+          "idleRunning": false,
+          "running": false
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "interruptions": 0,
+        "kafka": {
+          "inFlight": 0,
+          "paused": false,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "88dd9b7b-3438-4ed1-910c-c5489d70d944",
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ]
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "inFlight": 0,
+          "messages": [
+            "88dd9b7b-3438-4ed1-910c-c5489d70d944",
+            "193e0b8a-ab77-4add-970f-08c32827f69f"
+          ],
+          "idleRunning": false,
+          "running": true
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "optional-reason",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-22T05:02:50.636537656Z",
+          "reason": "",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 1,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 862,
+            "phase": "ACTIVE"
+          }
+        }
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-entry-is-not-active",
+      "passed": true,
+      "detail": {
+        "active": false,
+        "lastChanged": "2026-10-22T05:02:56.525092545Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "kafka": {
+              "kafkaPaused": true,
+              "containersAffected": 1
+            },
+            "rabbit": {
+              "rabbitStopped": true,
+              "containersAffected": 1
+            },
+            "injected": {
+              "ok": true
+            }
+          },
+          "hooks": {
+            "total": 1,
+            "succeeded": 0,
+            "failed": 1,
+            "timedOut": 0,
+            "executions": [
+              {
+                "name": "benchmark.BenchmarkApplication$1",
+                "durationMs": 1,
+                "status": "failed"
+              }
+            ],
+            "partialFailure": true,
+            "failures": [
+              "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected enter failure"
+            ]
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 973,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-entry-retains-readiness-refusal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-entry-retry",
+      "passed": true,
+      "detail": {
+        "active": true,
+        "lastChanged": "2026-10-22T05:02:56.582553933Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "kafka": {
+              "kafkaPaused": true,
+              "containersAffected": 1
+            },
+            "rabbit": {
+              "rabbitStopped": true,
+              "containersAffected": 1
+            },
+            "injected": {
+              "ok": true
+            }
+          },
+          "hooks": {
+            "total": 1,
+            "succeeded": 1,
+            "failed": 0,
+            "timedOut": 0,
+            "executions": [
+              {
+                "name": "benchmark.BenchmarkApplication$1",
+                "durationMs": 0,
+                "status": "success"
+              }
+            ]
+          },
+          "partialFailure": false,
+          "transitionDurationMs": 0,
+          "phase": "ACTIVE"
+        }
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-exit-retains-readiness-refusal",
+      "passed": true,
+      "detail": {
+        "active": true,
+        "lastChanged": "2026-10-22T05:03:02.527937418Z",
+        "reason": "benchmark",
+        "details": {
+          "queues": {
+            "compensation": {
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              }
+            }
+          },
+          "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+          "hooks": {
+            "total": 1,
+            "succeeded": 0,
+            "failed": 1,
+            "timedOut": 0,
+            "executions": [
+              {
+                "durationMs": 0,
+                "name": "benchmark.BenchmarkApplication$1",
+                "status": "failed"
+              }
+            ],
+            "partialFailure": true,
+            "failures": [
+              "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+            ]
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 5,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-exit-consumers-remain-paused",
+      "passed": true,
+      "detail": {
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "f59df600-4fd3-4b17-a334-5d93dc9e1862"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "f59df600-4fd3-4b17-a334-5d93dc9e1862"
+          ],
+          "idleRunning": false
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0,
+        "exitSawRunning": false
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "failed-exit-retry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "timed-out-hook-cancelled",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "a1b293de-2c06-49bb-9508-5fb889d5f602"
+          ],
+          "inFlight": 0
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "a1b293de-2c06-49bb-9508-5fb889d5f602"
+          ],
+          "idleRunning": false,
+          "running": false,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 1
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "timeout-is-failed-transition",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "broker-failure-metric",
+      "passed": true,
+      "detail": [
+        200,
+        {
+          "name": "maintenance.transition.duration",
+          "description": "Duration of maintenance mode transition workflow",
+          "baseUnit": "seconds",
+          "measurements": [
+            {
+              "statistic": "COUNT",
+              "value": 1.0
+            },
+            {
+              "statistic": "TOTAL_TIME",
+              "value": 0.968
+            },
+            {
+              "statistic": "MAX",
+              "value": 0.968
+            }
+          ],
+          "availableTags": [
+            {
+              "tag": "direction",
+              "values": [
+                "enter"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "3.5.9",
+      "test": "broker-failure-propagated",
+      "passed": true,
+      "detail": {
+        "active": false,
+        "lastChanged": "2026-10-22T05:03:17.726294430Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "rabbit": {
+              "rabbitStopped": true,
+              "containersAffected": 1
+            },
+            "injected": {
+              "error": "java.lang.IllegalStateException: injected queue failure"
+            },
+            "kafka": {
+              "kafkaPaused": true,
+              "containersAffected": 1
+            }
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 968,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "configured-propagation-grace",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "no-library-http-drain-barrier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "inflight-request-not-aborted",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "concurrent-entry-idempotent",
+      "passed": true,
+      "detail": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "version": "3.5.9",
+      "test": "read-only-get",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "read-only-post-rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "read-only-no-state-change",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "disabled-endpoint-hidden",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "readiness-disabled-keeps-probe-up",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "readiness-disabled-skips-grace",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "inflight-broker-handlers-finish",
+      "passed": true,
+      "detail": {
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "66d35b12-920e-4d90-8862-d3fb249c0d53",
+            "947d04dc-377c-45bb-a154-984b1d02ed40"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "66d35b12-920e-4d90-8862-d3fb249c0d53",
+            "947d04dc-377c-45bb-a154-984b1d02ed40"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0,
+        "exitSawRunning": false
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "broker-drain-completed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1"
+          ],
+          "inFlight": 0
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1"
+          ],
+          "idleRunning": false,
+          "running": false,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1"
+          ],
+          "inFlight": 0
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1"
+          ],
+          "idleRunning": false,
+          "running": false,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "paused": false,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1",
+            "0d53dd4d-8130-4641-96f8-0db3a60fb048"
+          ],
+          "inFlight": 0
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "6880e291-c19d-467d-b78a-231bfa5219d1",
+            "0d53dd4d-8130-4641-96f8-0db3a60fb048"
+          ],
+          "idleRunning": false,
+          "running": true,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "optional-reason",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-22T05:04:12.666640252Z",
+          "reason": "",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "queues": {
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "rabbitStopped": true,
+                "containersAffected": 1
+              },
+              "kafka": {
+                "kafkaPaused": true,
+                "containersAffected": 1
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "status": "success",
+                  "durationMs": 2,
+                  "name": "benchmark.BenchmarkApplication$1"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 973,
+            "phase": "ACTIVE"
+          }
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-entry-is-not-active",
+      "passed": true,
+      "detail": {
+        "active": false,
+        "lastChanged": "2026-10-22T05:04:18.842604640Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "injected": {
+              "ok": true
+            },
+            "kafka": {
+              "containersAffected": 1,
+              "kafkaPaused": true
+            },
+            "rabbit": {
+              "containersAffected": 1,
+              "rabbitStopped": true
+            }
+          },
+          "hooks": {
+            "total": 1,
+            "succeeded": 0,
+            "failed": 1,
+            "timedOut": 0,
+            "executions": [
+              {
+                "name": "benchmark.BenchmarkApplication$1",
+                "durationMs": 2,
+                "status": "failed"
+              }
+            ],
+            "partialFailure": true,
+            "failures": [
+              "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected enter failure"
+            ]
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 872,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-entry-retains-readiness-refusal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-entry-retry",
+      "passed": true,
+      "detail": {
+        "active": true,
+        "lastChanged": "2026-10-22T05:04:18.895484447Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "injected": {
+              "ok": true
+            },
+            "kafka": {
+              "containersAffected": 1,
+              "kafkaPaused": true
+            },
+            "rabbit": {
+              "containersAffected": 1,
+              "rabbitStopped": true
+            }
+          },
+          "hooks": {
+            "total": 1,
+            "succeeded": 1,
+            "failed": 0,
+            "timedOut": 0,
+            "executions": [
+              {
+                "name": "benchmark.BenchmarkApplication$1",
+                "durationMs": 0,
+                "status": "success"
+              }
+            ]
+          },
+          "partialFailure": false,
+          "transitionDurationMs": 0,
+          "phase": "ACTIVE"
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-exit-retains-readiness-refusal",
+      "passed": true,
+      "detail": {
+        "active": true,
+        "lastChanged": "2026-10-22T05:04:24.907467067Z",
+        "reason": "benchmark",
+        "details": {
+          "queues": {
+            "compensation": {
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "rabbitStopped": true,
+                "containersAffected": 1
+              },
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              }
+            }
+          },
+          "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+          "hooks": {
+            "total": 1,
+            "succeeded": 0,
+            "failed": 1,
+            "timedOut": 0,
+            "executions": [
+              {
+                "name": "benchmark.BenchmarkApplication$1",
+                "durationMs": 0,
+                "status": "failed"
+              }
+            ],
+            "partialFailure": true,
+            "failures": [
+              "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+            ]
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 5,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-exit-consumers-remain-paused",
+      "passed": true,
+      "detail": {
+        "instance": "local",
+        "interruptions": 0,
+        "kafka": {
+          "messages": [
+            "0b38165e-88c0-4754-bd8f-bd0b6cb105d1"
+          ],
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "running": false,
+          "inFlight": 0,
+          "messages": [
+            "0b38165e-88c0-4754-bd8f-bd0b6cb105d1"
+          ],
+          "idleRunning": false
+        },
+        "exitSawRunning": false,
+        "work": 0
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "failed-exit-retry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "timed-out-hook-cancelled",
+      "passed": true,
+      "detail": {
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "06bc8aee-0747-475a-8186-0b149c506483"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "06bc8aee-0747-475a-8186-0b149c506483"
+          ]
+        },
+        "interruptions": 1,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "timeout-is-failed-transition",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "broker-failure-metric",
+      "passed": true,
+      "detail": [
+        200,
+        {
+          "availableTags": [
+            {
+              "tag": "direction",
+              "values": [
+                "enter"
+              ]
+            }
+          ],
+          "baseUnit": "seconds",
+          "description": "Duration of maintenance mode transition workflow",
+          "measurements": [
+            {
+              "statistic": "COUNT",
+              "value": 1.0
+            },
+            {
+              "statistic": "TOTAL_TIME",
+              "value": 0.964
+            },
+            {
+              "statistic": "MAX",
+              "value": 0.964
+            }
+          ],
+          "name": "maintenance.transition.duration"
+        }
+      ]
+    },
+    {
+      "version": "4.0.2",
+      "test": "broker-failure-propagated",
+      "passed": true,
+      "detail": {
+        "active": false,
+        "lastChanged": "2026-10-22T05:04:39.520037978Z",
+        "reason": "benchmark",
+        "details": {
+          "readiness": "REFUSING_TRAFFIC",
+          "queues": {
+            "kafka": {
+              "kafkaPaused": true,
+              "containersAffected": 1
+            },
+            "rabbit": {
+              "rabbitStopped": true,
+              "containersAffected": 1
+            },
+            "injected": {
+              "error": "java.lang.IllegalStateException: injected queue failure"
+            }
+          },
+          "partialFailure": true,
+          "transitionDurationMs": 964,
+          "phase": "FAILED"
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "configured-propagation-grace",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "no-library-http-drain-barrier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "inflight-request-not-aborted",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "concurrent-entry-idempotent",
+      "passed": true,
+      "detail": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "version": "4.0.2",
+      "test": "read-only-get",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "read-only-post-rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "read-only-no-state-change",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "disabled-endpoint-hidden",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "readiness-disabled-keeps-probe-up",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "readiness-disabled-skips-grace",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "inflight-broker-handlers-finish",
+      "passed": true,
+      "detail": {
+        "lateHooks": 0,
+        "kafka": {
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "b2e00896-201e-43eb-8cca-6456f2f293ba",
+            "b766f605-d8cc-4d82-9837-c210707492e0"
+          ],
+          "idleRunning": false
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "messages": [
+            "b2e00896-201e-43eb-8cca-6456f2f293ba",
+            "b766f605-d8cc-4d82-9837-c210707492e0"
+          ],
+          "inFlight": 0,
+          "running": false,
+          "idleRunning": false
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "broker-drain-completed",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "starter_sha256": "ba7e7ab15ad94cd35714c91e0fb3c87d80fda57bd4f41716718b55af9fc170c9",
+  "consumed_starter_sha256": {
+    "3.5.9": "ba7e7ab15ad94cd35714c91e0fb3c87d80fda57bd4f41716718b55af9fc170c9",
+    "4.0.2": "8de8cc34345e50abc361ebccaa99a6963391a6dfcdb7c98319ebd9f73355f4bb"
+  }
+}

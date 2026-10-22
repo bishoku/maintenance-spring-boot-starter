@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Immutable domain application event published whenever maintenance mode state transitions.
+ * Immutable event for a completed maintenance transition attempt, including failures.
+ * Inspect {@link TransitionReport#partialFailure()} before treating it as a mode change.
  * Consuming applications can listen to this event using {@code @EventListener}.
  */
 public class MaintenanceModeChangedEvent extends ApplicationEvent {

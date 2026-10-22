@@ -1,0 +1,1 @@
+This attempt stopped before build: the preflight port check treated TCP TIME_WAIT as an active listener. No product tests ran. The preflight now uses SO_REUSEADDR; see fixed-final-v2 for the complete run.

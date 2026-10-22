@@ -155,5 +155,6 @@ class MaintenanceMetricsTest {
                 .timer();
         assertThat(failureTimer).isNotNull();
         assertThat(failureTimer.count()).isEqualTo(1);
+        assertThat(registry.find("maintenance.mode.transitions").tag("direction", "enter").counter().count()).isZero();
     }
 }

@@ -76,6 +76,12 @@ public class MaintenanceMetrics {
     public void onMaintenanceModeChanged(MaintenanceModeChangedEvent event) {
         String direction = event.isEntering() ? "enter" : "exit";
 
+        TransitionReport report = event.getReport();
+        if (report != null) {
+            recordTransitionDuration(report, direction);
+            recordHookDurations(report, direction);
+            if (report.partialFailure()) return;
+        }
         if (event.isEntering()) {
             enterCounter.increment();
             this.lastEnterTimestamp = event.getTransitionTimestamp();
@@ -88,11 +94,6 @@ public class MaintenanceMetrics {
             }
         }
 
-        TransitionReport report = event.getReport();
-        if (report != null) {
-            recordTransitionDuration(report, direction);
-            recordHookDurations(report, direction);
-        }
     }
 
     private void recordTransitionDuration(TransitionReport report, String direction) {

@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-10-22T05:35:51.696329+00:00",
+  "java": "java version \"17.0.12\" 2024-07-16 LTS\nJava(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)\nJava HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)\n",
+  "results": [
+    {
+      "version": "3.5.9",
+      "exit_code": 0,
+      "tests": 83,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "version": "4.0.2",
+      "exit_code": 0,
+      "tests": 83,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

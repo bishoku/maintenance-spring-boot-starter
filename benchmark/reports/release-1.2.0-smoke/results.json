@@ -1,0 +1,270 @@
+{
+  "contract": "kubernetes-readiness-v2",
+  "timestamp": "2026-10-22T05:36:57.257575+00:00",
+  "commit": "25e0eba0fe2d8ed7aacbde39d5dcfb49edaf1dae",
+  "dirty": true,
+  "java": "java version \"25.0.2\" 2026-01-20 LTS\nJava(TM) SE Runtime Environment (build 25.0.2+10-LTS-69)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.2+10-LTS-69, mixed mode, sharing)",
+  "results": [
+    {
+      "version": "3.5.9",
+      "test": "starter-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "92f1ffc4-3258-4188-b9a7-cf3d49e32d08",
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ],
+          "inFlight": 0,
+          "running": true
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": false,
+          "inFlight": 0,
+          "messages": [
+            "92f1ffc4-3258-4188-b9a7-cf3d49e32d08",
+            "da861f56-26b2-4c79-a719-5faf62b432fb"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local",
+        "work": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0,
+        "kafka": {
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02"
+          ],
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "running": false,
+          "inFlight": 0,
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02"
+          ],
+          "idleRunning": false
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0,
+        "kafka": {
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02"
+          ],
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "running": false,
+          "inFlight": 0,
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02"
+          ],
+          "idleRunning": false
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0,
+        "kafka": {
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02",
+            "99a729b5-5b80-44ed-a20b-644698e26fc0"
+          ],
+          "inFlight": 0,
+          "paused": false,
+          "running": true,
+          "idleRunning": false
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "running": true,
+          "inFlight": 0,
+          "messages": [
+            "a290027f-dee6-4ee5-9d65-df88e4461e02",
+            "99a729b5-5b80-44ed-a20b-644698e26fc0"
+          ],
+          "idleRunning": false
+        }
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "starter_sha256": "1097bfff265c67086adda0a22e90b927740af1b2642a236a4e56aa9b8d57ca71",
+  "consumed_starter_sha256": {
+    "3.5.9": "1097bfff265c67086adda0a22e90b927740af1b2642a236a4e56aa9b8d57ca71",
+    "4.0.2": "1097bfff265c67086adda0a22e90b927740af1b2642a236a4e56aa9b8d57ca71"
+  }
+}

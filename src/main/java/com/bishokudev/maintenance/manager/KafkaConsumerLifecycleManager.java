@@ -1,87 +1,68 @@
 package com.bishokudev.maintenance.manager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.listener.MessageListenerContainer;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import java.time.Duration;
+import java.util.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-/**
- * Manages Kafka consumer lifecycle via {@link KafkaListenerEndpointRegistry}.
- * Uses {@link ObjectProvider} to defer registry resolution and avoid auto-configuration order sensitivity.
- */
+/** Pauses running containers without leaving their consumer groups. */
 public class KafkaConsumerLifecycleManager implements ConsumerLifecycleManager {
-
-    private static final Logger log = LoggerFactory.getLogger(KafkaConsumerLifecycleManager.class);
-
     private final ObjectProvider<KafkaListenerEndpointRegistry> registryProvider;
-
-    public KafkaConsumerLifecycleManager(ObjectProvider<KafkaListenerEndpointRegistry> registryProvider) {
-        this.registryProvider = Objects.requireNonNull(registryProvider, "registryProvider must not be null");
+    private final Duration timeout;
+    private final Set<MessageListenerContainer> owned = new LinkedHashSet<>();
+    public KafkaConsumerLifecycleManager(ObjectProvider<KafkaListenerEndpointRegistry> provider) { this(provider, Duration.ofSeconds(30)); }
+    public KafkaConsumerLifecycleManager(ObjectProvider<KafkaListenerEndpointRegistry> provider, Duration timeout) {
+        registryProvider = Objects.requireNonNull(provider); this.timeout = timeout;
     }
-
-    @Override
-    public String name() {
-        return "kafka";
-    }
-
-    @Override
-    public Map<String, Object> stopConsumers() {
-        Map<String, Object> report = new LinkedHashMap<>();
-        AtomicBoolean found = new AtomicBoolean(false);
-
-        registryProvider.ifAvailable(registry -> {
-            found.set(true);
-            if (registry.isRunning()) {
-                int count = registry.getListenerContainerIds() != null ? registry.getListenerContainerIds().size() : 0;
-                log.info("Stopping KafkaListenerEndpointRegistry ({} containers)...", count);
-                registry.stop();
-                report.put("kafkaStopped", true);
-                report.put("containersAffected", count);
-            } else {
-                log.debug("KafkaListenerEndpointRegistry is already stopped.");
-                report.put("kafkaStopped", false);
-                report.put("reason", "already stopped");
+    @Override public String name() { return "kafka"; }
+    @Override public synchronized Map<String,Object> stopConsumers() {
+        KafkaListenerEndpointRegistry registry = registryProvider.getIfAvailable();
+        if (registry == null) return Map.of("kafkaAvailable", false);
+        for (MessageListenerContainer container : registry.getListenerContainers()) {
+            if (container.isRunning() && !container.isPauseRequested()) {
+                owned.add(container);
+                container.pause();
             }
-        });
-
-        if (!found.get()) {
-            report.put("kafkaAvailable", false);
-            report.put("reason", "no KafkaListenerEndpointRegistry bean in context");
         }
-
-        return report;
+        // Includes externally paused containers: requested is not the same as acknowledged.
+        await(() -> registry.getListenerContainers().stream().allMatch(this::isQuiescent));
+        return Map.of("kafkaPaused", true, "containersAffected", owned.size());
     }
-
-    @Override
-    public Map<String, Object> startConsumers() {
-        Map<String, Object> report = new LinkedHashMap<>();
-        AtomicBoolean found = new AtomicBoolean(false);
-
-        registryProvider.ifAvailable(registry -> {
-            found.set(true);
-            if (!registry.isRunning()) {
-                int count = registry.getListenerContainerIds() != null ? registry.getListenerContainerIds().size() : 0;
-                log.info("Starting KafkaListenerEndpointRegistry ({} containers)...", count);
-                registry.start();
-                report.put("kafkaStarted", true);
-                report.put("containersAffected", count);
-            } else {
-                log.debug("KafkaListenerEndpointRegistry is already running.");
-                report.put("kafkaStarted", false);
-                report.put("reason", "already running");
-            }
-        });
-
-        if (!found.get()) {
-            report.put("kafkaAvailable", false);
-            report.put("reason", "no KafkaListenerEndpointRegistry bean in context");
+    @Override public synchronized Map<String,Object> startConsumers() {
+        int count = owned.size();
+        for (MessageListenerContainer container : owned) {
+            if (!container.isRunning()) throw new IllegalStateException("Maintenance-owned Kafka container stopped externally");
+            container.resume();
         }
-
-        return report;
+        await(() -> owned.stream().noneMatch(this::isAnyPaused));
+        owned.clear();
+        return Map.of("kafkaResumed", true, "containersAffected", count);
+    }
+    private boolean isAnyPaused(MessageListenerContainer container) {
+        if (container instanceof ConcurrentMessageListenerContainer<?, ?> concurrent) {
+            return concurrent.getContainers().stream().anyMatch(this::isAnyPaused);
+        }
+        return container.isContainerPaused();
+    }
+    private boolean isQuiescent(MessageListenerContainer container) {
+        if (!container.isRunning() || container.isContainerPaused()) return true;
+        if (!container.isPauseRequested()) return false;
+        if (container instanceof ConcurrentMessageListenerContainer<?, ?> concurrent) {
+            return concurrent.getContainers().stream().allMatch(this::isQuiescent);
+        }
+        // Spring only acknowledges pause when partitions are assigned. An unassigned
+        // consumer has no records to drain; keep its pause request for future assignments.
+        var assigned = container.getAssignedPartitions();
+        return assigned != null && assigned.isEmpty();
+    }
+    private void await(java.util.function.BooleanSupplier condition) {
+        long deadline = System.nanoTime() + timeout.toNanos();
+        while (!condition.getAsBoolean()) {
+            if (System.nanoTime() >= deadline) throw new IllegalStateException("Kafka pause/resume acknowledgement timed out");
+            try { Thread.sleep(10); }
+            catch (InterruptedException ex) { Thread.currentThread().interrupt(); throw new IllegalStateException("Kafka lifecycle interrupted", ex); }
+        }
     }
 }

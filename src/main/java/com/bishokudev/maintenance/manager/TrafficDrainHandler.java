@@ -15,7 +15,6 @@ public class TrafficDrainHandler {
     private static final Logger log = LoggerFactory.getLogger(TrafficDrainHandler.class);
 
     private final KubernetesReadinessManager readinessManager;
-
     public TrafficDrainHandler(KubernetesReadinessManager readinessManager) {
         this.readinessManager = Objects.requireNonNull(readinessManager, "readinessManager must not be null");
     }
@@ -54,7 +53,7 @@ public class TrafficDrainHandler {
             readiness = "REFUSING_TRAFFIC";
         } catch (Exception ex) {
             log.error("Failed to transition Kubernetes readiness to REFUSING_TRAFFIC", ex);
-            error = ex.getMessage();
+            error = ex.getMessage() == null ? ex.toString() : ex.getMessage();
         }
 
         if (drainDelay != null && !drainDelay.isZero() && !drainDelay.isNegative()) {
@@ -83,7 +82,7 @@ public class TrafficDrainHandler {
             return new Result("ACCEPTING_TRAFFIC", null, null, false);
         } catch (Exception ex) {
             log.error("Failed to transition Kubernetes readiness to ACCEPTING_TRAFFIC", ex);
-            return new Result(null, ex.getMessage(), null, false);
+            return new Result(null, ex.getMessage() == null ? ex.toString() : ex.getMessage(), null, false);
         }
     }
 }

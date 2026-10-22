@@ -5,7 +5,8 @@ import com.bishokudev.maintenance.model.MaintenanceSnapshot;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.annotation.WriteOperation;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
+import org.springframework.boot.actuate.endpoint.Access;
 
 import java.util.Objects;
 
@@ -14,11 +15,11 @@ import java.util.Objects;
  * <p>
  * Disabled by default for security. Enable explicitly via:
  * <pre>
- * management.endpoint.maintenance.enabled=true
+ * management.endpoint.maintenance.access=unrestricted
  * management.endpoints.web.exposure.include=maintenance
  * </pre>
  */
-@Endpoint(id = "maintenance", enableByDefault = false)
+@Endpoint(id = "maintenance", defaultAccess = Access.NONE)
 public class MaintenanceActuatorEndpoint {
 
     private final MaintenanceCoordinator coordinator;
@@ -50,8 +51,9 @@ public class MaintenanceActuatorEndpoint {
      * @param reason  optional description/reason for the transition
      * @return updated maintenance state response
      */
+    // Boot 3.5 inspects the legacy parameter annotation; Boot 4 uses JSpecify.
     @WriteOperation
-    public MaintenanceStatusResponse setStatus(boolean enabled, @Nullable String reason) {
+    public MaintenanceStatusResponse setStatus(boolean enabled, @org.springframework.lang.Nullable @Nullable String reason) {
         coordinator.setMaintenanceMode(enabled, reason);
         return getStatus();
     }

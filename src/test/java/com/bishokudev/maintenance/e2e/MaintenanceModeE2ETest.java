@@ -7,7 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import java.net.URI;
+import java.net.http.*;
+import com.jayway.jsonpath.JsonPath;
+import java.time.Instant;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,8 +35,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("e2e")
 class MaintenanceModeE2ETest {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    @Value("${local.server.port}")
+    private int port;
+    private final Client restTemplate = new Client();
+    private class Client {
+        <T> ResponseEntity<T> getForEntity(String path, Class<T> type) { return exchange(path, HttpMethod.GET, null, type); }
+        @SuppressWarnings("unchecked")
+        <T> ResponseEntity<T> exchange(String path, HttpMethod method, HttpEntity<?> entity, Class<T> type) {
+            try {
+                HttpRequest.Builder request = HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + path));
+                if (method == HttpMethod.POST) {
+                    Map<?, ?> body = (Map<?, ?>) entity.getBody();
+                    String json = "{\"enabled\":" + body.get("enabled") + ",\"reason\":\"" + body.get("reason") + "\"}";
+                    request.header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json));
+                }
+                HttpResponse<String> response = HttpClient.newHttpClient().send(request.build(), HttpResponse.BodyHandlers.ofString());
+                Object body = response.body();
+                if (type == MaintenanceStatusResponse.class) {
+                    var json = JsonPath.parse(response.body());
+                    body = new MaintenanceStatusResponse(json.read("$.active"), Instant.parse(json.read("$.lastChanged")),
+                            json.read("$.reason"), json.read("$.details"));
+                }
+                return ResponseEntity.status(response.statusCode()).body((T) body);
+            } catch (Exception ex) { throw new IllegalStateException(ex); }
+        }
+    }
 
     @BeforeEach
     void resetState() {

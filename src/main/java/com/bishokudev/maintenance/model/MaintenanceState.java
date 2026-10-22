@@ -93,6 +93,21 @@ public class MaintenanceState {
         }
     }
 
+    /** Last confirmed state is preserved during transitions and failures. */
+    public String getPhase() {
+        MaintenanceSnapshot current = snapshot.get();
+        return String.valueOf(current.details().getOrDefault("phase", current.active() ? "ACTIVE" : "INACTIVE"));
+    }
+
+    /** Use for scheduled jobs that must also avoid ENTERING, EXITING and FAILED states. */
+    public boolean isWorkBlocked() { return !"INACTIVE".equals(getPhase()); }
+
+    public void update(boolean active, String phase, String reason, Map<String, Object> details) {
+        java.util.LinkedHashMap<String, Object> copy = new java.util.LinkedHashMap<>(details);
+        copy.put("phase", phase);
+        snapshot.set(new MaintenanceSnapshot(active, Instant.now(), reason, copy));
+    }
+
     @Override
     public String toString() {
         return "MaintenanceState{snapshot=" + snapshot.get() + "}";

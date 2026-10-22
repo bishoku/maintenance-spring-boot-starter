@@ -45,7 +45,7 @@ public class QueueMaintenanceManager {
                 report.put(manager.name(), brokerReport);
             } catch (Exception ex) {
                 log.error("Failed to stop consumers for broker [{}]", manager.name(), ex);
-                report.put(manager.name(), Map.of("error", ex.getMessage()));
+                report.put(manager.name(), Map.of("error", ex.toString()));
             }
         }
         if (managers.isEmpty()) {
@@ -67,7 +67,7 @@ public class QueueMaintenanceManager {
                 report.put(manager.name(), brokerReport);
             } catch (Exception ex) {
                 log.error("Failed to start consumers for broker [{}]", manager.name(), ex);
-                report.put(manager.name(), Map.of("error", ex.getMessage()));
+                report.put(manager.name(), Map.of("error", ex.toString()));
             }
         }
         if (managers.isEmpty()) {

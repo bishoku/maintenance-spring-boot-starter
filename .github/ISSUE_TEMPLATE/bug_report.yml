@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a reproducible problem with the starter.
+body:
+  - type: markdown
+    attributes:
+      value: 'For security issues, follow SECURITY.md instead of opening a public report.'
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Starter, Spring Boot, Java and broker versions (if relevant).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal example, relevant sanitized configuration and steps.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Include transition phase/partialFailure and sanitized errors when available.
+    validations:
+      required: true

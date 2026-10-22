@@ -1,0 +1,17 @@
+name: Feature request
+description: Propose an improvement within the starter's scope.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to accomplish?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and alternatives
+      description: Describe the proposal, compatibility impact and alternatives considered.
+    validations:
+      required: true

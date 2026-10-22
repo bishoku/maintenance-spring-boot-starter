@@ -1,0 +1,338 @@
+{
+  "contract": "kubernetes-readiness-v2",
+  "timestamp": "2026-10-22T05:12:56.016721+00:00",
+  "commit": "25e0eba0fe2d8ed7aacbde39d5dcfb49edaf1dae",
+  "dirty": true,
+  "java": "java version \"25.0.2\" 2026-01-20 LTS\nJava(TM) SE Runtime Environment (build 25.0.2+10-LTS-69)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.2+10-LTS-69, mixed mode, sharing)",
+  "results": [
+    {
+      "version": "3.5.9",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "inFlight": 0,
+          "paused": true
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "idleRunning": false,
+          "running": false,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "inFlight": 0,
+          "paused": true
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "idleRunning": false,
+          "running": false,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "kafka": {
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "a5a249e1-afca-4317-852d-286ba168c163",
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "inFlight": 0,
+          "paused": false
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "messages": [
+            "a5a249e1-afca-4317-852d-286ba168c163",
+            "62ed43a3-348a-4662-beeb-52e7eccb42b0"
+          ],
+          "idleRunning": false,
+          "running": true,
+          "inFlight": 0
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local",
+        "interruptions": 0
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "3.5.9",
+      "test": "inflight-broker-handlers-finish",
+      "passed": true,
+      "detail": {
+        "interruptions": 0,
+        "kafka": {
+          "inFlight": 0,
+          "paused": true,
+          "running": true,
+          "idleRunning": false,
+          "messages": [
+            "fe992cbe-72df-4e94-91ee-a3cd7a9287f9",
+            "270a7ce5-9612-4dd6-9a14-a0408c1c9d8c"
+          ]
+        },
+        "lateHooks": 0,
+        "rabbit": {
+          "inFlight": 0,
+          "messages": [
+            "fe992cbe-72df-4e94-91ee-a3cd7a9287f9",
+            "270a7ce5-9612-4dd6-9a14-a0408c1c9d8c"
+          ],
+          "idleRunning": false,
+          "running": false
+        },
+        "exitSawRunning": false,
+        "work": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "3.5.9",
+      "test": "broker-drain-completed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "sample-build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "kafka-paused-without-stop",
+      "passed": true,
+      "detail": {
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "rabbit-stopped",
+      "passed": true,
+      "detail": {
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "readiness-refuses-liveness-alive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "no-consumption-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "direct-http-unfiltered-during-maintenance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "queued-messages-consumed-after-exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "idle-consumers-preserved",
+      "passed": true,
+      "detail": {
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149",
+            "d121a85d-ad12-403a-af45-a047211107ee"
+          ],
+          "inFlight": 0,
+          "running": true
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": false,
+          "inFlight": 0,
+          "messages": [
+            "8bedc339-5b79-4c13-bf8a-449d8bc81149",
+            "d121a85d-ad12-403a-af45-a047211107ee"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "exit-hooks-before-resume",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "4.0.2",
+      "test": "inflight-broker-handlers-finish",
+      "passed": true,
+      "detail": {
+        "work": 0,
+        "exitSawRunning": false,
+        "rabbit": {
+          "idleRunning": false,
+          "messages": [
+            "c449de1a-0fdd-4fc0-9979-a6cbe96879fb",
+            "8d9a7481-40b9-4db7-a690-b65b57c07627"
+          ],
+          "inFlight": 0,
+          "running": false
+        },
+        "lateHooks": 0,
+        "kafka": {
+          "idleRunning": false,
+          "running": true,
+          "paused": true,
+          "inFlight": 0,
+          "messages": [
+            "c449de1a-0fdd-4fc0-9979-a6cbe96879fb",
+            "8d9a7481-40b9-4db7-a690-b65b57c07627"
+          ]
+        },
+        "interruptions": 0,
+        "instance": "local"
+      }
+    },
+    {
+      "version": "4.0.2",
+      "test": "broker-drain-completed",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "starter_sha256": "a372c701cbdeb969823025680b203fcc4c6eebf2999bfce67d07e5715939f41a",
+  "consumed_starter_sha256": {
+    "3.5.9": "a372c701cbdeb969823025680b203fcc4c6eebf2999bfce67d07e5715939f41a",
+    "4.0.2": "a372c701cbdeb969823025680b203fcc4c6eebf2999bfce67d07e5715939f41a"
+  }
+}
