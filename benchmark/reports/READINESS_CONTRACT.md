@@ -141,3 +141,11 @@ Bu kapsam ve test edilen sürümler için açık bir kütüphane release engeli 
 döngüsü. Benchmark runner'ları starter sürümünü artık root POM'dan alır.
 Benchmarklar GitHub Actions'a eklenmedi; release workflow yalnızca kaynak testleri,
 imzalama, Central yayını ve GitHub release dosyalarını kapsar.
+
+## Spring Boot 2.7 runtime doğrulaması
+
+[Yayımlanmış 1.2.0 JAR ile Boot 2.7 raporu](BOOT27_COMPATIBILITY.md):
+Boot 2.7.0/Java 17 ve 2.7.18/Java 17,21 için 90/90 Compose;
+Boot 2.7.0/2.7.18 Java 17 pod'ları için 70/70 MicroK8s.
+Access modları legacy sözleşmesinin dışında; enabled=false ile kapatma doğrulandı.
+Modern profil regresyonu 3.5.9/4.0.2 için 28/28 geçti.

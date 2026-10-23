@@ -44,7 +44,7 @@ public class BenchmarkApplication {
     public static void main(String[] args) { SpringApplication.run(BenchmarkApplication.class, args); }
     @Bean NewTopic topic() { return TopicBuilder.name("maintenance-benchmark").partitions(1).replicas(1).build(); }
     @Bean Queue queue() { return new Queue("maintenance-benchmark", false); }
-    @KafkaListener(id="activeKafka", topics="maintenance-benchmark", groupId="maintenance-benchmark")
+    @KafkaListener(id="activeKafka", topics="maintenance-benchmark", groupId="${benchmark.kafka.group:maintenance-benchmark}")
     void kafka(String message) { consume(message, kafkaInFlight, kafkaMessages); }
     @KafkaListener(id="idleKafka", topics="maintenance-benchmark", groupId="maintenance-benchmark-idle", autoStartup="false")
     void idleKafka(String message) { }

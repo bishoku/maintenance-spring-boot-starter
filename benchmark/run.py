@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Real-process, real-broker contract tests. Python standard library only."""
 import xml.etree.ElementTree as ET
-import argparse, concurrent.futures, datetime, hashlib, json, os, pathlib, subprocess, time, urllib.request, urllib.error, uuid, socket, zipfile
+import argparse, concurrent.futures, datetime, hashlib, json, os, pathlib, re, subprocess, time, urllib.request, urllib.error, uuid, socket, zipfile
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 STARTER_VERSION=ET.parse(ROOT/'pom.xml').getroot().find('{http://maven.apache.org/POM/4.0.0}version').text
 BASE = 'http://127.0.0.1:18080'
@@ -128,8 +128,19 @@ def main():
     parser.add_argument('--label', required=True)
     parser.add_argument('--versions', nargs='+', default=['3.5.9','4.0.2'])
     parser.add_argument('--skip-build-starter', action='store_true')
+    parser.add_argument('--expected-starter-sha256', help='require this exact nested starter binary')
+    parser.add_argument('--java-home', help='JDK used to build and run the sample')
     parser.add_argument('--scenarios', nargs='+', choices=[s.__name__ for s in SCENARIOS])
     args=parser.parse_args()
+    if args.java_home:
+        os.environ['JAVA_HOME']=args.java_home
+        os.environ['PATH']=args.java_home+'/bin:'+os.environ['PATH']
+    if args.expected_starter_sha256 and not re.fullmatch('[0-9a-f]{64}', args.expected_starter_sha256):
+        parser.error('expected-starter-sha256 must contain 64 lowercase hexadecimal characters')
+    if any(not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:[-.][A-Za-z0-9]+)*', v) for v in args.versions):
+        parser.error('invalid Spring Boot version')
+    if args.scenarios and 'readonly' in args.scenarios and any(v.startswith('2.') for v in args.versions):
+        parser.error('readonly is outside the Boot 2.x compatibility contract')
     if not all(c.isalnum() or c in '-_.' for c in args.label): parser.error('label must be a simple directory name')
     out=ROOT/'benchmark'/'reports'/args.label
     out.mkdir(parents=True, exist_ok=False)
@@ -140,7 +151,8 @@ def main():
             'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
             'dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True)),
             'java':subprocess.run(['java','-version'],capture_output=True,text=True).stderr.strip(),
-            'results':[]}
+            'starter_version':STARTER_VERSION,'expected_starter_sha256':args.expected_starter_sha256,
+            'skipped_scenarios':[],'results':[]}
     def record(version,name,ok,detail=None):
         report['results'].append({'version':version,'test':name,'passed':bool(ok),'detail':detail})
         print(f"{version} {name}: {'PASS' if ok else 'FAIL'}", flush=True)
@@ -154,7 +166,7 @@ def main():
             record('3.5.9','starter-build',ok)
             if not ok: return 1
         jar=ROOT/'target'/f'maintenance-spring-boot-starter-{STARTER_VERSION}.jar'
-        if jar.exists(): report['starter_sha256']=hashlib.sha256(jar.read_bytes()).hexdigest()
+        if not args.skip_build_starter and jar.exists(): report['starter_sha256']=hashlib.sha256(jar.read_bytes()).hexdigest()
         for version in args.versions:
             cmd=['mvn','-B','-f','benchmark/sample/pom.xml',f'-Dmaintenance.version={STARTER_VERSION}',f'-Dspring-boot.version={version}','clean','package']
             if version.startswith('4.'): cmd.append('-Dboot4')
@@ -164,14 +176,24 @@ def main():
                 library = next(n for n in archive.namelist() if n.startswith('BOOT-INF/lib/maintenance-spring-boot-starter-'))
                 digest = hashlib.sha256(archive.read(library)).hexdigest()
                 report.setdefault('consumed_starter_sha256',{})[version] = digest
+                report.setdefault('runtime_libraries',{})[version]=sorted(n.removeprefix('BOOT-INF/lib/') for n in archive.namelist() if n.startswith('BOOT-INF/lib/') and n.endswith('.jar'))
+            identical=(not args.expected_starter_sha256 or digest==args.expected_starter_sha256) and len(set(report['consumed_starter_sha256'].values()))==1
+            record(version,'starter-binary-identity',identical,digest)
+            if not identical: continue
             for scenario in SCENARIOS:
                 if args.scenarios and scenario.__name__ not in args.scenarios: continue
+                if version.startswith('2.') and scenario.__name__=='readonly':
+                    report['skipped_scenarios'].append({'version':version,'scenario':'readonly','reason':'Boot 2.x has no Actuator access mode; excluded by compatibility contract'})
+                    continue
                 with (out/(version+'-'+scenario.__name__+'.log')).open('w') as log:
-                    launch=['java','-jar','benchmark/sample/target/benchmark.jar']
+                    group=f'maintenance-benchmark-{uuid.uuid4()}'
+                    report.setdefault('consumer_groups',{}).setdefault(version,{})[scenario.__name__]=group
+                    launch=['java','-jar','benchmark/sample/target/benchmark.jar',f'--benchmark.kafka.group={group}']
+                    if version.startswith('2.'): launch += ['--spring.profiles.active=boot2']
                     if scenario.__name__ == 'propagation_grace': launch += ['--maintenance.queues.enabled=false','--maintenance.hooks.enabled=false','--maintenance.drain-delay=300ms']
                     if scenario.__name__ == 'readiness_disabled': launch += ['--maintenance.readiness.enabled=false','--maintenance.drain-delay=2s']
                     if scenario.__name__ == 'readonly': launch += ['--management.endpoint.maintenance.access=read-only']
-                    if scenario.__name__ == 'disabled': launch += ['--management.endpoint.maintenance.access=none']
+                    if scenario.__name__ == 'disabled': launch += ['--management.endpoint.maintenance.enabled=false' if version.startswith('2.') else '--management.endpoint.maintenance.access=none']
                     process=subprocess.Popen(launch,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
                     try:
                         def started():
@@ -189,6 +211,8 @@ def main():
         (out/'results.json').write_text(json.dumps(report,indent=2))
         lines=['# '+args.label,'',report['timestamp'],'','| Version | Contract | Result |','|---|---|---|']
         lines += [f"| {r['version']} | {r['test']} | {'PASS' if r['passed'] else 'FAIL'} |" for r in report['results']]
+        if report['skipped_scenarios']:
+            lines += ['', 'Excluded scenarios:']+[f"- {s['version']} / {s['scenario']}: {s['reason']}" for s in report['skipped_scenarios']]
         (out/'summary.md').write_text('\n'.join(lines)+'\n')
     return 0 if all(r['passed'] for r in report['results']) else 1
 if __name__=='__main__': raise SystemExit(main())

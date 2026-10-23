@@ -1,0 +1,5897 @@
+{
+  "contract": "kubernetes-readiness-v2",
+  "timestamp": "2026-10-23T09:34:24.645997+00:00",
+  "deployment": "public-jre-emptydir-jar-upload",
+  "namespace": "maintenance-bench-boot27-k8s-jdk17",
+  "versions": [
+    "2.7.0",
+    "2.7.18"
+  ],
+  "starter_version": "1.2.0",
+  "expected_starter_sha256": "690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca",
+  "results": [
+    {
+      "version": "2.7.0",
+      "test": "starter-binary-identity",
+      "passed": true,
+      "detail": "690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca"
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-jar-integrity",
+      "passed": true,
+      "detail": "fcf4f454f9b54d0e9b4a703f98965159941a017613ec91a7c2cdbfa18686eaec"
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-jar-integrity",
+      "passed": true,
+      "detail": "fcf4f454f9b54d0e9b4a703f98965159941a017613ec91a7c2cdbfa18686eaec"
+    },
+    {
+      "version": "2.7.0",
+      "test": "service-reaches-both-ready-pods",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.044821552000939846
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.021566597977653146
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0040484589990228415
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002850690041668713
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.005080953007563949
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0055965830106288195
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003511055023409426
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0035307490034028888
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.00556608906481415
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004234311985783279
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.00440363003872335
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.005658150999806821
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004056783043779433
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0022500089835375547
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0039029739564284682
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0036888180766254663
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.002690950990654528
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002230487996712327
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0032469769939780235
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004738030023872852
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.006049204035662115
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0037371640792116523
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003344486001878977
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0030047009931877255
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0023503199918195605
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.005356846028007567
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.005802158964797854
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.005141605040989816
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004689253983087838
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0038527779979631305
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003970526973716915
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0032517409417778254
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003105721087194979
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0038173189386725426
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0032626930624246597
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0023810180136933923
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0024079519789665937
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004057878046296537
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001965067000128329
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017524330178275704
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:34:56.438971190Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 2,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1701,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 1.8385611160192639
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [
+          "sample-b"
+        ],
+        "observed_seconds_since_command": 2.5600323270773515
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "kubelet-observes-not-ready",
+      "passed": true,
+      "detail": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:34:42Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:34:41Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:34:55Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:34:55Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:34:41Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ]
+    },
+    {
+      "version": "2.7.0",
+      "test": "readiness-503-liveness-200",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.0",
+      "test": "unready-pod-direct-http-still-200",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.0",
+      "test": "service-excludes-maintenance-pod",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.02306062902789563
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00606687692925334
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.005609141080640256
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0027923990273848176
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.003330725012347102
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002076321979984641
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0050739210564643145
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00495723495259881
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.005096793989650905
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004468138096854091
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0031408059876412153
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004541297908872366
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0020615330431610346
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018135979771614075
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001781438011676073
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004180236952379346
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0043120450573042035
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0021943440660834312
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001875294023193419
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0023462269455194473
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001966723008081317
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017893320182338357
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016448700334876776
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001550327055156231
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016065540257841349
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016836639260873199
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001643134979531169
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0019236699445173144
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017801109934225678
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002912603900767863
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0028310270281508565
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0025750730419531465
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017475360073149204
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.003736441023647785
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015773489139974117
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0019612309988588095
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0024008980253711343
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0027461140416562557
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002876361017115414
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.003471691976301372
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "management-readable-while-service-excludes-pod",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:34:56.438971190Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 2,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1701,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.021048757946118712
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "failed-exit-retains-readiness-refusal",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:00.832491750Z",
+          "reason": "",
+          "details": {
+            "queues": {
+              "compensation": {
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStopped": true
+                },
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaPaused": true
+                }
+              }
+            },
+            "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+            "hooks": {
+              "total": 1,
+              "succeeded": 0,
+              "failed": 1,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "failed"
+                }
+              ],
+              "partialFailure": true,
+              "failures": [
+                "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+              ]
+            },
+            "partialFailure": true,
+            "transitionDurationMs": 6,
+            "phase": "FAILED"
+          }
+        },
+        "elapsed": 0.02821725292596966
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "failed-exit-does-not-rejoin-service",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.02032890892587602
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0026978669920936227
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00524885905906558
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004049674025736749
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004839741042815149
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0026598640251904726
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004226307035423815
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018545860657468438
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001602374017238617
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015782470582053065
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004041309002786875
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0019850279204547405
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001916092005558312
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017630059737712145
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018550669774413109
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0014838200295343995
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017869480652734637
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017157900147140026
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001544684055261314
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0014202200109139085
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015145420329645276
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015361340483650565
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018655959283933043
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001777163939550519
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018218000186607242
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00154501898214221
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016626960132271051
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015342319384217262
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001449553994461894
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0014084059512242675
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0017160819843411446
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001427171053364873
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0014841299271211028
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016662189736962318
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0016558300703763962
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.003091725055128336
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015458640409633517
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002603702014312148
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0034558119950816035
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015529949450865388
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:00.832491750Z",
+          "reason": "",
+          "details": {
+            "queues": {
+              "compensation": {
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStopped": true
+                },
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaPaused": true
+                }
+              }
+            },
+            "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+            "hooks": {
+              "total": 1,
+              "succeeded": 0,
+              "failed": 1,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "failed"
+                }
+              ],
+              "partialFailure": true,
+              "failures": [
+                "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+              ]
+            },
+            "partialFailure": true,
+            "transitionDurationMs": 6,
+            "phase": "FAILED"
+          }
+        },
+        "elapsed": 0.020060944953002036
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:35:03.535357360Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaResumed": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStarted": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 6,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.03191689192317426
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:35:03.535357360Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaResumed": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStarted": true
+                },
+                "injected": {
+                  "ok": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "durationMs": 0,
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 6,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.02403697499539703
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.021594341029413044
+        }
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "service-restores-recovered-pod",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.018956026062369347
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004178061964921653
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004148869076743722
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004966091015376151
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.005095099098980427
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0020259839948266745
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0024758080253377557
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001869899919256568
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004204838071018457
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0017069270834326744
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004574366030283272
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004065665998496115
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003956031985580921
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0033475409727543592
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.002029219060204923
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0018062279559671879
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003697231994010508
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0016610700404271483
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.006202626042068005
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0037084539653733373
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0028436100110411644
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0035646569449454546
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0029700458981096745
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003453013952821493
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015852550277486444
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00313645601272583
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0037569450214505196
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015930220251902938
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001788838068023324
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0025940979830920696
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0019402820616960526
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.010351976961828768
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0021828790195286274
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0021028999472036958
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.003115622093901038
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0032778700115159154
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0017341559287160635
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0021623698994517326
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003768417052924633
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0025682999985292554
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:07.372683585Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 4,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1559,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 1.6216473589884117
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [
+          "sample-a"
+        ],
+        "observed_seconds_since_command": 2.3402869389392436
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:10.545137142Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1999,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 2.0240837949095294
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [],
+        "observed_seconds_since_command": 2.7438476351089776
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "no-ready-endpoints-no-new-service-traffic",
+      "passed": true,
+      "detail": [
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.014135506004095078
+        },
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.00021084898617118597
+        },
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.00015050708316266537
+        }
+      ]
+    },
+    {
+      "version": "2.7.0",
+      "test": "both-unready-pods-remain-directly-reachable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.0",
+      "test": "existing-request-not-aborted",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "done": true,
+          "instance": "sample-a"
+        },
+        "will_close": false
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "established-keepalive-can-still-reach-unready-pod",
+      "passed": true,
+      "detail": [
+        {
+          "status": 200,
+          "body": {
+            "done": true,
+            "instance": "sample-a"
+          },
+          "will_close": false
+        },
+        {
+          "status": 200,
+          "body": {
+            "done": true,
+            "instance": "sample-a"
+          },
+          "will_close": false
+        }
+      ]
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-no-restart-or-replacement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-no-restart-or-replacement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:10.545137142Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1999,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.02131075202487409
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:35:24.868454415Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaResumed": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStarted": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 7,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.02850632497575134
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-a-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:35:24.868454415Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaResumed": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStarted": true
+                },
+                "injected": {
+                  "ok": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "durationMs": 0,
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 7,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.020555593073368073
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.01990387891419232
+        }
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "single-pod-recovery-routes-again",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.018890456994995475
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0035807809326797724
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0035465570399537683
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003299484960734844
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0034477439476177096
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004615324083715677
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.005590675980783999
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003943481016904116
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003832206944935024
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0037966830423101783
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0026875389739871025
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0014526559971272945
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003533810027875006
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0019031820120289922
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015495560364797711
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0022484189830720425
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.003274312010034919
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0027722310042008758
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0031083140056580305
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001785718952305615
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0026461080415174365
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015297849895432591
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0014527600724250078
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0031200569355860353
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0023684590123593807
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0018162099877372384
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0017301379702985287
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001297291019000113
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0012663319939747453
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0017673660768195987
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015114820562303066
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0013985689729452133
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0011654359987005591
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001110572018660605
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0010932079749181867
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001467588939704001
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015237081097438931
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0011038329685106874
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0010706180473789573
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0013090090360492468
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:35:07.372683585Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 4,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1559,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.018835035036318004
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:35:27.756689606Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaResumed": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStarted": true
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 9,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.02971914899535477
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "sample-b-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:35:27.756689606Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaResumed": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStarted": true
+                },
+                "injected": {
+                  "ok": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "durationMs": 0,
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 9,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.020953994011506438
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.020272332010790706
+        }
+      }
+    },
+    {
+      "version": "2.7.0",
+      "test": "full-recovery-routes-again",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.018462134059518576
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0038332060212269425
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004161134944297373
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0029128598980605602
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.004312175093218684
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0021056008990854025
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0027472369838505983
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.004383902996778488
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0036934000672772527
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0031408309005200863
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015941089950501919
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0031539370538666844
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.001571592059917748
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0024212379939854145
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0035015209577977657
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002657427918165922
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0015074730617925525
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0018882598960772157
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001240464043803513
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.00275961693841964
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0027659909101203084
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0019232030026614666
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0018408350879326463
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002435637987218797
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0022787100169807673
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.001290527987293899
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0025833790423348546
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.002454977948218584
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0015751109458506107
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0021260828943923116
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0012604760704562068
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0017267969669774175
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0021492649102583528
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.00322342396248132
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.002372288960032165
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0018608870450407267
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.00203025306109339
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-b"
+            },
+            "elapsed": 0.0031790219945833087
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0022221390390768647
+          },
+          {
+            "status": 200,
+            "body": {
+              "done": true,
+              "instance": "sample-a"
+            },
+            "elapsed": 0.0012083430774509907
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "starter-binary-identity",
+      "passed": true,
+      "detail": "690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca"
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-jar-integrity",
+      "passed": true,
+      "detail": "3938209ae7b2a50c951259b764260290a4aa2d7740300434c870f38f29ca43cc"
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-jar-integrity",
+      "passed": true,
+      "detail": "3938209ae7b2a50c951259b764260290a4aa2d7740300434c870f38f29ca43cc"
+    },
+    {
+      "version": "2.7.18",
+      "test": "service-reaches-both-ready-pods",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.050703731016255915
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.018978646025061607
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.006163559970445931
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004312917939387262
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00540462601929903
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.004201570991426706
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0039053199579939246
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003024809993803501
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0027775829657912254
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.004091540002264082
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002729214960709214
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003103455062955618
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002187144011259079
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.004513756022788584
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0027119440492242575
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0038231429643929005
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0026125069707632065
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0037571140564978123
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0027547969948500395
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003333553089760244
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002603480010293424
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0033795179333537817
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003111873986199498
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003644453943707049
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0037523279897868633
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002669641049578786
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003791486960835755
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0023260990856215358
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003307830076664686
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0021545279305428267
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019989999709650874
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004507989971898496
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0023392249131575227
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018409499898552895
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002773414016701281
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.00243621994741261
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0030743529787287116
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0024604899808764458
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0025373349199071527
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0023443519603461027
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:09.935204180Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 2,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1928,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 1.9848136100918055
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [
+          "sample-b"
+        ],
+        "observed_seconds_since_command": 2.7174860138911754
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "kubelet-observes-not-ready",
+      "passed": true,
+      "detail": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:35:56Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:35:55Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:36:08Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:36:08Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-23T09:35:55Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ]
+    },
+    {
+      "version": "2.7.18",
+      "test": "readiness-503-liveness-200",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.18",
+      "test": "unready-pod-direct-http-still-200",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.18",
+      "test": "service-excludes-maintenance-pod",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.021054724929854274
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003956189029850066
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001917561050504446
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.004899579915218055
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002496469998732209
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001972659956663847
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00183561397716403
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003947047051042318
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002057153033092618
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018027080222964287
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016814160626381636
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015937810530886054
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019694309448823333
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0024541899329051375
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0021251789294183254
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001807591994293034
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016718560364097357
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0023382239742204547
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015624429797753692
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014556279638782144
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014997629914432764
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016245900187641382
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0024736449122428894
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018405528971925378
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016518100164830685
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016393819823861122
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018211189890280366
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015604780055582523
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019052369752898812
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015532919205725193
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015533900586888194
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017633959650993347
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002659049932844937
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002225995995104313
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016226689331233501
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001407893025316298
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015335431089624763
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001466818037442863
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014355869498103857
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014659189619123936
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "management-readable-while-service-excludes-pod",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:09.935204180Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 2,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1928,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.020457196980714798
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "failed-exit-retains-readiness-refusal",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:14.455127671Z",
+          "reason": "",
+          "details": {
+            "queues": {
+              "compensation": {
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStopped": true
+                },
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaPaused": true
+                }
+              }
+            },
+            "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+            "hooks": {
+              "total": 1,
+              "succeeded": 0,
+              "failed": 1,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "failed"
+                }
+              ],
+              "partialFailure": true,
+              "failures": [
+                "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+              ]
+            },
+            "partialFailure": true,
+            "transitionDurationMs": 6,
+            "phase": "FAILED"
+          }
+        },
+        "elapsed": 0.02686672005802393
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "failed-exit-does-not-rejoin-service",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.01922629598993808
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001900554052554071
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014659290900453925
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016344079049304128
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017617919947952032
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016859800089150667
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002888650051318109
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.01182289991993457
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003900980926118791
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.005050802021287382
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0038182830903679132
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002461396041326225
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002261551097035408
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019086620304733515
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017555119702592492
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016853349516168237
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015070319641381502
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001460285042412579
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017244219779968262
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018853050423786044
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0016443150816485286
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014141859719529748
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013458689209073782
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001291388995014131
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014942230191081762
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013759119901806116
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001373005099594593
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013552149757742882
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015961140161380172
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019003000343218446
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018479300197213888
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014354799641296268
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00150721101090312
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015534949488937855
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001482103019952774
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014096889644861221
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013656050432473421
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013819019077345729
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0013786969939246774
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0020177059341222048
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:14.455127671Z",
+          "reason": "",
+          "details": {
+            "queues": {
+              "compensation": {
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStopped": true
+                },
+                "kafka": {
+                  "containersAffected": 1,
+                  "kafkaPaused": true
+                }
+              }
+            },
+            "queueError": "Exit failed: java.lang.IllegalStateException: Critical maintenance step failed",
+            "hooks": {
+              "total": 1,
+              "succeeded": 0,
+              "failed": 1,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "failed"
+                }
+              ],
+              "partialFailure": true,
+              "failures": [
+                "Hook [benchmark.BenchmarkApplication$1] failed: java.lang.IllegalStateException: injected exit failure"
+              ]
+            },
+            "partialFailure": true,
+            "transitionDurationMs": 6,
+            "phase": "FAILED"
+          }
+        },
+        "elapsed": 0.0205585400108248
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:36:17.110022439Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "kafkaResumed": true,
+                "containersAffected": 1
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStarted": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 17,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.04192168894223869
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:36:17.110022439Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "kafkaResumed": true,
+                  "containersAffected": 1
+                },
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStarted": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "durationMs": 0,
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 17,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.018082658061757684
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.019652258954010904
+        }
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "service-restores-recovered-pod",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.021111475070938468
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0046509840758517385
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002617947058752179
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00342875299975276
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002951639937236905
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002158880000934005
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.005394811043515801
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001707035000436008
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014474729541689157
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004348907037638128
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0026537959929555655
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004067640984430909
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003529866924509406
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004436490009538829
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002095431904308498
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004564265022054315
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004973012953996658
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004381079925224185
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017708089435473084
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014507719315588474
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004113954957574606
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00357874296605587
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002446916070766747
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002022444037720561
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018211649730801582
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018799279350787401
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017756940796971321
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.00239796401001513
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003422440029680729
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0041441479697823524
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0017487630248069763
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0035906319972127676
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0029616319807246327
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0026046799030154943
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0025862749898806214
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002162532997317612
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004102987004444003
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0029753680573776364
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0021251230500638485
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.003274744958616793
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:21.021731752Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "kafkaPaused": true,
+                "containersAffected": 1
+              },
+              "rabbit": {
+                "rabbitStopped": true,
+                "containersAffected": 1
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 2,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1710,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 1.7825321080163121
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [
+          "sample-a"
+        ],
+        "observed_seconds_since_command": 2.4766609839862213
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-enter",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:24.111401461Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1865,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 1.8879366230685264
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-endpointslice-ready-set",
+      "passed": true,
+      "detail": {
+        "ready": [],
+        "observed_seconds_since_command": 2.6169151479844004
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "no-ready-endpoints-no-new-service-traffic",
+      "passed": true,
+      "detail": [
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.015892238006927073
+        },
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.00024915195535868406
+        },
+        {
+          "status": 0,
+          "error": "<urlopen error [Errno 111] Connection refused>",
+          "elapsed": 0.0001690270146355033
+        }
+      ]
+    },
+    {
+      "version": "2.7.18",
+      "test": "both-unready-pods-remain-directly-reachable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.18",
+      "test": "existing-request-not-aborted",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "instance": "sample-a",
+          "done": true
+        },
+        "will_close": false
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "established-keepalive-can-still-reach-unready-pod",
+      "passed": true,
+      "detail": [
+        {
+          "status": 200,
+          "body": {
+            "instance": "sample-a",
+            "done": true
+          },
+          "will_close": false
+        },
+        {
+          "status": 200,
+          "body": {
+            "instance": "sample-a",
+            "done": true
+          },
+          "will_close": false
+        }
+      ]
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-no-restart-or-replacement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-no-restart-or-replacement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:24.111401461Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "containersAffected": 1,
+                "kafkaPaused": true
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStopped": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1865,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.019757098983973265
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:36:38.513972603Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "kafkaResumed": true,
+                "containersAffected": 1
+              },
+              "injected": {
+                "ok": true
+              },
+              "rabbit": {
+                "containersAffected": 1,
+                "rabbitStarted": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "durationMs": 0,
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 4,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.026479289983399212
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-a-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:36:38.513972603Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "kafkaResumed": true,
+                  "containersAffected": 1
+                },
+                "injected": {
+                  "ok": true
+                },
+                "rabbit": {
+                  "containersAffected": 1,
+                  "rabbitStarted": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "durationMs": 0,
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 4,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.02157056692522019
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.019485240918584168
+        }
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "single-pod-recovery-routes-again",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.017752466024830937
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001990271033719182
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003121935995295644
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004903367953374982
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004094650037586689
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004135022987611592
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004260170040652156
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0033943760208785534
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002196011017076671
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0020594190573319793
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0019313408993184566
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0018384290160611272
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0017288739327341318
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0023699799785390496
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0034467639634385705
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0020549800246953964
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0023631000658497214
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001542803947813809
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0015801499830558896
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0018026769394055009
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0016689120093360543
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0016900139162316918
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0015068320790305734
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.005223984946496785
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.017988779000006616
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004135539056733251
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0032229089410975575
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002717183902859688
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.004192131920717657
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.003787416033446789
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0035900140646845102
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0032676790142431855
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0015279490035027266
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.00290798197966069
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0016518279444426298
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002231774036772549
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0022415100829675794
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0021609390387311578
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0016765058971941471
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0017147029284387827
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-management-readable-before-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": true,
+          "lastChanged": "2026-10-23T09:36:21.021731752Z",
+          "reason": "Kubernetes benchmark",
+          "details": {
+            "readiness": "REFUSING_TRAFFIC",
+            "drainDelayMs": 1000,
+            "queues": {
+              "kafka": {
+                "kafkaPaused": true,
+                "containersAffected": 1
+              },
+              "rabbit": {
+                "rabbitStopped": true,
+                "containersAffected": 1
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 2,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 1710,
+            "phase": "ACTIVE"
+          }
+        },
+        "elapsed": 0.02107688400428742
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-exit",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "body": {
+          "active": false,
+          "lastChanged": "2026-10-23T09:36:41.466324236Z",
+          "reason": "",
+          "details": {
+            "readiness": "ACCEPTING_TRAFFIC",
+            "queues": {
+              "kafka": {
+                "kafkaResumed": true,
+                "containersAffected": 1
+              },
+              "rabbit": {
+                "rabbitStarted": true,
+                "containersAffected": 1
+              },
+              "injected": {
+                "ok": true
+              }
+            },
+            "hooks": {
+              "total": 1,
+              "succeeded": 1,
+              "failed": 0,
+              "timedOut": 0,
+              "executions": [
+                {
+                  "name": "benchmark.BenchmarkApplication$1",
+                  "durationMs": 0,
+                  "status": "success"
+                }
+              ]
+            },
+            "partialFailure": false,
+            "transitionDurationMs": 8,
+            "phase": "INACTIVE"
+          }
+        },
+        "elapsed": 0.0274675419786945
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "sample-b-exit-confirmed-by-management-and-readiness",
+      "passed": true,
+      "detail": {
+        "management": {
+          "status": 200,
+          "body": {
+            "active": false,
+            "lastChanged": "2026-10-23T09:36:41.466324236Z",
+            "reason": "",
+            "details": {
+              "readiness": "ACCEPTING_TRAFFIC",
+              "queues": {
+                "kafka": {
+                  "kafkaResumed": true,
+                  "containersAffected": 1
+                },
+                "rabbit": {
+                  "rabbitStarted": true,
+                  "containersAffected": 1
+                },
+                "injected": {
+                  "ok": true
+                }
+              },
+              "hooks": {
+                "total": 1,
+                "succeeded": 1,
+                "failed": 0,
+                "timedOut": 0,
+                "executions": [
+                  {
+                    "name": "benchmark.BenchmarkApplication$1",
+                    "durationMs": 0,
+                    "status": "success"
+                  }
+                ]
+              },
+              "partialFailure": false,
+              "transitionDurationMs": 8,
+              "phase": "INACTIVE"
+            }
+          },
+          "elapsed": 0.02029870089609176
+        },
+        "readiness": {
+          "status": 200,
+          "body": {
+            "status": "UP"
+          },
+          "elapsed": 0.020588607992976904
+        }
+      }
+    },
+    {
+      "version": "2.7.18",
+      "test": "full-recovery-routes-again",
+      "passed": true,
+      "detail": {
+        "seen": [
+          "sample-a",
+          "sample-b"
+        ],
+        "responses": [
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.017993417917750776
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0017947540618479252
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0021055269753560424
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0030583359766751528
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001988784992136061
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0022614470217376947
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001980575965717435
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0021398899843916297
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002023144974373281
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.00202049792278558
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0025798280257731676
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001887099933810532
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002453880966641009
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001420371001586318
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.002421795972622931
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0015922770835459232
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001741591957397759
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0019769640639424324
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0013794329715892673
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014939960092306137
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001987911993637681
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0020127720199525356
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0017329080728814006
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001753901015035808
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001304158940911293
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.002005634014494717
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001885748002678156
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0017400520155206323
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0015353199560195208
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.001971954945474863
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.00137280800845474
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019121229415759444
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014413789613172412
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0015734770568087697
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0014256369322538376
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0020131529308855534
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0019256710074841976
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.0018621690105646849
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-a",
+              "done": true
+            },
+            "elapsed": 0.0019013069104403257
+          },
+          {
+            "status": 200,
+            "body": {
+              "instance": "sample-b",
+              "done": true
+            },
+            "elapsed": 0.001757598016411066
+          }
+        ]
+      }
+    }
+  ],
+  "initial_microk8s_status": "microk8s is running\nhigh-availability: no\n  datastore master nodes: 127.0.0.1:19001\n  datastore standby nodes: none\naddons:\n  enabled:\n    dashboard            # (core) The Kubernetes dashboard\n    dns                  # (core) CoreDNS\n    ha-cluster           # (core) Configure high availability on the current node\n    helm                 # (core) Helm - the package manager for Kubernetes\n    helm3                # (core) Helm 3 - the package manager for Kubernetes\n    hostpath-storage     # (core) Storage class; allocates storage from host directory\n    metrics-server       # (core) K8s Metrics Server for API access to service metrics\n    storage              # (core) Alias to hostpath-storage add-on, deprecated\n  disabled:\n    cert-manager         # (core) Cloud native certificate management\n    cis-hardening        # (core) Apply CIS K8s hardening\n    community            # (core) The community addons repository\n    gpu                  # (core) Alias to nvidia add-on\n    host-access          # (core) Allow Pods connecting to Host services smoothly\n    ingress              # (core) Ingress controller for external access\n    kube-ovn             # (core) An advanced network fabric for Kubernetes\n    mayastor             # (core) OpenEBS MayaStor\n    metallb              # (core) Loadbalancer for your Kubernetes cluster\n    minio                # (core) MinIO object storage (DEPRECATED). This addon is deprecated and will be completely removed in the upcoming versions\n    nvidia               # (core) NVIDIA hardware (GPU and network) support\n    observability        # (core) A lightweight observability stack for logs, traces and metrics\n    prometheus           # (core) Prometheus operator for monitoring and logging\n    rbac                 # (core) Role-Based Access Control for authorisation\n    registry             # (core) Private image registry exposed on localhost:32000\n    rook-ceph            # (core) Distributed Ceph storage using Rook\n",
+  "cluster_version": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "35",
+      "gitVersion": "v1.35.6",
+      "gitCommit": "fc0e7a6ca50f7ce368f9a5516e1716b473ed3a26",
+      "gitTreeState": "clean",
+      "buildDate": "2026-06-22T08:04:31Z",
+      "goVersion": "go1.25.11",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    },
+    "kustomizeVersion": "v5.7.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "35",
+      "emulationMajor": "1",
+      "emulationMinor": "35",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "34",
+      "gitVersion": "v1.35.6",
+      "gitCommit": "fc0e7a6ca50f7ce368f9a5516e1716b473ed3a26",
+      "gitTreeState": "clean",
+      "buildDate": "2026-06-22T08:05:31Z",
+      "goVersion": "go1.25.11",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  },
+  "build_java": "java 17.0.12 2024-07-16 LTS\nJava(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)\nJava HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)\n",
+  "consumed_starter_sha256": {
+    "2.7.0": "690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca",
+    "2.7.18": "690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca"
+  },
+  "runtime_libraries": {
+    "2.7.0": [
+      "HdrHistogram-2.1.12.jar",
+      "LatencyUtils-2.0.3.jar",
+      "amqp-client-5.14.2.jar",
+      "jackson-annotations-2.13.3.jar",
+      "jackson-core-2.13.3.jar",
+      "jackson-databind-2.13.3.jar",
+      "jackson-datatype-jdk8-2.13.3.jar",
+      "jackson-datatype-jsr310-2.13.3.jar",
+      "jackson-module-parameter-names-2.13.3.jar",
+      "jakarta.annotation-api-1.3.5.jar",
+      "jspecify-1.0.0.jar",
+      "jsr305-3.0.2.jar",
+      "jul-to-slf4j-1.7.36.jar",
+      "kafka-clients-3.1.1.jar",
+      "log4j-api-2.17.2.jar",
+      "log4j-to-slf4j-2.17.2.jar",
+      "logback-classic-1.2.11.jar",
+      "logback-core-1.2.11.jar",
+      "lz4-java-1.8.0.jar",
+      "maintenance-spring-boot-starter-1.2.0.jar",
+      "micrometer-core-1.9.0.jar",
+      "slf4j-api-1.7.36.jar",
+      "snakeyaml-1.30.jar",
+      "snappy-java-1.1.8.4.jar",
+      "spring-amqp-2.4.5.jar",
+      "spring-aop-5.3.20.jar",
+      "spring-beans-5.3.20.jar",
+      "spring-boot-2.7.0.jar",
+      "spring-boot-actuator-2.7.0.jar",
+      "spring-boot-actuator-autoconfigure-2.7.0.jar",
+      "spring-boot-autoconfigure-2.7.0.jar",
+      "spring-boot-jarmode-layertools-2.7.0.jar",
+      "spring-context-5.3.20.jar",
+      "spring-core-5.3.20.jar",
+      "spring-expression-5.3.20.jar",
+      "spring-jcl-5.3.20.jar",
+      "spring-kafka-2.8.6.jar",
+      "spring-messaging-5.3.20.jar",
+      "spring-rabbit-2.4.5.jar",
+      "spring-retry-1.3.3.jar",
+      "spring-tx-5.3.20.jar",
+      "spring-web-5.3.20.jar",
+      "spring-webmvc-5.3.20.jar",
+      "tomcat-embed-core-9.0.63.jar",
+      "tomcat-embed-el-9.0.63.jar",
+      "tomcat-embed-websocket-9.0.63.jar",
+      "zstd-jni-1.5.0-4.jar"
+    ],
+    "2.7.18": [
+      "HdrHistogram-2.1.12.jar",
+      "LatencyUtils-2.0.3.jar",
+      "amqp-client-5.14.3.jar",
+      "jackson-annotations-2.13.5.jar",
+      "jackson-core-2.13.5.jar",
+      "jackson-databind-2.13.5.jar",
+      "jackson-datatype-jdk8-2.13.5.jar",
+      "jackson-datatype-jsr310-2.13.5.jar",
+      "jackson-module-parameter-names-2.13.5.jar",
+      "jakarta.annotation-api-1.3.5.jar",
+      "jspecify-1.0.0.jar",
+      "jsr305-3.0.2.jar",
+      "jul-to-slf4j-1.7.36.jar",
+      "kafka-clients-3.1.2.jar",
+      "log4j-api-2.17.2.jar",
+      "log4j-to-slf4j-2.17.2.jar",
+      "logback-classic-1.2.12.jar",
+      "logback-core-1.2.12.jar",
+      "lz4-java-1.8.0.jar",
+      "maintenance-spring-boot-starter-1.2.0.jar",
+      "micrometer-core-1.9.17.jar",
+      "slf4j-api-1.7.36.jar",
+      "snakeyaml-1.30.jar",
+      "snappy-java-1.1.8.4.jar",
+      "spring-amqp-2.4.17.jar",
+      "spring-aop-5.3.31.jar",
+      "spring-beans-5.3.31.jar",
+      "spring-boot-2.7.18.jar",
+      "spring-boot-actuator-2.7.18.jar",
+      "spring-boot-actuator-autoconfigure-2.7.18.jar",
+      "spring-boot-autoconfigure-2.7.18.jar",
+      "spring-boot-jarmode-layertools-2.7.18.jar",
+      "spring-context-5.3.31.jar",
+      "spring-core-5.3.31.jar",
+      "spring-expression-5.3.31.jar",
+      "spring-jcl-5.3.31.jar",
+      "spring-kafka-2.8.11.jar",
+      "spring-messaging-5.3.31.jar",
+      "spring-rabbit-2.4.17.jar",
+      "spring-retry-1.3.4.jar",
+      "spring-tx-5.3.31.jar",
+      "spring-web-5.3.31.jar",
+      "spring-webmvc-5.3.31.jar",
+      "tomcat-embed-core-9.0.83.jar",
+      "tomcat-embed-el-9.0.83.jar",
+      "tomcat-embed-websocket-9.0.83.jar",
+      "zstd-jni-1.5.0-4.jar"
+    ]
+  },
+  "sample_sha256": {
+    "2.7.0": "fcf4f454f9b54d0e9b4a703f98965159941a017613ec91a7c2cdbfa18686eaec",
+    "2.7.18": "3938209ae7b2a50c951259b764260290a4aa2d7740300434c870f38f29ca43cc"
+  },
+  "consumer_groups": {
+    "2.7.0": "maintenance-k8s-boot27-k8s-jdk17-2.7.0",
+    "2.7.18": "maintenance-k8s-boot27-k8s-jdk17-2.7.18"
+  },
+  "pod_java": {
+    "2.7.0": "openjdk 17.0.20.1 2026-08-18\nOpenJDK Runtime Environment Temurin-17.0.20.1+1 (build 17.0.20.1+1)\nOpenJDK 64-Bit Server VM Temurin-17.0.20.1+1 (build 17.0.20.1+1, mixed mode, sharing)\n",
+    "2.7.18": "openjdk 17.0.20.1 2026-08-18\nOpenJDK Runtime Environment Temurin-17.0.20.1+1 (build 17.0.20.1+1)\nOpenJDK 64-Bit Server VM Temurin-17.0.20.1+1 (build 17.0.20.1+1, mixed mode, sharing)\n"
+  },
+  "completed": true,
+  "namespace_cleaned": true
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Real MicroK8s Service/EndpointSlice benchmark, isolated in a new namespace."""
 import xml.etree.ElementTree as ET
-import argparse, concurrent.futures, threading, datetime, hashlib, json, pathlib, re, subprocess, sys, time, zipfile
+import argparse, concurrent.futures, threading, datetime, hashlib, json, os, pathlib, re, subprocess, sys, time, zipfile
 from manifest import infrastructure, applications
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 STARTER_VERSION=ET.parse(ROOT/'pom.xml').getroot().find('{http://maven.apache.org/POM/4.0.0}version').text
@@ -14,7 +14,8 @@ class Runner:
         self.out.mkdir(parents=True,exist_ok=False)
         self.namespace='maintenance-bench-'+args.label
         self.report={'contract':'kubernetes-readiness-v2','timestamp':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                     'deployment':'public-jre-emptydir-jar-upload','namespace':self.namespace,'versions':args.versions,'results':[]}
+                     'deployment':'public-jre-emptydir-jar-upload','namespace':self.namespace,'versions':args.versions,
+                     'starter_version':STARTER_VERSION,'expected_starter_sha256':args.expected_starter_sha256,'results':[]}
         self.created=False
         self.counter=0
         self.log_lock=threading.Lock()
@@ -61,7 +62,9 @@ class Runner:
     def apply(self,items):
         self.kubectl('apply','-f','-',input=json.dumps({'apiVersion':'v1','kind':'List','items':items}))
     def build(self):
-        self.cmd(['mvn','-B','-Dspring-boot.version=3.5.9','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],timeout=600)
+        self.report['build_java']=self.cmd(['java','--version'])
+        if not self.args.skip_build_starter:
+            self.cmd(['mvn','-B','-Dspring-boot.version=3.5.9','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],timeout=600)
     def app_image(self,version):
         command=['mvn','-B','-f','benchmark/sample/pom.xml',f'-Dmaintenance.version={STARTER_VERSION}',f'-Dspring-boot.version={version}','clean','package']
         if version.startswith('4.'): command.append('-Dboot4')
@@ -69,12 +72,22 @@ class Runner:
         with zipfile.ZipFile(ROOT/'benchmark/sample/target/benchmark.jar') as jar:
             name=next(n for n in jar.namelist() if n.startswith('BOOT-INF/lib/maintenance-spring-boot-starter-'))
             self.report.setdefault('consumed_starter_sha256',{})[version]=hashlib.sha256(jar.read(name)).hexdigest()
+            self.report.setdefault('runtime_libraries',{})[version]=sorted(n.removeprefix('BOOT-INF/lib/') for n in jar.namelist() if n.startswith('BOOT-INF/lib/') and n.endswith('.jar'))
+        digest=self.report['consumed_starter_sha256'][version]
+        identical=(not self.args.expected_starter_sha256 or digest==self.args.expected_starter_sha256) and len(set(self.report['consumed_starter_sha256'].values()))==1
+        self.record(version,'starter-binary-identity',identical,digest)
+        if not identical: raise RuntimeError('Sample does not consume the expected starter binary')
         jar=ROOT/'benchmark/sample/target/benchmark.jar'
         self.report.setdefault('sample_sha256',{})[version]=hashlib.sha256(jar.read_bytes()).hexdigest()
         return 'eclipse-temurin:17-jre-jammy'
     def scenario(self,version):
         items=applications(self.app_image(version))
+        group=f'maintenance-k8s-{self.args.label}-{version}'
+        self.report.setdefault('consumer_groups',{})[version]=group
         for item in items:
+            item['spec']['containers'][0]['env'].append({'name':'BENCHMARK_KAFKA_GROUP','value':group})
+            if version.startswith('2.'):
+                item['spec']['containers'][0]['env'].append({'name':'SPRING_PROFILES_ACTIVE','value':'boot2'})
             for env in item['spec']['containers'][0]['env']:
                 if env['name']=='SPRING_KAFKA_BOOTSTRAP_SERVERS': env['value']=self.kafka_ip+':9092'
                 if env['name']=='SPRING_RABBITMQ_HOST': env['value']=self.rabbit_ip
@@ -85,6 +98,7 @@ class Runner:
             actual=self.kubectl('exec',name,'--','sha256sum','/app/benchmark.jar').split()[0]
             self.record(version,name+'-jar-integrity',actual==self.report['sample_sha256'][version],actual)
             self.kubectl('exec',name,'--','touch','/app/.ready')
+        self.report.setdefault('pod_java',{})[version]=self.kubectl('exec','sample-a','--','java','--version')
         self.kubectl('wait','pod/sample-a','pod/sample-b','--for=condition=Ready','--timeout=180s',timeout=200)
         self.wait(lambda:self.ready_names()=={'sample-a','sample-b'})
         before=self.snapshot(version,'before')
@@ -205,8 +219,15 @@ class Runner:
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--versions',nargs='+',default=['3.5.9','4.0.2'])
+    p.add_argument('--skip-build-starter',action='store_true')
+    p.add_argument('--expected-starter-sha256')
+    p.add_argument('--java-home')
     p.add_argument('--start',action='store_true');p.add_argument('--keep',action='store_true',help='retain test namespace for debugging')
     a=p.parse_args()
+    if a.java_home:
+        os.environ['JAVA_HOME']=a.java_home
+        os.environ['PATH']=a.java_home+'/bin:'+os.environ['PATH']
+    if a.expected_starter_sha256 and not re.fullmatch('[0-9a-f]{64}',a.expected_starter_sha256): p.error('invalid starter SHA-256')
     if not re.fullmatch('[a-z0-9][a-z0-9-]{0,30}',a.label): p.error('label: lowercase alphanumeric/hyphen, maximum 31 chars')
     if any(not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:[-.][A-Za-z0-9]+)*',v) for v in a.versions): p.error('invalid version')
     return Runner(a).run()

@@ -41,6 +41,36 @@ Credentials and `/bench/**` controls are local fixtures; never deploy this sampl
 shared production environment. Authentication is application-owned; endpoint access tests
 only measure none/read-only/unrestricted Actuator policy.
 
+## Spring Boot 2.7 runtime compatibility
+
+The sample's `boot2` profile uses `management.endpoint.maintenance.enabled=true`;
+its default `modern` profile uses Actuator `access=unrestricted`. Runners select
+`boot2` automatically for 2.x application BOMs. The read-only access scenario is
+explicitly excluded for Boot 2.x; endpoint disabling is tested with `enabled=false`.
+All broker, hook, failure/retry, metrics, readiness and propagation-grace checks remain.
+
+To test the published 1.2.0 binary instead of rebuilding library sources:
+
+```sh
+docker compose -f benchmark/compose.yaml up -d --wait
+python3 benchmark/run.py --label boot27-java17 --versions 2.7.0 2.7.18 \
+  --java-home /path/to/jdk17 --skip-build-starter \
+  --expected-starter-sha256 690cd742f734b4c9ed2e35afaa20e2eccdde70a4fcdbb4679ac1617c071b3eca
+docker compose -f benchmark/compose.yaml down --volumes
+```
+
+Maven must resolve the published artifact from Central or its local cache. The hash
+check fails if the executable sample contains a different starter. `--java-home`
+selects both the sample compiler and JVM; reports also record managed runtime libraries.
+Each Compose scenario has its own Kafka group to avoid stale members from an earlier
+JVM delaying a later scenario's warm-up. The MicroK8s pods share one group per tested
+Boot version, retaining the two-pod/one-partition case.
+
+The Kubernetes runner accepts the same three options. `--java-home` controls its local
+build; Kubernetes sample pods still use the manifest's Java 17 JRE, recorded in results.
+Runtime compatibility of the published JAR is separate from recompiling the starter
+against a 2.7 BOM: the current library source still uses modern Actuator annotations.
+
 ## MicroK8s
 
 ```sh

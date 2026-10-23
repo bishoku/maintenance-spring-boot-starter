@@ -15,9 +15,12 @@ There is no business HTTP filter; direct pod requests and existing connections c
 
 ## Install
 
-Requires Java 17+ and Spring Boot 3.5+. Versions **3.5.9 and 4.0.2** have been tested
-with Java 17 and 25. Other versions are not covered by that compatibility claim.
-Use your application's Spring Boot BOM to manage dependencies.
+Requires Java 17+. The source baseline is Spring Boot 3.5.9; versions **3.5.9 and
+4.0.2** have been tested with Java 17 and 25. The same published **1.2.0 JAR** also
+works with Boot **2.7.0 / Java 17** and **2.7.18 / Java 17 and 21**, using the legacy
+endpoint enablement contract described below. Use your application's Spring Boot BOM
+to manage dependencies. See the [Boot 2.7 validation report](benchmark/reports/BOOT27_COMPATIBILITY.md)
+for the exact runtime matrix.
 
 ```xml
 <dependency>
@@ -72,6 +75,26 @@ livenessProbe:
 
 Keep the application Service's `publishNotReadyAddresses` false. `drain-delay` provides
 a propagation grace period; it does not confirm that every connection or request has drained.
+
+## Spring Boot 2.7 configuration
+
+Use the same dependency and JAR, with Java 17 or a later JVM in the tested matrix.
+Configure legacy endpoint enablement instead of Actuator access modes:
+
+```yaml
+management:
+  endpoints.web.exposure.include: health,maintenance
+  endpoint:
+    maintenance.enabled: true
+    health.probes.enabled: true
+```
+
+Set `management.endpoint.maintenance.enabled=false` to disable it. Boot 2.7 does not
+implement `maintenance.access=none/read-only/unrestricted` under `management.endpoint`;
+these modes are outside the 2.7 compatibility contract. Readiness, management exit,
+consumer orchestration, hooks and failure/retry behavior use the same library code.
+Runtime compatibility of this JAR does not mean the current source compiles against
+a Boot 2.7 BOM; the source build continues to use modern Actuator annotations.
 
 ## Enter, inspect and leave
 
