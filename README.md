@@ -16,7 +16,7 @@ There is no business HTTP filter; direct pod requests and existing connections c
 ## Install
 
 Requires Java 17+. The source baseline is Spring Boot 3.5.9; versions **3.5.9 and
-4.0.2** have been tested with Java 17 and 25. The same published **1.2.0 JAR** also
+4.0.2** have been tested with Java 17 and 25. The same published **1.3.0 JAR** also
 works with Boot **2.7.0 / Java 17** and **2.7.18 / Java 17 and 21**, using the legacy
 endpoint enablement contract described below. Use your application's Spring Boot BOM
 to manage dependencies. See the [Boot 2.7 validation report](benchmark/reports/BOOT27_COMPATIBILITY.md)
@@ -26,7 +26,7 @@ for the exact runtime matrix.
 <dependency>
     <groupId>com.bishokudev</groupId>
     <artifactId>maintenance-spring-boot-starter</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -34,11 +34,11 @@ for the exact runtime matrix.
 </dependency>
 ```
 
-Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.2.0")`
+Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.3.0")`
 and `implementation("org.springframework.boot:spring-boot-starter-actuator")`.
 Your application also needs a web stack to expose the HTTP endpoint. Broker integrations
 are optional: bring your application's Kafka/AMQP dependencies when using them.
-See [upgrade notes](release-notes/v1.2.0.md) before upgrading from 1.1.x.
+See [upgrade notes](release-notes/v1.3.0.md) before upgrading from earlier releases.
 
 ## Enable maintenance
 
@@ -52,6 +52,10 @@ maintenance:
   drain-delay: 5s
   queue-timeout: 30s
   hook-timeout: 30s
+  start-in-maintenance: false # set true (or MAINTENANCE_START_IN_MAINTENANCE=true) to boot in maintenance mode
+  startup:
+    enabled: false            # alias for start-in-maintenance (or MAINTENANCE_STARTUP_ENABLED=true)
+    reason: "Startup maintenance mode"
 ```
 
 The endpoint is disabled by default. `unrestricted` enables its read/write operations;
@@ -59,6 +63,26 @@ it is not authentication. Apply your application's management authorization poli
 Use `access: read-only` if only status should be exposed. Do not configure both the
 legacy `maintenance.enabled` endpoint property and `maintenance.access` under
 `management.endpoint`.
+
+### Start directly in maintenance mode
+
+To boot an application directly into maintenance mode (for example during Kubernetes
+platform migrations, pre-cutover verification, or dark launches), enable
+`maintenance.start-in-maintenance: true` (or `maintenance.startup.enabled: true`):
+
+```yaml
+maintenance:
+  start-in-maintenance: true
+  startup:
+    reason: "k8s-migration-verification"
+```
+
+When enabled at startup:
+- `MaintenanceState` initializes immediately in the `ACTIVE` phase (`isMaintenanceActive() == true`, `isWorkBlocked() == true`).
+- The Kubernetes readiness probe reports `503 OUT_OF_SERVICE` (`REFUSING_TRAFFIC`) from startup while liveness remains `UP`, keeping the pod running without receiving Service traffic.
+- Managed Kafka and RabbitMQ listener containers are paused/stopped on startup and tracked by the starter.
+- Scheduled jobs (`@Scheduled`) that check `MaintenanceState.isWorkBlocked()` see maintenance mode active from their first execution.
+- Once verification is complete, send `POST /actuator/maintenance` with `{"enabled":false}` to dynamically exit maintenance mode, resume managed consumers, and transition readiness to `ACCEPTING_TRAFFIC` (`200 OK`) without restarting the pod.
 
 Configure the pod probes separately:
 

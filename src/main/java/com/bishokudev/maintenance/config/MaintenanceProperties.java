@@ -1,6 +1,8 @@
 package com.bishokudev.maintenance.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 
 import java.time.Duration;
 
@@ -26,7 +28,14 @@ import java.time.Duration;
  * </pre>
  */
 @ConfigurationProperties(prefix = "maintenance")
-public class MaintenanceProperties {
+public class MaintenanceProperties implements EnvironmentAware {
+
+    private Environment environment;
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
     /** Maximum wait for broker pause/stop acknowledgement. */
     private Duration queueTimeout = Duration.ofSeconds(30);
@@ -47,6 +56,17 @@ public class MaintenanceProperties {
      * A hook that exceeds this duration receives an interrupt request and fails the transition.
      */
     private Duration hookTimeout = Duration.ofSeconds(30);
+
+    /**
+     * Whether the application should start directly in maintenance mode upon boot.
+     * Alias for {@code maintenance.startup.enabled}.
+     */
+    private boolean startInMaintenance = false;
+
+    /**
+     * Configuration for starting directly in maintenance mode upon boot.
+     */
+    private StartupProperties startup = new StartupProperties();
 
     /**
      * Configuration for Kubernetes readiness probe manipulation.
@@ -79,6 +99,51 @@ public class MaintenanceProperties {
 
     public void setMetrics(MetricsProperties metrics) {
         this.metrics = metrics != null ? metrics : new MetricsProperties();
+    }
+
+    public boolean isStartInMaintenance() {
+        if (startInMaintenance || (startup != null && startup.isEnabled())) {
+            return true;
+        }
+        if (environment != null) {
+            Boolean envStart = environment.getProperty("MAINTENANCE_START_IN_MAINTENANCE", Boolean.class);
+            if (Boolean.TRUE.equals(envStart)) {
+                return true;
+            }
+            Boolean envStartup = environment.getProperty("MAINTENANCE_STARTUP_ENABLED", Boolean.class);
+            if (Boolean.TRUE.equals(envStartup)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setStartInMaintenance(boolean startInMaintenance) {
+        this.startInMaintenance = startInMaintenance;
+        if (this.startup != null) {
+            this.startup.setEnabled(startInMaintenance);
+        }
+    }
+
+    public StartupProperties getStartup() {
+        return startup;
+    }
+
+    public void setStartup(StartupProperties startup) {
+        this.startup = startup != null ? startup : new StartupProperties();
+        if (this.startInMaintenance && this.startup != null) {
+            this.startup.setEnabled(true);
+        }
+    }
+
+    public String getStartupReason() {
+        if (environment != null) {
+            String envReason = environment.getProperty("MAINTENANCE_STARTUP_REASON");
+            if (envReason != null && !envReason.trim().isEmpty()) {
+                return envReason;
+            }
+        }
+        return startup != null ? startup.getReason() : "Startup maintenance mode";
     }
 
     public Duration getDrainDelay() {
@@ -128,6 +193,34 @@ public class MaintenanceProperties {
 
     public void setEvents(EventsProperties events) {
         this.events = events != null ? events : new EventsProperties();
+    }
+
+    public static class StartupProperties {
+        /**
+         * Whether the application should start directly in maintenance mode.
+         */
+        private boolean enabled = false;
+
+        /**
+         * Reason description when starting directly in maintenance mode.
+         */
+        private String reason = "Startup maintenance mode";
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getReason() {
+            return reason;
+        }
+
+        public void setReason(String reason) {
+            this.reason = (reason != null && !reason.trim().isEmpty()) ? reason : "Startup maintenance mode";
+        }
     }
 
     public static class ReadinessProperties {

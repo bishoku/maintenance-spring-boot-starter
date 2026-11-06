@@ -10,6 +10,7 @@ import com.bishokudev.maintenance.manager.KafkaConsumerLifecycleManager;
 import com.bishokudev.maintenance.manager.KubernetesReadinessManager;
 import com.bishokudev.maintenance.manager.MaintenanceCoordinator;
 import com.bishokudev.maintenance.manager.MaintenanceMetrics;
+import com.bishokudev.maintenance.manager.MaintenanceStartupInitializer;
 import com.bishokudev.maintenance.manager.QueueMaintenanceManager;
 import com.bishokudev.maintenance.manager.RabbitConsumerLifecycleManager;
 import com.bishokudev.maintenance.manager.TrafficDrainHandler;
@@ -40,6 +41,7 @@ class MaintenanceAutoConfigurationTest {
             assertThat(context).hasSingleBean(MaintenanceHookExecutor.class);
             assertThat(context).hasSingleBean(MaintenanceCoordinator.class);
             assertThat(context).hasSingleBean(MaintenanceActuatorEndpoint.class);
+            assertThat(context).hasSingleBean(MaintenanceStartupInitializer.class);
             assertThat(context).hasSingleBean(MaintenanceProperties.class);
         });
     }
@@ -170,6 +172,77 @@ class MaintenanceAutoConfigurationTest {
                 .run(context -> {
                     assertThat(context).hasSingleBean(MaintenanceState.class);
                     assertThat(context.getBean(MaintenanceState.class).isMaintenanceActive()).isTrue();
+                });
+    }
+
+    @Test
+    @DisplayName("Should initialize MaintenanceState as inactive by default")
+    void shouldInitializeInactiveMaintenanceStateByDefault() {
+        contextRunner.run(context -> {
+            MaintenanceState state = context.getBean(MaintenanceState.class);
+            assertThat(state.isMaintenanceActive()).isFalse();
+            assertThat(state.getPhase()).isEqualTo("INACTIVE");
+            assertThat(state.isWorkBlocked()).isFalse();
+            assertThat(state.getReason()).isEmpty();
+        });
+    }
+
+    @Test
+    @DisplayName("Should initialize MaintenanceState as active when maintenance.start-in-maintenance is true")
+    void shouldInitializeActiveMaintenanceStateWhenStartInMaintenance() {
+        contextRunner.withPropertyValues("maintenance.start-in-maintenance=true")
+                .run(context -> {
+                    MaintenanceState state = context.getBean(MaintenanceState.class);
+                    assertThat(state.isMaintenanceActive()).isTrue();
+                    assertThat(state.getPhase()).isEqualTo("ACTIVE");
+                    assertThat(state.isWorkBlocked()).isTrue();
+                    assertThat(state.getReason()).isEqualTo("Startup maintenance mode");
+                    assertThat(state.getDetails()).containsEntry("phase", "ACTIVE");
+                    assertThat(state.getDetails()).containsEntry("startup", true);
+                });
+    }
+
+    @Test
+    @DisplayName("Should initialize MaintenanceState as active when maintenance.startup.enabled is true")
+    void shouldInitializeActiveMaintenanceStateWhenStartupEnabled() {
+        contextRunner.withPropertyValues("maintenance.startup.enabled=true")
+                .run(context -> {
+                    MaintenanceState state = context.getBean(MaintenanceState.class);
+                    assertThat(state.isMaintenanceActive()).isTrue();
+                    assertThat(state.getPhase()).isEqualTo("ACTIVE");
+                    assertThat(state.isWorkBlocked()).isTrue();
+                    assertThat(state.getReason()).isEqualTo("Startup maintenance mode");
+                });
+    }
+
+    @Test
+    @DisplayName("Should initialize MaintenanceState with custom startup reason")
+    void shouldInitializeActiveMaintenanceStateWithCustomReason() {
+        contextRunner.withPropertyValues(
+                        "maintenance.start-in-maintenance=true",
+                        "maintenance.startup.reason=Scheduled maintenance in progress")
+                .run(context -> {
+                    MaintenanceState state = context.getBean(MaintenanceState.class);
+                    assertThat(state.isMaintenanceActive()).isTrue();
+                    assertThat(state.getReason()).isEqualTo("Scheduled maintenance in progress");
+                });
+    }
+
+    @Test
+    @DisplayName("Should support relaxed binding for environment variables")
+    void shouldSupportRelaxedBindingForEnvVars() {
+        contextRunner.withPropertyValues("MAINTENANCE_START_IN_MAINTENANCE=true")
+                .run(context -> {
+                    MaintenanceState state = context.getBean(MaintenanceState.class);
+                    assertThat(state.isMaintenanceActive()).isTrue();
+                    assertThat(state.getPhase()).isEqualTo("ACTIVE");
+                });
+
+        contextRunner.withPropertyValues("MAINTENANCE_STARTUP_ENABLED=true")
+                .run(context -> {
+                    MaintenanceState state = context.getBean(MaintenanceState.class);
+                    assertThat(state.isMaintenanceActive()).isTrue();
+                    assertThat(state.getPhase()).isEqualTo("ACTIVE");
                 });
     }
 

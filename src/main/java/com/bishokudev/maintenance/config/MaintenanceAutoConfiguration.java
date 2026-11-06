@@ -10,7 +10,9 @@ import com.bishokudev.maintenance.manager.MaintenanceCoordinator;
 import com.bishokudev.maintenance.manager.MaintenanceMetrics;
 import com.bishokudev.maintenance.manager.QueueMaintenanceManager;
 import com.bishokudev.maintenance.manager.RabbitConsumerLifecycleManager;
+import com.bishokudev.maintenance.manager.MaintenanceStartupInitializer;
 import com.bishokudev.maintenance.manager.TrafficDrainHandler;
+import com.bishokudev.maintenance.model.MaintenanceSnapshot;
 import com.bishokudev.maintenance.model.MaintenanceState;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
@@ -35,6 +37,7 @@ import java.util.List;
  * is fully resolved. Broker managers use {@link ObjectProvider} to avoid bean-ordering issues.
  */
 @AutoConfiguration(afterName = {
+        "org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration",
         // Spring Boot 3.x package names
         "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration",
         "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration",
@@ -58,7 +61,10 @@ public class MaintenanceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MaintenanceState maintenanceState() {
+    public MaintenanceState maintenanceState(MaintenanceProperties properties) {
+        if (properties.isStartInMaintenance()) {
+            return new MaintenanceState(MaintenanceSnapshot.activeStartup(properties.getStartupReason()));
+        }
         return new MaintenanceState();
     }
 
@@ -108,6 +114,18 @@ public class MaintenanceAutoConfiguration {
     @ConditionalOnMissingBean
     public MaintenanceActuatorEndpoint maintenanceActuatorEndpoint(MaintenanceCoordinator coordinator) {
         return new MaintenanceActuatorEndpoint(coordinator);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MaintenanceStartupInitializer maintenanceStartupInitializer(
+            MaintenanceProperties properties,
+            MaintenanceState state,
+            KubernetesReadinessManager readinessManager,
+            QueueMaintenanceManager queueManager,
+            ApplicationEventPublisher eventPublisher) {
+        return new MaintenanceStartupInitializer(
+                properties, state, readinessManager, queueManager, eventPublisher);
     }
 
     // ──────────────────────────────────────────────────────────────────────

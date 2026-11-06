@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0
+
+Support starting applications directly in maintenance mode (`maintenance.start-in-maintenance`
+/ `maintenance.startup.enabled`) with immediate readiness refusal, startup pausing of managed
+Kafka/RabbitMQ listeners, and dynamic exit via `/actuator/maintenance` while preserving
+`@Scheduled` behavior. Read the [release and upgrade notes](release-notes/v1.3.0.md).
+
 ## 1.2.0
 
 Readiness lifecycle reliability, Spring Boot 3.5/4 compatibility, real-broker/Kubernetes
