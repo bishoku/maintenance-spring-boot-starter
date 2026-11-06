@@ -15,6 +15,10 @@ maintenance:
   drain-delay: 5s          # propagation grace period, NOT an in-flight completion guarantee
   queue-timeout: 30s      # broker pause/stop acknowledgement deadline
   hook-timeout: 30s       # per hook; cancellation is cooperative
+  start-in-maintenance: false # boot directly in ACTIVE maintenance mode (alias: maintenance.startup.enabled)
+  startup:
+    enabled: false
+    reason: "Startup maintenance mode"
 ```
 
 The endpoint defaults to `Access.NONE`. Use `access=read-only` for status-only access.
@@ -53,7 +57,9 @@ operation response, not proof of a completed transition.** Inspect `details.phas
 | FAILED | A critical step failed; readiness acceptance is withheld; inspect details |
 
 Enter: refuse readiness → propagation grace → confirm broker suspension → hooks → ACTIVE.
-Exit: hooks → resume owned consumers → accept readiness → INACTIVE. Concurrent commands
+Exit: hooks → resume owned consumers → accept readiness → INACTIVE.
+Startup (`start-in-maintenance=true` or `startup.enabled=true`): initializes `MaintenanceState` directly in `ACTIVE`, enforces `REFUSING_TRAFFIC` immediately (with zero drain delay), and pauses/stops managed broker consumers on startup so that a subsequent `POST /actuator/maintenance` with `{"enabled":false}` executes the normal exit sequence.
+Concurrent commands
 are serialized. Duplicate commands in a completed state are no-ops; failed commands can
 be retried. Failed exit attempts withhold readiness acceptance and attempt to suspend
 any partially resumed consumers. Readiness-publication failures are reported, not treated

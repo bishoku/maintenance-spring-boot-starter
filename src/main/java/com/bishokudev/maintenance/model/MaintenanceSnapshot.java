@@ -29,4 +29,17 @@ public record MaintenanceSnapshot(
     public static MaintenanceSnapshot inactive() {
         return new MaintenanceSnapshot(false, Instant.now(), "", Collections.emptyMap());
     }
+
+    /**
+     * Creates an initial active snapshot for startup maintenance mode.
+     *
+     * @param reason the startup maintenance reason
+     * @return an active snapshot configured for startup maintenance
+     */
+    public static MaintenanceSnapshot activeStartup(String reason) {
+        Map<String, Object> details = new LinkedHashMap<>();
+        details.put("phase", "ACTIVE");
+        details.put("startup", true);
+        return new MaintenanceSnapshot(true, Instant.now(), reason, details);
+    }
 }
