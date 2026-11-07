@@ -10,12 +10,13 @@ CLIENT=(ROOT/'benchmark/kubernetes/client.py').read_text()
 class Runner:
     def __init__(self,args):
         self.args=args
+        self.starter_version=getattr(args,'starter_version',None) or STARTER_VERSION
         self.out=ROOT/'benchmark/reports'/args.label
         self.out.mkdir(parents=True,exist_ok=False)
         self.namespace='maintenance-bench-'+args.label
         self.report={'contract':'kubernetes-readiness-v2','timestamp':datetime.datetime.now(datetime.timezone.utc).isoformat(),
                      'deployment':'public-jre-emptydir-jar-upload','namespace':self.namespace,'versions':args.versions,
-                     'starter_version':STARTER_VERSION,'expected_starter_sha256':args.expected_starter_sha256,'results':[]}
+                     'starter_version':self.starter_version,'expected_starter_sha256':args.expected_starter_sha256,'results':[]}
         self.created=False
         self.counter=0
         self.log_lock=threading.Lock()
@@ -63,10 +64,12 @@ class Runner:
         self.kubectl('apply','-f','-',input=json.dumps({'apiVersion':'v1','kind':'List','items':items}))
     def build(self):
         self.report['build_java']=self.cmd(['java','--version'])
+        if self.starter_version != STARTER_VERSION and not self.args.skip_build_starter:
+            raise ValueError('An alternate starter version requires --skip-build-starter and a preinstalled artifact')
         if not self.args.skip_build_starter:
             self.cmd(['mvn','-B','-Dspring-boot.version=3.5.9','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],timeout=600)
     def app_image(self,version):
-        command=['mvn','-B','-f','benchmark/sample/pom.xml',f'-Dmaintenance.version={STARTER_VERSION}',f'-Dspring-boot.version={version}','clean','package']
+        command=['mvn','-B','-f','benchmark/sample/pom.xml',f'-Dmaintenance.version={self.starter_version}',f'-Dspring-boot.version={version}','clean','package']
         if version.startswith('4.'): command.append('-Dboot4')
         self.cmd(command,timeout=600)
         with zipfile.ZipFile(ROOT/'benchmark/sample/target/benchmark.jar') as jar:
@@ -197,7 +200,7 @@ class Runner:
             self.kubectl('wait','pod/kafka','pod/rabbit','pod/client','--for=condition=Ready','--timeout=180s',timeout=200)
             for version in self.args.versions:
                 self.scenario(version)
-                self.kubectl('delete','pod','sample-a','sample-b','--wait=true','--timeout=90s')
+                self.kubectl('delete','pod','-l','app=maintenance-sample','--wait=true','--timeout=90s')
             self.report['completed']=True
         except Exception as error:
             self.report['error']=str(error); self.report['completed']=False
@@ -220,6 +223,7 @@ class Runner:
 def main():
     p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--versions',nargs='+',default=['3.5.9','4.0.2'])
     p.add_argument('--skip-build-starter',action='store_true')
+    p.add_argument('--starter-version',help='consume an isolated, preinstalled candidate instead of the root POM version')
     p.add_argument('--expected-starter-sha256')
     p.add_argument('--java-home')
     p.add_argument('--start',action='store_true');p.add_argument('--keep',action='store_true',help='retain test namespace for debugging')

@@ -1,0 +1,459 @@
+{
+  "maintenance": {
+    "status": 200,
+    "body": {
+      "active": false,
+      "lastChanged": "2026-11-06T20:45:09.842439202Z",
+      "reason": "",
+      "details": {
+        "readiness": "ACCEPTING_TRAFFIC",
+        "queues": {
+          "injected": {
+            "ok": true
+          },
+          "rabbit": {
+            "containersAffected": 1,
+            "rabbitStarted": true
+          },
+          "kafka": {
+            "containersAffected": 1,
+            "kafkaResumed": true
+          }
+        },
+        "hooks": {
+          "total": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "timedOut": 0,
+          "executions": [
+            {
+              "durationMs": 0,
+              "name": "benchmark.BenchmarkApplication$1",
+              "status": "success"
+            }
+          ]
+        },
+        "partialFailure": false,
+        "transitionDurationMs": 15,
+        "phase": "INACTIVE"
+      }
+    },
+    "elapsed": 0.03564595291391015
+  },
+  "business": {
+    "stopCalls": 2,
+    "stopInProgress": false,
+    "exitSawRunning": false,
+    "kafka": {
+      "idleRunning": false,
+      "running": true,
+      "paused": false,
+      "inFlight": 0,
+      "messages": [
+        "2.7.18-nested-pending-482db152-aee6-4365-8b8f-890e060bfc44",
+        "3.5.9-env-flat-5bb72f0d-aac5-441c-99ca-57d920de90ca",
+        "2.7.18-cold-window-d175494a-8fb8-400f-a3fb-6a3b2ff9336c",
+        "3.5.9-nested-second-aa4739fe-3b7f-4490-96a5-7d7541e841d5",
+        "3.5.9-env-flat-pending-c1721443-aaaa-4184-b4d6-9264ad892dda",
+        "3.5.9-cold-window-fe5e450d-8410-4690-8a07-77d3d80cd506",
+        "3.5.9-cold-window-fa33fe8d-9906-487c-b3a0-77880844f0a6",
+        "2.7.18-cold-window-b8863c15-1c45-461e-a613-e9ff0acc40cc",
+        "3.5.9-nested-938dbab9-3ba9-4d09-b869-6ac541f70613",
+        "3.5.9-env-nested-b195a113-62db-46a1-a929-338e9707f645",
+        "2.7.18-nested-c546255f-f68b-4cc1-b0a2-e5651cbd7532",
+        "3.5.9-flat-21b8bfc5-d9e5-480d-b96c-96ca8176cf50",
+        "2.7.18-nested-9b3b2955-fd2f-489f-b06a-3a3bd67f07fa",
+        "3.5.9-cold-window-933213c4-e564-44ad-a399-a5c5f8323e4d",
+        "3.5.9-env-flat-252eb026-11fc-4ae7-b5e4-fd9862354980",
+        "3.5.9-nested-9305c18a-b4f4-46cb-bb7f-9dae08203eda",
+        "2.7.18-env-nested-b863468f-1f78-4c7d-b742-b1b4f8abf470",
+        "3.5.9-flat-c35c2971-4f80-4af8-93e4-84481a641022",
+        "2.7.18-flat-10cd79e9-c99b-49c5-898c-1542987cdc73",
+        "2.7.18-cold-window-b8066d38-a7be-4142-ba84-3c85bc256147",
+        "3.5.9-env-nested-e4b31a7f-2f58-4b3e-87cc-85e87dc624c8",
+        "2.7.18-nested-da7aa604-0182-444d-9d4a-ad1823623dc2",
+        "2.7.18-nested-a4c96b10-0f60-4750-8c3e-1822ec1c299e",
+        "3.5.9-env-flat-36f45e14-a881-4975-b5a3-46ab8b783456",
+        "2.7.18-flat-3764286b-2a00-46ef-b200-cb9e997c2aec",
+        "2.7.18-nested-e8c5ea1e-5d8b-41b4-b09b-50efdacbea04",
+        "2.7.18-env-nested-735a4286-b304-4388-8bd6-bcaae99dfaa4",
+        "3.5.9-cold-window-pending-178fc506-7bca-4b31-9cd8-bce1d229e95e",
+        "2.7.18-env-nested-93949a0a-755b-4daf-9374-1c643bc2c109",
+        "3.5.9-env-flat-049ad2c7-69ab-488c-a607-9f86586adaaa",
+        "2.7.18-env-nested-pending-7b50a8cb-ad4b-46e4-a4d7-2994895fe20c",
+        "3.5.9-cold-window-fa1cabc3-b4c1-4551-a2f8-3379fb814034",
+        "3.5.9-flat-pending-621eba9b-2f4d-4c81-91ec-da7ac2ba8020",
+        "2.7.18-env-flat-2c4cfe9b-1cab-4ada-b855-a213b9667858",
+        "2.7.18-env-nested-4891f21e-d772-491f-ad54-cb4c0a9dc6c0",
+        "2.7.18-flat-640ee982-e503-40be-9b59-2d9030c5a4e5",
+        "2.7.18-flat-9bb0f311-8bec-43d1-87cb-b263eeadffd0",
+        "2.7.18-flat-6a8f4f82-64f0-4023-af42-11a1af2ae556",
+        "2.7.18-cold-window-second-7319efe5-d6e9-48b5-b80c-fe12d757e03b",
+        "3.5.9-flat-second-13d948be-9fc1-4186-9d73-269bfa038df1",
+        "2.7.18-nested-43b62c94-75b7-4679-9673-2b330e173774",
+        "2.7.18-cold-window-e0099de7-aa98-43e9-aae9-c21271a04e55",
+        "3.5.9-nested-pending-14993222-2fb4-43bf-abd0-3d9cc6ebd5d6",
+        "3.5.9-env-flat-474e32db-0d4f-4498-9051-06db889bd5be",
+        "3.5.9-env-nested-a6ccd7f5-a97c-4a22-aa48-99810d9a3445",
+        "3.5.9-flat-7ee07e4b-029d-4b86-9157-2bb38ec5b4d2",
+        "3.5.9-flat-c628d477-9974-416b-87d3-a53bb0f53d74",
+        "2.7.18-env-flat-pending-92b9f42d-216a-4d18-bcc5-644944e6d546",
+        "3.5.9-env-nested-b0dad173-09aa-48a0-b33a-812d1e28c441",
+        "3.5.9-nested-6742a59f-835f-4c25-a2b0-190d824ecd8f",
+        "2.7.18-flat-f5834588-e3fe-4a12-b833-34ecf995ec0d",
+        "2.7.18-flat-second-d74795c1-cb05-429d-9d23-4b97decd5fe3",
+        "3.5.9-nested-9659200c-59c1-4ff7-9002-5fce82edfb7a",
+        "3.5.9-cold-window-b3d4f64d-cf86-4f0f-acee-1003bbbe9dc5",
+        "2.7.18-flat-058d5813-7f72-44ef-af46-5a94cd638f95",
+        "2.7.18-env-flat-3d197ba8-c6f2-436e-ba21-358516d1d361",
+        "2.7.18-env-flat-second-8552c5c3-3f86-4268-b67d-a3834c80dca1",
+        "3.5.9-env-nested-7d68c1a8-5ecc-4014-9f75-748077f7e2fa",
+        "3.5.9-nested-9deb67d6-3e18-4dc7-9584-a7ce8fad81df",
+        "3.5.9-env-nested-second-b89d9314-febd-45e5-a512-52ed1ec32f2f",
+        "3.5.9-flat-92642565-8215-4859-bf29-e947d9b908f5",
+        "3.5.9-cold-window-3989d539-a257-4313-b920-49611001c059",
+        "2.7.18-cold-window-9b2840be-6678-45d2-845c-1ca3d3df20c5",
+        "3.5.9-flat-fd93116b-46cd-428a-b8ca-1b91c1f9bfba",
+        "2.7.18-env-flat-17716e41-f359-49dc-ad0d-7f83139f6f2b",
+        "2.7.18-flat-pending-9d952707-256f-41f5-a5dd-b6fdf2a403b2",
+        "2.7.18-env-flat-cde529d6-d80f-4789-a6fd-260b3d7b6649",
+        "3.5.9-env-nested-850f628d-df84-4d94-8379-0cf92e100501",
+        "3.5.9-env-nested-e1f9aef4-2922-4544-ad74-6badb8ee40f6",
+        "2.7.18-cold-window-bfe81043-41fe-4e02-a1b5-042fabe09d07",
+        "2.7.18-nested-b72837db-1623-401c-bfb1-53679728fb7e",
+        "3.5.9-env-flat-3275bdd3-9cc1-49ba-8681-aa88e4107622",
+        "2.7.18-env-nested-second-680feaf4-82a1-4079-bf39-3b987a9cafea",
+        "3.5.9-cold-window-cc6020f7-d83d-4070-9f48-631ee7603d8d",
+        "3.5.9-cold-window-c42feb3b-ecb1-4e98-acb1-80ee454090fb",
+        "2.7.18-env-flat-65405e36-fd2d-4e22-9810-91f6e63da1af",
+        "3.5.9-nested-13cd2b67-a0de-4b0c-8285-bfc90ec516b6",
+        "2.7.18-env-nested-15c25e34-b76d-42d5-b272-39ee598a05d4",
+        "3.5.9-nested-a61fd302-bcb4-43d7-9d48-bd5bd5757346",
+        "3.5.9-flat-8e320c5e-7037-4a0e-85f1-365f80244347",
+        "3.5.9-env-flat-c7fd8843-5a2c-45c1-8442-39c28d1c5d6b",
+        "3.5.9-flat-dcacd810-ba3e-4ff8-936c-5e507a959a4f",
+        "3.5.9-env-flat-44e385ed-014e-4d6a-9308-01f30843b3dc",
+        "2.7.18-nested-0ff74208-9b53-4107-9ca7-86be25856da1",
+        "2.7.18-env-flat-5ae020dd-2ee9-477e-aa02-48b9bb2fee00",
+        "2.7.18-cold-window-pending-21d1bcf3-6f4e-4a27-b3fa-e4f04cecebc2",
+        "2.7.18-env-nested-815a16ed-30ec-4ff4-98db-0de919b276e6",
+        "2.7.18-env-flat-a43c9a1a-df87-43b9-bea3-113e48078a08",
+        "2.7.18-flat-6c0d62d1-71bc-41fc-8efc-74f43b9f201d",
+        "2.7.18-env-nested-7514c35b-a530-470f-a30f-5bd20fd97c1a",
+        "2.7.18-cold-window-905a7459-0fdb-43e0-89c5-9614f3121918",
+        "2.7.18-env-flat-f6578fd8-3ccf-43bf-a9aa-86170245b0d3",
+        "2.7.18-env-nested-d7a3f7ae-3afe-45b3-a4a0-46dfc52cd8e1",
+        "3.5.9-env-nested-pending-18d35fd5-f515-43ac-8155-ee20e1cb7c6a",
+        "3.5.9-cold-window-second-8d34f3fe-3e88-4335-9ab2-d82a8705859b",
+        "3.5.9-env-flat-second-3987f30d-1364-4e38-8e27-f1d25272a63a",
+        "3.5.9-env-nested-2754b722-1794-4719-9747-48223bd4bc82",
+        "3.5.9-nested-9893c9b7-b25f-41c4-bfc0-622744eca3e5",
+        "2.7.18-cold-window-2bcce9b8-fd04-4bff-b13f-cc5951df05be",
+        "2.7.18-nested-second-9fff6b64-6549-43e9-bdcd-b9c07011003f"
+      ]
+    },
+    "rabbit": {
+      "idleRunning": false,
+      "messages": [
+        "3.5.9-cold-window-pending-178fc506-7bca-4b31-9cd8-bce1d229e95e",
+        "3.5.9-cold-window-fa33fe8d-9906-487c-b3a0-77880844f0a6",
+        "3.5.9-cold-window-cc6020f7-d83d-4070-9f48-631ee7603d8d",
+        "3.5.9-cold-window-c42feb3b-ecb1-4e98-acb1-80ee454090fb",
+        "3.5.9-cold-window-second-8d34f3fe-3e88-4335-9ab2-d82a8705859b",
+        "3.5.9-cold-window-933213c4-e564-44ad-a399-a5c5f8323e4d",
+        "3.5.9-cold-window-fa1cabc3-b4c1-4551-a2f8-3379fb814034",
+        "3.5.9-cold-window-3989d539-a257-4313-b920-49611001c059",
+        "3.5.9-cold-window-fe5e450d-8410-4690-8a07-77d3d80cd506",
+        "3.5.9-cold-window-b3d4f64d-cf86-4f0f-acee-1003bbbe9dc5"
+      ],
+      "inFlight": 0,
+      "running": true
+    },
+    "instance": "sample-a",
+    "work": 0,
+    "lateHooks": 0,
+    "interruptions": 0
+  },
+  "pod": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "annotations": {
+        "cni.projectcalico.org/containerID": "a5027e71caf26cc3488b09a7e6330a15bf8c35a784181f20e8d67efdeee8978a",
+        "cni.projectcalico.org/podIP": "10.1.244.95/32",
+        "cni.projectcalico.org/podIPs": "10.1.244.95/32",
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"maintenance-sample\"},\"name\":\"sample-a\",\"namespace\":\"maintenance-bench-startup-fix-k8s\"},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"command\":[\"sh\",\"-c\",\"until [ -f /app/.ready ]; do sleep 1; done; exec java -XX:MaxRAMPercentage=65 -jar /app/benchmark.jar \\\"$@\\\"\",\"startup-probe\"],\"env\":[{\"name\":\"POD_NAME\",\"value\":\"sample-a\"},{\"name\":\"SERVER_ADDRESS\",\"value\":\"0.0.0.0\"},{\"name\":\"SERVER_PORT\",\"value\":\"18080\"},{\"name\":\"SPRING_KAFKA_BOOTSTRAP_SERVERS\",\"value\":\"10.152.183.164:9092\"},{\"name\":\"SPRING_RABBITMQ_HOST\",\"value\":\"10.152.183.70\"},{\"name\":\"SPRING_RABBITMQ_PORT\",\"value\":\"5672\"},{\"name\":\"MAINTENANCE_DRAIN_DELAY\",\"value\":\"1s\"},{\"name\":\"MAINTENANCE_QUEUE_TIMEOUT\",\"value\":\"10s\"},{\"name\":\"BENCHMARK_KAFKA_GROUP\",\"value\":\"startup-8e453d18-da6c-47fb-8f19-fa72008ce190\"},{\"name\":\"BENCHMARK_STARTUP_PROBE\",\"value\":\"true\"},{\"name\":\"MAINTENANCE_STARTUP_REASON\",\"value\":\"review-cold-window\"},{\"name\":\"MAINTENANCE_START_IN_MAINTENANCE\",\"value\":\"true\"},{\"name\":\"BENCHMARK_STARTED_DELAY_MS\",\"value\":\"2000\"}],\"image\":\"eclipse-temurin:17-jre-jammy\",\"imagePullPolicy\":\"IfNotPresent\",\"livenessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/actuator/health/liveness\",\"port\":18080},\"periodSeconds\":2,\"timeoutSeconds\":1},\"name\":\"sample-a\",\"ports\":[{\"containerPort\":18080}],\"readinessProbe\":{\"failureThreshold\":1,\"httpGet\":{\"path\":\"/actuator/health/readiness\",\"port\":18080},\"periodSeconds\":1,\"timeoutSeconds\":1},\"resources\":{\"limits\":{\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"512Mi\"}},\"startupProbe\":{\"failureThreshold\":90,\"httpGet\":{\"path\":\"/actuator/health/liveness\",\"port\":18080},\"periodSeconds\":2,\"timeoutSeconds\":1},\"volumeMounts\":[{\"mountPath\":\"/app\",\"name\":\"application\"}]}],\"securityContext\":{\"fsGroup\":10001,\"runAsGroup\":10001,\"runAsUser\":10001},\"terminationGracePeriodSeconds\":20,\"volumes\":[{\"emptyDir\":{},\"name\":\"application\"}]}}\n"
+      },
+      "creationTimestamp": "2026-11-06T20:44:39Z",
+      "generation": 1,
+      "labels": {
+        "app": "maintenance-sample"
+      },
+      "name": "sample-a",
+      "namespace": "maintenance-bench-startup-fix-k8s",
+      "resourceVersion": "4849637",
+      "uid": "35b5b764-6df2-42e8-9179-61c1ef52f74d"
+    },
+    "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+        {
+          "command": [
+            "sh",
+            "-c",
+            "until [ -f /app/.ready ]; do sleep 1; done; exec java -XX:MaxRAMPercentage=65 -jar /app/benchmark.jar \"$@\"",
+            "startup-probe"
+          ],
+          "env": [
+            {
+              "name": "POD_NAME",
+              "value": "sample-a"
+            },
+            {
+              "name": "SERVER_ADDRESS",
+              "value": "0.0.0.0"
+            },
+            {
+              "name": "SERVER_PORT",
+              "value": "18080"
+            },
+            {
+              "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
+              "value": "10.152.183.164:9092"
+            },
+            {
+              "name": "SPRING_RABBITMQ_HOST",
+              "value": "10.152.183.70"
+            },
+            {
+              "name": "SPRING_RABBITMQ_PORT",
+              "value": "5672"
+            },
+            {
+              "name": "MAINTENANCE_DRAIN_DELAY",
+              "value": "1s"
+            },
+            {
+              "name": "MAINTENANCE_QUEUE_TIMEOUT",
+              "value": "10s"
+            },
+            {
+              "name": "BENCHMARK_KAFKA_GROUP",
+              "value": "startup-8e453d18-da6c-47fb-8f19-fa72008ce190"
+            },
+            {
+              "name": "BENCHMARK_STARTUP_PROBE",
+              "value": "true"
+            },
+            {
+              "name": "MAINTENANCE_STARTUP_REASON",
+              "value": "review-cold-window"
+            },
+            {
+              "name": "MAINTENANCE_START_IN_MAINTENANCE",
+              "value": "true"
+            },
+            {
+              "name": "BENCHMARK_STARTED_DELAY_MS",
+              "value": "2000"
+            }
+          ],
+          "image": "eclipse-temurin:17-jre-jammy",
+          "imagePullPolicy": "IfNotPresent",
+          "livenessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/actuator/health/liveness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 2,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "name": "sample-a",
+          "ports": [
+            {
+              "containerPort": 18080,
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "failureThreshold": 1,
+            "httpGet": {
+              "path": "/actuator/health/readiness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 1,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "resources": {
+            "limits": {
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "512Mi"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 90,
+            "httpGet": {
+              "path": "/actuator/health/liveness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 2,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/app",
+              "name": "application"
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "nodeName": "bishoku",
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+        "fsGroup": 10001,
+        "runAsGroup": 10001,
+        "runAsUser": 10001
+      },
+      "serviceAccount": "default",
+      "serviceAccountName": "default",
+      "terminationGracePeriodSeconds": 20,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "application"
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:44:40Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:44:39Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:45:10Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:45:10Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:44:39Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ],
+      "containerStatuses": [
+        {
+          "allocatedResources": {
+            "cpu": "100m",
+            "memory": "512Mi"
+          },
+          "containerID": "containerd://60ee4873d5ed0169187bb4066dcf952e931164d4e504a27dca626db033c516a3",
+          "image": "docker.io/library/eclipse-temurin:17-jre-jammy",
+          "imageID": "docker.io/library/eclipse-temurin@sha256:b3054a20e1a851574cdb1692dd0db5310c647e62214a2a7abecbec1b9e3ae8f1",
+          "lastState": {},
+          "name": "sample-a",
+          "ready": true,
+          "resources": {
+            "limits": {
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "512Mi"
+            }
+          },
+          "restartCount": 0,
+          "started": true,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-06T20:44:40Z"
+            }
+          },
+          "user": {
+            "linux": {
+              "gid": 10001,
+              "supplementalGroups": [
+                10001
+              ],
+              "uid": 10001
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/app",
+              "name": "application"
+            }
+          ]
+        }
+      ],
+      "hostIP": "192.168.1.106",
+      "hostIPs": [
+        {
+          "ip": "192.168.1.106"
+        }
+      ],
+      "observedGeneration": 1,
+      "phase": "Running",
+      "podIP": "10.1.244.95",
+      "podIPs": [
+        {
+          "ip": "10.1.244.95"
+        }
+      ],
+      "qosClass": "Burstable",
+      "startTime": "2026-11-06T20:44:39Z"
+    }
+  }
+}

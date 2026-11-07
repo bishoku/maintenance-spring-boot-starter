@@ -1,0 +1,30 @@
+{
+  "artifact": "com.bishokudev:maintenance-spring-boot-starter:1.3.0",
+  "sha256": "bc5ffa4e40b304135087540e9693586d543c123d53e32a00e4604249e90b707d",
+  "assertion_contract": "desired behavior; failures reproduce published defects",
+  "results": [
+    {
+      "version": "3.5.9",
+      "tests": 3,
+      "failures": 3,
+      "errors": 0,
+      "facts": [
+        "REVIEW_EARLY_EXIT completedBeforePause=true phase=INACTIVE consumerPaused=true",
+        "REVIEW_QUEUE_FAILURE phase=ACTIVE details={phase=ACTIVE, startup=true} reportedPaused=true",
+        "REVIEW_PRECEDENCE effectiveProperty=false libraryValue=true"
+      ]
+    },
+    {
+      "version": "4.0.2",
+      "tests": 3,
+      "failures": 3,
+      "errors": 0,
+      "facts": [
+        "REVIEW_EARLY_EXIT completedBeforePause=true phase=INACTIVE consumerPaused=true",
+        "REVIEW_QUEUE_FAILURE phase=ACTIVE details={phase=ACTIVE, startup=true} reportedPaused=true",
+        "REVIEW_PRECEDENCE effectiveProperty=false libraryValue=true"
+      ]
+    }
+  ],
+  "consumed_starter_sha256": "bc5ffa4e40b304135087540e9693586d543c123d53e32a00e4604249e90b707d"
+}

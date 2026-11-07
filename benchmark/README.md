@@ -96,3 +96,17 @@ JSON and Markdown reports are retained; raw `.log` files are local and ignored b
 A failed/blocked run exits nonzero. Inspect `completed`/`error` on Kubernetes runs and
 per-check outcomes on Compose runs; zero checks does not establish compatibility.
 Only exact Boot/JVM combinations recorded in successful reports are verified.
+
+## 1.3.0 startup maintenance review
+
+[Review findings and evidence](reports/V130_REVIEW.md) document four confirmed defects
+in the published 1.3.0 startup feature. [Startup Kubernetes results](reports/v130-startup-k8s/summary.md)
+include failed acceptance checks; they are not a production-readiness approval.
+The [standalone review consumer](review/README.md) reproduces three defects, and
+[MicroK8s startup instructions](kubernetes/README.md) cover real broker consumption,
+early management exit, startup failure reporting and property precedence.
+These suites remain local benchmarks and are not added to GitHub Actions.
+
+The subsequent [startup consumption fix](reports/STARTUP_CONSUMPTION_FIX.md) validates
+deferring initial listener startup with a separate local candidate artifact. Historical
+1.3.0 failures remain recorded; the fix report identifies its exact scope and binary.

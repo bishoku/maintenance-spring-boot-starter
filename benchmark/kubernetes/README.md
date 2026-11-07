@@ -86,3 +86,61 @@ Management uses direct Pod-IP from the in-cluster client, not the ordinary appli
 Service. This verifies the library endpoint remains available; it does not provision an
 external management route. Restart persistence, rollout orchestration and deployment
 security are outside this library acceptance scope.
+
+## Startup maintenance acceptance (1.3.0)
+
+`startup.py` adds real startup checks alongside the normal `run.py` maintenance-regression
+suite. Install/resolve the published starter and pin its nested binary SHA-256:
+
+```sh
+python3 benchmark/kubernetes/startup.py --label startup-130-local \
+  --versions 3.5.9 4.0.2 --java-home /path/to/jdk17 --skip-build-starter \
+  --expected-starter-sha256 bc5ffa4e40b304135087540e9693586d543c123d53e32a00e4604249e90b707d
+```
+
+Each case creates a new sample pod/group, seeds eight messages in each real broker before
+boot, and records management state, broker observations, scheduler gating and probe status.
+The four startup property/env aliases, a bounded earlier ApplicationStarted listener,
+an injected queue stop error, an Actuator exit during a bounded startup stop barrier, and
+a CLI false overriding env true are covered. Service checks use the in-cluster client.
+Seeded Rabbit messages use the local fixture's management API; Kafka uses its broker CLI.
+
+The sample's optional `benchmark.startup-probe=true` diagnostics observe the library's
+MaintenanceState and consumer calls. Scheduled work checks isWorkBlocked() from its first
+tick. No application HTTP admission filter is introduced. The 2-second earlier event
+listener and 8-second queue stop barrier are explicit, bounded fault/timing fixtures.
+They do not replace the ordinary, undelayed startup cases.
+
+A recovered pod must resume broker processing, return readiness 200 and rejoin the real
+Service without replacement. A race leaving consumers stopped after successful exit is
+recorded as failure and the case is cleaned up rather than silently repaired. Assertions
+continue across behavioral failures; setup/execution errors stop the run and mark it incomplete.
+All failures, seeded tokens and snapshots are retained; a completed run with failed checks
+is not a pass. No benchmark is added to GitHub Actions.
+
+### Validating initial-start deferral
+
+`--starter-version` selects a locally installed candidate without changing the root POM
+or replacing a published artifact. Build the candidate from a temporary copy of the
+source tree with an isolated SNAPSHOT version; install it locally and record its hash.
+For the startup-consumption fix:
+
+```sh
+python3 benchmark/kubernetes/startup.py --label startup-fix-repeat \
+  --starter-version 1.3.1-startup-fix-SNAPSHOT --skip-build-starter \
+  --expected-starter-sha256 YOUR_CANDIDATE_SHA256 --expect-deferred-startup \
+  --cases flat nested env-flat env-nested cold-window \
+  --versions 2.7.18 3.5.9 4.0.2 --java-home /path/to/jdk17
+```
+
+This explicitly selected matrix covers the startup-consumption fix. It does not hide or
+reclassify the separate early-exit, property-override or queue-failure review cases; those
+remain available in the default full review suite. `--expect-deferred-startup` expects
+both brokers to be stopped before the first exit rather than Kafka already running and
+paused. It also checks delivery of every seeded message after exit, preservation of
+user-disabled listeners and a second dynamic maintenance cycle using Kafka pause/resume.
+
+Run the normal two-pod routing regression separately, with the same `--starter-version`,
+`--skip-build-starter` and `--expected-starter-sha256` arguments. Do not run E2E runners
+concurrently: they share the sample build output. Results and artifact identity are in
+the [startup consumption fix report](../reports/STARTUP_CONSUMPTION_FIX.md).

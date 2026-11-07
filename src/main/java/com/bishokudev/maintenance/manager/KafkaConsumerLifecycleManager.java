@@ -12,11 +12,20 @@ public class KafkaConsumerLifecycleManager implements ConsumerLifecycleManager {
     private final ObjectProvider<KafkaListenerEndpointRegistry> registryProvider;
     private final Duration timeout;
     private final Set<MessageListenerContainer> owned = new LinkedHashSet<>();
+    private final Set<MessageListenerContainer> startupOwned = new LinkedHashSet<>();
     public KafkaConsumerLifecycleManager(ObjectProvider<KafkaListenerEndpointRegistry> provider) { this(provider, Duration.ofSeconds(30)); }
     public KafkaConsumerLifecycleManager(ObjectProvider<KafkaListenerEndpointRegistry> provider, Duration timeout) {
         registryProvider = Objects.requireNonNull(provider); this.timeout = timeout;
     }
     @Override public String name() { return "kafka"; }
+    /** Defers an otherwise automatic initial start; explicitly disabled listeners remain user-owned. */
+    public synchronized void deferStartup(MessageListenerContainer container) {
+        if (!container.isAutoStartup()) return;
+        if (container.isRunning()) throw new IllegalStateException("Kafka factory started a container before startup maintenance could defer it");
+        container.setAutoStartup(false);
+        if (container.isAutoStartup()) throw new IllegalStateException("Kafka container does not support deferring autoStartup");
+        startupOwned.add(container);
+    }
     @Override public synchronized Map<String,Object> stopConsumers() {
         KafkaListenerEndpointRegistry registry = registryProvider.getIfAvailable();
         if (registry == null) return Map.of("kafkaAvailable", false);
@@ -28,16 +37,22 @@ public class KafkaConsumerLifecycleManager implements ConsumerLifecycleManager {
         }
         // Includes externally paused containers: requested is not the same as acknowledged.
         await(() -> registry.getListenerContainers().stream().allMatch(this::isQuiescent));
-        return Map.of("kafkaPaused", true, "containersAffected", owned.size());
+        return Map.of("kafkaPaused", true, "containersAffected", owned.size(), "startupDeferred", startupOwned.size());
     }
     @Override public synchronized Map<String,Object> startConsumers() {
-        int count = owned.size();
+        int count = owned.size() + startupOwned.size();
+        for (MessageListenerContainer container : startupOwned) {
+            container.setAutoStartup(true);
+            container.start();
+            if (!container.isRunning()) throw new IllegalStateException("Maintenance-owned Kafka container failed to start");
+        }
         for (MessageListenerContainer container : owned) {
             if (!container.isRunning()) throw new IllegalStateException("Maintenance-owned Kafka container stopped externally");
             container.resume();
         }
         await(() -> owned.stream().noneMatch(this::isAnyPaused));
         owned.clear();
+        startupOwned.clear();
         return Map.of("kafkaResumed", true, "containersAffected", count);
     }
     private boolean isAnyPaused(MessageListenerContainer container) {

@@ -15,18 +15,19 @@ There is no business HTTP filter; direct pod requests and existing connections c
 
 ## Install
 
-Requires Java 17+. The source baseline is Spring Boot 3.5.9; versions **3.5.9 and
-4.0.2** have been tested with Java 17 and 25. The same published **1.3.0 JAR** also
-works with Boot **2.7.0 / Java 17** and **2.7.18 / Java 17 and 21**, using the legacy
-endpoint enablement contract described below. Use your application's Spring Boot BOM
-to manage dependencies. See the [Boot 2.7 validation report](benchmark/reports/BOOT27_COMPATIBILITY.md)
-for the exact runtime matrix.
+Requires Java 17+. The source baseline is Spring Boot 3.5.9. The startup-consumption
+fix has been validated on Kubernetes with Boot **2.7.18, 3.5.9 and 4.0.2 / Java 17**;
+source tests pass against the 3.5.9 and 4.0.2 BOMs. Boot 2.7 uses the legacy endpoint
+enablement contract described below. Use your application's Spring Boot BOM to manage
+dependencies. See the [current validation report](benchmark/reports/STARTUP_CONSUMPTION_FIX.md)
+for the tested artifact and exact matrix; [earlier compatibility results](benchmark/reports/BOOT27_COMPATIBILITY.md)
+cover additional Boot/JVM combinations on previous artifacts.
 
 ```xml
 <dependency>
     <groupId>com.bishokudev</groupId>
     <artifactId>maintenance-spring-boot-starter</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 </dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -34,11 +35,11 @@ for the exact runtime matrix.
 </dependency>
 ```
 
-Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.3.0")`
+Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.3.1")`
 and `implementation("org.springframework.boot:spring-boot-starter-actuator")`.
 Your application also needs a web stack to expose the HTTP endpoint. Broker integrations
 are optional: bring your application's Kafka/AMQP dependencies when using them.
-See [upgrade notes](release-notes/v1.3.0.md) before upgrading from earlier releases.
+See [upgrade notes](release-notes/v1.3.1.md) before upgrading from earlier releases.
 
 ## Enable maintenance
 
@@ -78,11 +79,23 @@ maintenance:
 ```
 
 When enabled at startup:
+
 - `MaintenanceState` initializes immediately in the `ACTIVE` phase (`isMaintenanceActive() == true`, `isWorkBlocked() == true`).
 - The Kubernetes readiness probe reports `503 OUT_OF_SERVICE` (`REFUSING_TRAFFIC`) from startup while liveness remains `UP`, keeping the pod running without receiving Service traffic.
-- Managed Kafka and RabbitMQ listener containers are paused/stopped on startup and tracked by the starter.
+- Managed Kafka and RabbitMQ listener containers have their initial automatic start deferred. They do not consume messages before maintenance exit; Kafka consumers do not join their group during this initial window.
 - Scheduled jobs (`@Scheduled`) that check `MaintenanceState.isWorkBlocked()` see maintenance mode active from their first execution.
-- Once verification is complete, send `POST /actuator/maintenance` with `{"enabled":false}` to dynamically exit maintenance mode, resume managed consumers, and transition readiness to `ACCEPTING_TRAFFIC` (`200 OK`) without restarting the pod.
+- Once startup initialization and verification are complete, send `POST /actuator/maintenance` with `{"enabled":false}` to start the deferred consumers and transition readiness to `ACCEPTING_TRAFFIC` (`200 OK`) without restarting the pod. Listeners configured with `autoStartup=false` remain stopped. Subsequent maintenance windows retain Kafka pause/resume and RabbitMQ stop/start behavior.
+
+Startup deferral applies to `@KafkaListener`/`@RabbitListener` endpoints created through
+Spring-managed listener factories during initial context startup, with queue management enabled. It preserves
+endpoint settings and factory customizers. Custom factories and their
+`createListenerContainer` methods must be non-final and must not start containers before
+returning them. Manual starts and endpoints registered after context refresh are outside
+this startup guarantee; see [operating constraints](docs/operations.md#startup-maintenance).
+
+Initial-start deferral is available from **1.3.1**. Version 1.3.0 starts listeners before
+pausing them and does not guarantee zero startup consumption. See the
+[fix validation report](benchmark/reports/STARTUP_CONSUMPTION_FIX.md).
 
 Configure the pod probes separately:
 

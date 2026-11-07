@@ -1,0 +1,12 @@
+{
+  "artifact": "com.bishokudev:maintenance-spring-boot-starter:1.3.1-startup-fix-SNAPSHOT",
+  "sha256": "3ea3612c95ad7582ed60a3a5002a1fe032e3659f5a360b7c6a1ec13245862959",
+  "main_source_tree_sha256": "295928a3061478047ad7352518bd9643d622ad4c6ec41cd4d541cb23ce208331",
+  "candidate_main_sources_match_working_tree": true,
+  "build_boot_version": "3.5.9",
+  "build_java": "17.0.12",
+  "published": false,
+  "root_pom_version_unchanged": "1.3.0",
+  "original_1_3_0_sha256": "bc5ffa4e40b304135087540e9693586d543c123d53e32a00e4604249e90b707d",
+  "build": "copy src and pom.xml to isolated temporary directory; change only copied project version; mvn -Dmaven.test.skip=true -Dmaven.javadoc.skip=true clean install"
+}

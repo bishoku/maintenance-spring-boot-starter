@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.1
+
+Prevent Kafka/RabbitMQ message consumption while an application starts in maintenance
+mode by deferring the initial automatic listener start. Maintenance exit starts only
+the deferred listeners; explicitly disabled listeners remain stopped. Later maintenance
+windows retain Kafka pause/resume and RabbitMQ stop/start behavior. Document startup
+exit timing, property precedence and custom factory constraints. See the
+[release and upgrade notes](release-notes/v1.3.1.md).
+
 ## 1.3.0
 
 Support starting applications directly in maintenance mode (`maintenance.start-in-maintenance`

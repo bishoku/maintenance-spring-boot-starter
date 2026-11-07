@@ -1,0 +1,197 @@
+[
+  {
+    "version": "2.7.18",
+    "case": "flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "2.7.18",
+    "case": "nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "2.7.18",
+    "case": "env-flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "2.7.18",
+    "case": "env-nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "2.7.18",
+    "case": "cold-window",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "3.5.9",
+    "case": "flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "3.5.9",
+    "case": "nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "3.5.9",
+    "case": "env-flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "3.5.9",
+    "case": "env-nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "3.5.9",
+    "case": "cold-window",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "4.0.2",
+    "case": "flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "4.0.2",
+    "case": "nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "4.0.2",
+    "case": "env-flat",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "4.0.2",
+    "case": "env-nested",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  },
+  {
+    "version": "4.0.2",
+    "case": "cold-window",
+    "consumed_before_exit": {
+      "kafka": 0,
+      "rabbit": 0
+    },
+    "seeded_consumed_after_exit": {
+      "kafka": 8,
+      "rabbit": 8
+    },
+    "observed_total_before_exit": 0
+  }
+]

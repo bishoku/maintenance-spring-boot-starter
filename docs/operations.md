@@ -90,6 +90,40 @@ without `partialFailure` represent completion.
   work explicitly; handlers must tolerate redelivery. Custom lifecycle implementations
   must bound their own blocking calls; queue-timeout cannot forcibly interrupt them.
 
+## Startup maintenance
+
+When startup maintenance is enabled, the starter defers the initial automatic start of
+Kafka/Rabbit listener containers created by Spring-managed factories. It records only
+containers whose resolved `autoStartup` was true, after annotation/factory settings and
+user customizers have been applied. Exit restores that setting and starts those containers.
+Explicitly disabled listeners remain stopped. Kafka joins its group on this first exit;
+subsequent dynamic maintenance windows use the existing pause/resume behavior.
+
+Factory interception uses class proxies to preserve concrete factory injection. Custom
+factories and their `createListenerContainer` methods must be non-final. An unsupported
+factory fails application initialization instead of silently bypassing deferral. Custom
+factories must not start a container before returning it. Manually started containers and
+late endpoint registration after context refresh are not part of the startup guarantee.
+Disabling queue management or an individual broker integration disables its deferral too.
+
+The following existing startup constraints remain:
+
+- Wait for application startup initialization to finish before requesting maintenance
+  exit. Management HTTP availability alone does not establish startup completion. Exit
+  during startup is not serialized with the startup initializer and can leave an INACTIVE
+  pod with consumers suspended; issuing another exit is not a repair mechanism.
+- Use one startup switch/configuration source. A true uppercase startup environment flag
+  remains effective even when a higher-priority canonical property says false. Remove or
+  change that environment flag to disable startup maintenance. `MAINTENANCE_STARTUP_REASON`
+  also takes precedence over the bound reason.
+- Startup queue-stop errors are logged but are not reflected as FAILED/partialFailure
+  in the management snapshot. Inspect startup errors; ACTIVE alone is not proof that
+  every custom lifecycle manager completed successfully.
+
+The [1.3.0 review](../benchmark/reports/V130_REVIEW.md) retains the original reproductions.
+The [startup consumption fix report](../benchmark/reports/STARTUP_CONSUMPTION_FIX.md)
+records the separate validation of initial consumer deferral.
+
 ## Kubernetes routing and background work
 
 Configure readiness and liveness probes separately:

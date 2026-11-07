@@ -15,6 +15,7 @@ import com.bishokudev.maintenance.manager.TrafficDrainHandler;
 import com.bishokudev.maintenance.model.MaintenanceSnapshot;
 import com.bishokudev.maintenance.model.MaintenanceState;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -143,6 +144,18 @@ public class MaintenanceAutoConfiguration {
     static class KafkaConsumerConfiguration {
 
         @Bean
+        static BeanPostProcessor kafkaStartupListenerFactoryPostProcessor(
+                ObjectProvider<MaintenanceProperties> properties, ObjectProvider<MaintenanceState> state,
+                ObjectProvider<KafkaConsumerLifecycleManager> manager) {
+            return new StartupListenerFactoryPostProcessor(
+                    org.springframework.kafka.config.KafkaListenerContainerFactory.class,
+                    () -> properties.getObject().isStartInMaintenance()
+                            && properties.getObject().getQueues().isEnabled() && state.getObject().isWorkBlocked(),
+                    container -> manager.getObject().deferStartup(
+                            (org.springframework.kafka.listener.MessageListenerContainer) container));
+        }
+
+        @Bean
         @ConditionalOnMissingBean(KafkaConsumerLifecycleManager.class)
         KafkaConsumerLifecycleManager kafkaConsumerLifecycleManager(
                 ObjectProvider<org.springframework.kafka.config.KafkaListenerEndpointRegistry> registryProvider, MaintenanceProperties properties) {
@@ -159,6 +172,18 @@ public class MaintenanceAutoConfiguration {
             matchIfMissing = true
     )
     static class RabbitConsumerConfiguration {
+
+        @Bean
+        static BeanPostProcessor rabbitStartupListenerFactoryPostProcessor(
+                ObjectProvider<MaintenanceProperties> properties, ObjectProvider<MaintenanceState> state,
+                ObjectProvider<RabbitConsumerLifecycleManager> manager) {
+            return new StartupListenerFactoryPostProcessor(
+                    org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory.class,
+                    () -> properties.getObject().isStartInMaintenance()
+                            && properties.getObject().getQueues().isEnabled() && state.getObject().isWorkBlocked(),
+                    container -> manager.getObject().deferStartup(
+                            (org.springframework.amqp.rabbit.listener.MessageListenerContainer) container));
+        }
 
         @Bean
         @ConditionalOnMissingBean(RabbitConsumerLifecycleManager.class)
