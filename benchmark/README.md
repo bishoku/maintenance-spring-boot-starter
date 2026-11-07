@@ -25,8 +25,8 @@ python3 benchmark/run.py --label local-readiness --versions 3.5.9 4.0.2
 docker compose -f benchmark/compose.yaml down --volumes
 ```
 
-The runner installs the starter compiled against 3.5.9 and tests the **same JAR** with
-both application BOMs. Boot 4 broker modules use the `boot4` Maven profile. Each scenario
+The runner installs the starter using the root POM build baseline (currently 4.0.9)
+and tests the **same JAR** with the selected application BOMs. Boot 4 broker modules use the `boot4` Maven profile. Each scenario
 runs in a fresh JVM. `--scenarios lifecycle propagation_grace` selects scenarios;
 `--skip-build-starter` uses the installed artifact. Always use a new report label.
 
@@ -110,3 +110,11 @@ These suites remain local benchmarks and are not added to GitHub Actions.
 The subsequent [startup consumption fix](reports/STARTUP_CONSUMPTION_FIX.md) validates
 deferring initial listener startup with a separate local candidate artifact. Historical
 1.3.0 failures remain recorded; the fix report identifies its exact scope and binary.
+
+## Dependency security
+
+The [minimal consumer audit](security/README.md) resolves the non-optional runtime
+dependencies actually introduced by the starter, with or without an application BOM.
+It can query OSV without treating optional build dependencies as downstream dependencies.
+See the [baseline upgrade evidence](reports/DEPENDENCY_SECURITY.md) for scope,
+before/after findings and Boot 2.7 Kubernetes compatibility results.

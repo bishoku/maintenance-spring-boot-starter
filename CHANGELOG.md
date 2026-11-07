@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.2
+
+Upgrade the build/default dependency baseline from Spring Boot 3.5.9 to 4.0.9, including
+the non-optional `spring-boot-autoconfigure` / `spring-boot` dependencies and their
+Spring Framework 7.0.10 transitives. Consumer applications retain their own Boot BOM;
+Boot 2.7 compatibility is validated separately from security of that application's stack.
+Add a minimal downstream-consumer dependency audit with OSV before/after evidence.
+
 ## 1.3.1
 
 Prevent Kafka/RabbitMQ message consumption while an application starts in maintenance

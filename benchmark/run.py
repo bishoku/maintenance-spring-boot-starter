@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import argparse, concurrent.futures, datetime, hashlib, json, os, pathlib, re, subprocess, time, urllib.request, urllib.error, uuid, socket, zipfile
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 STARTER_VERSION=ET.parse(ROOT/'pom.xml').getroot().find('{http://maven.apache.org/POM/4.0.0}version').text
+BUILD_BOOT_VERSION=ET.parse(ROOT/'pom.xml').getroot().find('{http://maven.apache.org/POM/4.0.0}properties/{http://maven.apache.org/POM/4.0.0}spring-boot.version').text
 BASE = 'http://127.0.0.1:18080'
 
 def http(path, data=None):
@@ -162,8 +163,8 @@ def main():
             return subprocess.run(cmd,cwd=ROOT,stdout=output,stderr=subprocess.STDOUT,timeout=1200).returncode==0
     try:
         if not args.skip_build_starter:
-            ok=command(['mvn','-B','-Dspring-boot.version=3.5.9','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],'starter-build.log')
-            record('3.5.9','starter-build',ok)
+            ok=command(['mvn','-B','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],'starter-build.log')
+            record(BUILD_BOOT_VERSION,'starter-build',ok)
             if not ok: return 1
         jar=ROOT/'target'/f'maintenance-spring-boot-starter-{STARTER_VERSION}.jar'
         if not args.skip_build_starter and jar.exists(): report['starter_sha256']=hashlib.sha256(jar.read_bytes()).hexdigest()

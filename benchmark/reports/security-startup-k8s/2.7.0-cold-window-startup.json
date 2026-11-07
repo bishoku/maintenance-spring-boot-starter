@@ -1,0 +1,523 @@
+{
+  "maintenance": {
+    "status": 200,
+    "body": {
+      "active": true,
+      "lastChanged": "2026-11-07T04:25:55.212298882Z",
+      "reason": "review-cold-window",
+      "details": {
+        "phase": "ACTIVE",
+        "startup": true
+      }
+    },
+    "elapsed": 0.047022024635225534
+  },
+  "business": {
+    "exitSawRunning": false,
+    "kafka": {
+      "paused": false,
+      "inFlight": 0,
+      "messages": [],
+      "idleRunning": false,
+      "running": false
+    },
+    "rabbit": {
+      "inFlight": 0,
+      "running": false,
+      "idleRunning": false,
+      "messages": []
+    },
+    "instance": "sample-a",
+    "work": 0,
+    "lateHooks": 0,
+    "interruptions": 0,
+    "stopCalls": 1,
+    "stopInProgress": false
+  },
+  "diagnostics": {
+    "phase": "ACTIVE",
+    "workBlocked": true,
+    "blocked": 105,
+    "executed": 0,
+    "firstTickBlocked": true,
+    "ready": true,
+    "ticks": 105,
+    "consumed": []
+  },
+  "readiness": {
+    "status": 503,
+    "body": "{\"status\":\"OUT_OF_SERVICE\"}",
+    "elapsed": 0.02025423478335142
+  },
+  "early_exit": null,
+  "pod": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "annotations": {
+        "cni.projectcalico.org/containerID": "0c627ce9920c5ca92f83b0b4a3a6ef72bd148d78e4480ad29ba41aec7b8dee70",
+        "cni.projectcalico.org/podIP": "10.1.244.95/32",
+        "cni.projectcalico.org/podIPs": "10.1.244.95/32",
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"maintenance-sample\"},\"name\":\"sample-a\",\"namespace\":\"maintenance-bench-security-startup-k8s\"},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"command\":[\"sh\",\"-c\",\"until [ -f /app/.ready ]; do sleep 1; done; exec java -XX:MaxRAMPercentage=65 -jar /app/benchmark.jar \\\"$@\\\"\",\"startup-probe\"],\"env\":[{\"name\":\"POD_NAME\",\"value\":\"sample-a\"},{\"name\":\"SERVER_ADDRESS\",\"value\":\"0.0.0.0\"},{\"name\":\"SERVER_PORT\",\"value\":\"18080\"},{\"name\":\"SPRING_KAFKA_BOOTSTRAP_SERVERS\",\"value\":\"10.152.183.82:9092\"},{\"name\":\"SPRING_RABBITMQ_HOST\",\"value\":\"10.152.183.103\"},{\"name\":\"SPRING_RABBITMQ_PORT\",\"value\":\"5672\"},{\"name\":\"MAINTENANCE_DRAIN_DELAY\",\"value\":\"1s\"},{\"name\":\"MAINTENANCE_QUEUE_TIMEOUT\",\"value\":\"10s\"},{\"name\":\"BENCHMARK_KAFKA_GROUP\",\"value\":\"startup-c277bed8-ab03-4c11-9e69-80b003207e04\"},{\"name\":\"BENCHMARK_STARTUP_PROBE\",\"value\":\"true\"},{\"name\":\"MAINTENANCE_STARTUP_REASON\",\"value\":\"review-cold-window\"},{\"name\":\"SPRING_PROFILES_ACTIVE\",\"value\":\"boot2\"},{\"name\":\"MAINTENANCE_START_IN_MAINTENANCE\",\"value\":\"true\"},{\"name\":\"BENCHMARK_STARTED_DELAY_MS\",\"value\":\"2000\"}],\"image\":\"eclipse-temurin:17-jre-jammy\",\"imagePullPolicy\":\"IfNotPresent\",\"livenessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/actuator/health/liveness\",\"port\":18080},\"periodSeconds\":2,\"timeoutSeconds\":1},\"name\":\"sample-a\",\"ports\":[{\"containerPort\":18080}],\"readinessProbe\":{\"failureThreshold\":1,\"httpGet\":{\"path\":\"/actuator/health/readiness\",\"port\":18080},\"periodSeconds\":1,\"timeoutSeconds\":1},\"resources\":{\"limits\":{\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"512Mi\"}},\"startupProbe\":{\"failureThreshold\":90,\"httpGet\":{\"path\":\"/actuator/health/liveness\",\"port\":18080},\"periodSeconds\":2,\"timeoutSeconds\":1},\"volumeMounts\":[{\"mountPath\":\"/app\",\"name\":\"application\"}]}],\"securityContext\":{\"fsGroup\":10001,\"runAsGroup\":10001,\"runAsUser\":10001},\"terminationGracePeriodSeconds\":20,\"volumes\":[{\"emptyDir\":{},\"name\":\"application\"}]}}\n"
+      },
+      "creationTimestamp": "2026-11-07T04:25:48Z",
+      "generation": 1,
+      "labels": {
+        "app": "maintenance-sample"
+      },
+      "name": "sample-a",
+      "namespace": "maintenance-bench-security-startup-k8s",
+      "resourceVersion": "4928356",
+      "uid": "a10b9822-efd2-44d8-8807-d2065f4d3615"
+    },
+    "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+        {
+          "command": [
+            "sh",
+            "-c",
+            "until [ -f /app/.ready ]; do sleep 1; done; exec java -XX:MaxRAMPercentage=65 -jar /app/benchmark.jar \"$@\"",
+            "startup-probe"
+          ],
+          "env": [
+            {
+              "name": "POD_NAME",
+              "value": "sample-a"
+            },
+            {
+              "name": "SERVER_ADDRESS",
+              "value": "0.0.0.0"
+            },
+            {
+              "name": "SERVER_PORT",
+              "value": "18080"
+            },
+            {
+              "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
+              "value": "10.152.183.82:9092"
+            },
+            {
+              "name": "SPRING_RABBITMQ_HOST",
+              "value": "10.152.183.103"
+            },
+            {
+              "name": "SPRING_RABBITMQ_PORT",
+              "value": "5672"
+            },
+            {
+              "name": "MAINTENANCE_DRAIN_DELAY",
+              "value": "1s"
+            },
+            {
+              "name": "MAINTENANCE_QUEUE_TIMEOUT",
+              "value": "10s"
+            },
+            {
+              "name": "BENCHMARK_KAFKA_GROUP",
+              "value": "startup-c277bed8-ab03-4c11-9e69-80b003207e04"
+            },
+            {
+              "name": "BENCHMARK_STARTUP_PROBE",
+              "value": "true"
+            },
+            {
+              "name": "MAINTENANCE_STARTUP_REASON",
+              "value": "review-cold-window"
+            },
+            {
+              "name": "SPRING_PROFILES_ACTIVE",
+              "value": "boot2"
+            },
+            {
+              "name": "MAINTENANCE_START_IN_MAINTENANCE",
+              "value": "true"
+            },
+            {
+              "name": "BENCHMARK_STARTED_DELAY_MS",
+              "value": "2000"
+            }
+          ],
+          "image": "eclipse-temurin:17-jre-jammy",
+          "imagePullPolicy": "IfNotPresent",
+          "livenessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/actuator/health/liveness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 2,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "name": "sample-a",
+          "ports": [
+            {
+              "containerPort": 18080,
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "failureThreshold": 1,
+            "httpGet": {
+              "path": "/actuator/health/readiness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 1,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "resources": {
+            "limits": {
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "512Mi"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 90,
+            "httpGet": {
+              "path": "/actuator/health/liveness",
+              "port": 18080,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 2,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/app",
+              "name": "application"
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "nodeName": "bishoku",
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+        "fsGroup": 10001,
+        "runAsGroup": 10001,
+        "runAsUser": 10001
+      },
+      "serviceAccount": "default",
+      "serviceAccountName": "default",
+      "terminationGracePeriodSeconds": 20,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "application"
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-07T04:25:49Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-07T04:25:48Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-07T04:25:48Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-07T04:25:48Z",
+          "message": "containers with unready status: [sample-a]",
+          "observedGeneration": 1,
+          "reason": "ContainersNotReady",
+          "status": "False",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-07T04:25:48Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ],
+      "containerStatuses": [
+        {
+          "allocatedResources": {
+            "cpu": "100m",
+            "memory": "512Mi"
+          },
+          "containerID": "containerd://71b478b5ddef019f0885460119da7741ea311208d57cdcc86d15af70281bb450",
+          "image": "docker.io/library/eclipse-temurin:17-jre-jammy",
+          "imageID": "docker.io/library/eclipse-temurin@sha256:b3054a20e1a851574cdb1692dd0db5310c647e62214a2a7abecbec1b9e3ae8f1",
+          "lastState": {},
+          "name": "sample-a",
+          "ready": false,
+          "resources": {
+            "limits": {
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "512Mi"
+            }
+          },
+          "restartCount": 0,
+          "started": true,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-07T04:25:49Z"
+            }
+          },
+          "user": {
+            "linux": {
+              "gid": 10001,
+              "supplementalGroups": [
+                10001
+              ],
+              "uid": 10001
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/app",
+              "name": "application"
+            }
+          ]
+        }
+      ],
+      "hostIP": "192.168.1.106",
+      "hostIPs": [
+        {
+          "ip": "192.168.1.106"
+        }
+      ],
+      "observedGeneration": 1,
+      "phase": "Running",
+      "podIP": "10.1.244.95",
+      "podIPs": [
+        {
+          "ip": "10.1.244.95"
+        }
+      ],
+      "qosClass": "Burstable",
+      "startTime": "2026-11-07T04:25:48Z"
+    }
+  },
+  "slices": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "addressType": "IPv4",
+        "apiVersion": "discovery.k8s.io/v1",
+        "endpoints": [
+          {
+            "addresses": [
+              "10.1.244.88"
+            ],
+            "conditions": {
+              "ready": true,
+              "serving": true,
+              "terminating": false
+            },
+            "nodeName": "bishoku",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "kafka",
+              "namespace": "maintenance-bench-security-startup-k8s",
+              "uid": "e82a3007-b9ea-4fe9-980b-f45c2563dcd7"
+            }
+          }
+        ],
+        "kind": "EndpointSlice",
+        "metadata": {
+          "annotations": {
+            "endpoints.kubernetes.io/last-change-trigger-time": "2026-11-07T04:24:40Z"
+          },
+          "creationTimestamp": "2026-11-07T04:24:33Z",
+          "generateName": "kafka-",
+          "generation": 3,
+          "labels": {
+            "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+            "kubernetes.io/service-name": "kafka"
+          },
+          "name": "kafka-gql4v",
+          "namespace": "maintenance-bench-security-startup-k8s",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Service",
+              "name": "kafka",
+              "uid": "c90a6df2-8ab2-4abc-be81-0c5537ee01e3"
+            }
+          ],
+          "resourceVersion": "4928044",
+          "uid": "26a3cdc6-0d78-4502-9bef-ea9009b6a043"
+        },
+        "ports": [
+          {
+            "name": "kafka",
+            "port": 9092,
+            "protocol": "TCP"
+          }
+        ]
+      },
+      {
+        "addressType": "IPv4",
+        "apiVersion": "discovery.k8s.io/v1",
+        "endpoints": [
+          {
+            "addresses": [
+              "10.1.244.70"
+            ],
+            "conditions": {
+              "ready": true,
+              "serving": true,
+              "terminating": false
+            },
+            "nodeName": "bishoku",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "rabbit",
+              "namespace": "maintenance-bench-security-startup-k8s",
+              "uid": "cce3cd70-05ed-4f49-a00c-9db1b9a28fd7"
+            }
+          }
+        ],
+        "kind": "EndpointSlice",
+        "metadata": {
+          "annotations": {
+            "endpoints.kubernetes.io/last-change-trigger-time": "2026-11-07T04:24:43Z"
+          },
+          "creationTimestamp": "2026-11-07T04:24:33Z",
+          "generateName": "rabbit-",
+          "generation": 3,
+          "labels": {
+            "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+            "kubernetes.io/service-name": "rabbit"
+          },
+          "name": "rabbit-phm9z",
+          "namespace": "maintenance-bench-security-startup-k8s",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Service",
+              "name": "rabbit",
+              "uid": "7d9b94fa-e63c-4578-b494-bc50864110d4"
+            }
+          ],
+          "resourceVersion": "4928060",
+          "uid": "ae8960ee-79ad-418a-919f-c65045c87205"
+        },
+        "ports": [
+          {
+            "name": "amqp",
+            "port": 5672,
+            "protocol": "TCP"
+          }
+        ]
+      },
+      {
+        "addressType": "IPv4",
+        "apiVersion": "discovery.k8s.io/v1",
+        "endpoints": [
+          {
+            "addresses": [
+              "10.1.244.95"
+            ],
+            "conditions": {
+              "ready": false,
+              "serving": false,
+              "terminating": false
+            },
+            "nodeName": "bishoku",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "sample-a",
+              "namespace": "maintenance-bench-security-startup-k8s",
+              "uid": "a10b9822-efd2-44d8-8807-d2065f4d3615"
+            }
+          }
+        ],
+        "kind": "EndpointSlice",
+        "metadata": {
+          "annotations": {
+            "endpoints.kubernetes.io/last-change-trigger-time": "2026-11-07T04:25:48Z"
+          },
+          "creationTimestamp": "2026-11-07T04:24:33Z",
+          "generateName": "sample-",
+          "generation": 9,
+          "labels": {
+            "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+            "kubernetes.io/service-name": "sample"
+          },
+          "name": "sample-vcfxs",
+          "namespace": "maintenance-bench-security-startup-k8s",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Service",
+              "name": "sample",
+              "uid": "531cf8c7-c820-48a6-af83-2daba26c9e53"
+            }
+          ],
+          "resourceVersion": "4928322",
+          "uid": "60f51b69-aca5-4b9f-9541-168f94814a65"
+        },
+        "ports": [
+          {
+            "name": "http",
+            "port": 18080,
+            "protocol": "TCP"
+          }
+        ]
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  }
+}

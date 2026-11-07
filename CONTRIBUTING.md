@@ -20,10 +20,10 @@ git switch -c fix/describe-the-change
 mvn --batch-mode clean verify
 ```
 
-The source baseline is Boot 3.5.9. Also verify changes against Boot 4.0.2:
+The source baseline is Boot 4.0.9. Also verify compatibility against Boot 3.5.9:
 
 ```sh
-mvn --batch-mode -Dspring-boot.version=4.0.2 clean verify
+mvn --batch-mode -Dspring-boot.version=3.5.9 clean verify
 ```
 
 Unit and application-context tests do not require Docker or Kubernetes. For changes to

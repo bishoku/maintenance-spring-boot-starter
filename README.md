@@ -15,19 +15,23 @@ There is no business HTTP filter; direct pod requests and existing connections c
 
 ## Install
 
-Requires Java 17+. The source baseline is Spring Boot 3.5.9. The startup-consumption
-fix has been validated on Kubernetes with Boot **2.7.18, 3.5.9 and 4.0.2 / Java 17**;
-source tests pass against the 3.5.9 and 4.0.2 BOMs. Boot 2.7 uses the legacy endpoint
-enablement contract described below. Use your application's Spring Boot BOM to manage
-dependencies. See the [current validation report](benchmark/reports/STARTUP_CONSUMPTION_FIX.md)
-for the tested artifact and exact matrix; [earlier compatibility results](benchmark/reports/BOOT27_COMPATIBILITY.md)
+Requires Java 17+. Version **1.3.2** uses Boot **4.0.9** / Framework **7.0.10** as
+its default dependency/build baseline. Use your application's Spring Boot BOM to
+manage a coherent runtime stack; the starter does not override that BOM.
+
+The same candidate JAR passed Kubernetes validation with Boot **2.7.0, 2.7.18,
+3.5.9 and 4.0.9 / Java 17**; source tests pass against 3.5.9 and 4.0.9. Boot 2.7
+uses the legacy endpoint enablement contract described below. Functional compatibility
+does not patch security issues in dependencies selected by an old application BOM.
+See the [dependency security and compatibility report](benchmark/reports/DEPENDENCY_SECURITY.md)
+for exact artifacts, findings and limitations; [earlier compatibility results](benchmark/reports/BOOT27_COMPATIBILITY.md)
 cover additional Boot/JVM combinations on previous artifacts.
 
 ```xml
 <dependency>
     <groupId>com.bishokudev</groupId>
     <artifactId>maintenance-spring-boot-starter</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
 </dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -35,11 +39,11 @@ cover additional Boot/JVM combinations on previous artifacts.
 </dependency>
 ```
 
-Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.3.1")`
+Gradle users can add `implementation("com.bishokudev:maintenance-spring-boot-starter:1.3.2")`
 and `implementation("org.springframework.boot:spring-boot-starter-actuator")`.
 Your application also needs a web stack to expose the HTTP endpoint. Broker integrations
 are optional: bring your application's Kafka/AMQP dependencies when using them.
-See [upgrade notes](release-notes/v1.3.1.md) before upgrading from earlier releases.
+See [upgrade notes](release-notes/v1.3.2.md) before upgrading from earlier releases.
 
 ## Enable maintenance
 
@@ -189,7 +193,7 @@ for failure handling, broker semantics, feature switches and metrics.
 
 ```sh
 mvn --batch-mode clean verify
-mvn --batch-mode -Dspring-boot.version=4.0.2 clean verify
+mvn --batch-mode -Dspring-boot.version=4.0.9 clean verify
 ```
 
 The [local benchmark](benchmark/README.md) includes a version-selectable sample,

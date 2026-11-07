@@ -1,0 +1,16 @@
+{
+  "release_version": "1.3.2",
+  "java_home": "/home/bishoku/.sdkman/candidates/java/17.0.12-oracle",
+  "command": "mvn --batch-mode --no-transfer-progress clean verify",
+  "results": {
+    "tests": 188,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jar_sha256": "0fa93c3c17010ff86a717bbf42a30499748c48466118c7b9ee0e80ba4df1c297",
+  "candidate_sha256": "bb8476ac2b9cb747e7c5b77b6931ceeb5cf59a3698e824fa09aa94f77bf24ec8",
+  "non_maven_entries_compared": 39,
+  "all_non_maven_entries_byte_identical": true,
+  "signed_central_artifact_tested": false
+}
