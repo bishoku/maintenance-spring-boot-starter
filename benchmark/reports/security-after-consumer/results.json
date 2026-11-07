@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-11-07T04:24:25.173108+00:00",
+  "starter_version": "1.3.2-security-SNAPSHOT",
+  "consumer_boot_bom": null,
+  "scope": "minimal downstream Maven consumer; no application BOM unless explicitly selected",
+  "scan_requested": true,
+  "completed": true,
+  "components": {
+    "commons-logging:commons-logging": "1.3.5",
+    "io.micrometer:micrometer-commons": "1.16.8",
+    "io.micrometer:micrometer-observation": "1.16.8",
+    "org.jspecify:jspecify": "1.0.0",
+    "org.springframework.boot:spring-boot": "4.0.9",
+    "org.springframework.boot:spring-boot-autoconfigure": "4.0.9",
+    "org.springframework:spring-aop": "7.0.10",
+    "org.springframework:spring-beans": "7.0.10",
+    "org.springframework:spring-context": "7.0.10",
+    "org.springframework:spring-core": "7.0.10",
+    "org.springframework:spring-expression": "7.0.10"
+  },
+  "optional_broker_dependencies_absent": true,
+  "osv_results": [
+    {
+      "component": "commons-logging:commons-logging",
+      "version": "1.3.5",
+      "vulnerabilities": []
+    },
+    {
+      "component": "io.micrometer:micrometer-commons",
+      "version": "1.16.8",
+      "vulnerabilities": []
+    },
+    {
+      "component": "io.micrometer:micrometer-observation",
+      "version": "1.16.8",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.jspecify:jspecify",
+      "version": "1.0.0",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework.boot:spring-boot",
+      "version": "4.0.9",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework.boot:spring-boot-autoconfigure",
+      "version": "4.0.9",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework:spring-aop",
+      "version": "7.0.10",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework:spring-beans",
+      "version": "7.0.10",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework:spring-context",
+      "version": "7.0.10",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework:spring-core",
+      "version": "7.0.10",
+      "vulnerabilities": []
+    },
+    {
+      "component": "org.springframework:spring-expression",
+      "version": "7.0.10",
+      "vulnerabilities": []
+    }
+  ],
+  "advisory_ids": [],
+  "components_with_findings": 0
+}

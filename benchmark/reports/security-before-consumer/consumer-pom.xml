@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion><groupId>benchmark.security</groupId><artifactId>consumer-audit</artifactId><version>1.0-SNAPSHOT</version><dependencies><dependency><groupId>com.bishokudev</groupId><artifactId>maintenance-spring-boot-starter</artifactId><version>1.3.1</version></dependency></dependencies></project>

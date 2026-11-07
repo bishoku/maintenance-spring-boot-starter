@@ -67,7 +67,7 @@ class Runner:
         if self.starter_version != STARTER_VERSION and not self.args.skip_build_starter:
             raise ValueError('An alternate starter version requires --skip-build-starter and a preinstalled artifact')
         if not self.args.skip_build_starter:
-            self.cmd(['mvn','-B','-Dspring-boot.version=3.5.9','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],timeout=600)
+            self.cmd(['mvn','-B','-Dmaven.test.skip=true','-Dmaven.javadoc.skip=true','clean','install'],timeout=600)
     def app_image(self,version):
         command=['mvn','-B','-f','benchmark/sample/pom.xml',f'-Dmaintenance.version={self.starter_version}',f'-Dspring-boot.version={version}','clean','package']
         if version.startswith('4.'): command.append('-Dboot4')

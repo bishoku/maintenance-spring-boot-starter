@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-11-07T04:24:43.445067+00:00",
+  "starter_version": "1.3.2-security-SNAPSHOT",
+  "consumer_boot_bom": "2.7.18",
+  "scope": "minimal downstream Maven consumer; no application BOM unless explicitly selected",
+  "scan_requested": false,
+  "completed": true,
+  "components": {
+    "org.jspecify:jspecify": "1.0.0",
+    "org.springframework.boot:spring-boot": "2.7.18",
+    "org.springframework.boot:spring-boot-autoconfigure": "2.7.18",
+    "org.springframework:spring-aop": "5.3.31",
+    "org.springframework:spring-beans": "5.3.31",
+    "org.springframework:spring-context": "5.3.31",
+    "org.springframework:spring-core": "5.3.31",
+    "org.springframework:spring-expression": "5.3.31",
+    "org.springframework:spring-jcl": "5.3.31"
+  },
+  "optional_broker_dependencies_absent": true,
+  "consumer_boot_bom_respected": true
+}
